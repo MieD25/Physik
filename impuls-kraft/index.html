@@ -189,6 +189,7 @@ details.muster .mbody p{margin:.6em 0}
 .q .ex{display:none;margin-top:8px;font-size:14.5px;border-left:4px solid var(--ok);padding:6px 10px;background:var(--ok-soft);border-radius:0 8px 8px 0}
 .q .ex.bad{border-left-color:var(--warn);background:var(--warn-soft)}
 .q.answered .ex{display:block}
+.qhead{font-size:17px;margin:20px 0 4px;color:var(--acc)}
 .score{font-weight:600;font-size:17px;margin-top:12px}
 footer{color:var(--muted);font-size:13.5px;padding:10px 0 40px}
 /* ---------- Auf-/Zuklappen ---------- */
@@ -246,7 +247,7 @@ details.erkl:not([open])>summary::after{content:" – aufklappen";font-weight:40
   <h1>Impuls und Kraft</h1>
   <p class="lead">Wie und warum ändert ein Körper seinen Bewegungszustand? In dieser Einheit beschreiben wir Bewegung mit dem <b>Impuls</b> – einer Größe, die fließen kann, aber nie verloren geht. Am Ende übersetzen wir alles in die Sprache der <b>Kräfte</b> und kommen bei den drei Newtonschen Axiomen und der Grundgleichung der Mechanik an.</p>
   <div class="meta">
-    <span>10 Leitfragen in 4 Teilbereichen</span><span>11 interaktive Labore</span><span>Abschlussquiz mit 10 Fragen</span><span>Grundlage: Hefteinträge 1–15 und Übungsblatt „Impuls“</span>
+    <span>10 Leitfragen in 4 Teilbereichen</span><span>11 interaktive Labore</span><span>Abschlussquiz mit 20 Fragen</span><span>Grundlage: Hefteinträge 1–15 und Übungsblatt „Impuls“</span>
   </div>
 </header>
 
@@ -497,7 +498,7 @@ details.erkl:not([open])>summary::after{content:" – aufklappen";font-weight:40
 <!-- ===================== Quiz ===================== -->
 <section class="unit card" id="s-quiz" data-l="quiz">
   <div class="crumbs"><span><a data-go="karte">Lernlandkarte</a> › Abschlussquiz</span><a class="up" data-go="karte">↑ zur Lernlandkarte</a></div>
-  <div class="sechead"><div class="badge" style="background:var(--ok)">🏁</div><div><h2>Abschlussquiz</h2><p class="lq">Zehn Fragen quer durch die Einheit. Nach jeder Antwort erscheint eine Erklärung.</p></div></div>
+  <div class="sechead"><div class="badge" style="background:var(--ok)">🏁</div><div><h2>Abschlussquiz</h2><p class="lq">20 Fragen quer durch die Einheit: zehn Grundlagen- und zehn Vertiefungsaufgaben. Nach jeder Antwort erscheint eine Erklärung.</p></div></div>
   <div id="quiz"></div>
   <div class="score" id="score"></div>
   <button class="btn" id="quizreset" style="margin-top:10px">Quiz neu starten</button>
@@ -1675,7 +1676,7 @@ function buildMap(){
   s+=`<g class="mcard" data-go="s-quiz" data-l="quiz" tabindex="0" role="link" aria-label="Abschlussquiz" transform="translate(990,600)">`+
      `<rect class="mc-bg" x="-6" y="-8" width="170" height="140" rx="16" fill="#fffdf8" stroke="${COL.ok}" stroke-width="1.6"/>`+
      `<line x1="56" y1="2" x2="56" y2="58" stroke="${COL.text}" stroke-width="3" stroke-linecap="round"/><g class="an-flag"><path d="M58,4 h50 l-9,12 l9,12 h-50 z" fill="${COL.ok}"/><path d="M64,7 h8 v7 h-8 z M80,7 h8 v7 h-8 z M72,14 h8 v7 h-8 z M88,14 h8 v7 h-8 z" fill="#fff" opacity=".85"/></g>`+
-     T(79,78,'Abschlussquiz',{s:15,w:700,c:COL.ok})+T(79,98,'10 Fragen mit Erklärung',{s:11.5,c:COL.muted})+
+     T(79,78,'Abschlussquiz',{s:15,w:700,c:COL.ok})+T(79,98,'20 Fragen mit Erklärung',{s:11.5,c:COL.muted})+
      `<circle cx="16" cy="118" r="9" fill="${COL.hint}"/>`+T(16,122,'11',{s:10,w:700,c:'#fff'})+
      `<g class="chk"><circle cx="160" cy="-4" r="12" fill="${COL.ok}" stroke="#fff" stroke-width="2"/><path d="M154,-4 l4,4 l8,-8" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round"/></g></g>`;
   // Legende
@@ -1688,7 +1689,7 @@ function buildMap(){
   svg.innerHTML=s;
   // Liste für schmale Bildschirme
   let h=''; ['A','B','C','D'].forEach(k=>{ h+=`<li class="reg">${REG[k].n}</li>`; SECS.filter(o=>o.r===k).forEach(o=>{ h+=`<li data-go="s-${o.l}" data-l="${o.l}" style="border-left-color:${COL[k]}"><div class="t">${o.l}) ${o.t}</div><div class="mq">${o.q}</div></li>`; }); });
-  h+=`<li class="reg">Ziel</li><li data-go="s-quiz" data-l="quiz" style="border-left-color:${COL.ok}"><div class="t">🏁 Abschlussquiz</div><div class="mq">10 Fragen mit Erklärung</div></li>`;
+  h+=`<li class="reg">Ziel</li><li data-go="s-quiz" data-l="quiz" style="border-left-color:${COL.ok}"><div class="t">🏁 Abschlussquiz</div><div class="mq">20 Fragen mit Erklärung</div></li>`;
   $('#maplist').innerHTML=h;
 }
 function go(id){ const el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); }
@@ -1742,23 +1743,34 @@ const QUIZ=[
  {q:'Warum „fliegt“ ein stehender Fahrgast beim scharfen Bremsen des Busses nach vorne?',o:['Der Bus drückt ihn nach vorne.','Sein Impuls kann über die schwache Verbindung nicht schnell genug abfließen; er behält fast seine Geschwindigkeit, der Bus wird unter ihm langsamer.','Beim Bremsen fließt zusätzlicher Impuls aus der Straße in den Fahrgast.','Die Trägheit ist eine Kraft, die nach vorne wirkt.'],a:1,e:'Trägheit (1. Axiom): Ohne ausreichenden Impulsabfluss behält ein Körper seinen Bewegungszustand. Relativ zum Bus scheint er nach vorne zu fliegen. Trägheit ist keine Kraft, sondern eine Eigenschaft (Maß: Masse).'},
  {q:'Ein Massestück hängt an einem Faden; unten hängt ein zweiter Faden mit Ring. Was passiert, wenn man ruckartig am Ring zieht?',o:['Der obere Faden reißt.','Der untere Faden reißt.','Beide reißen gleichzeitig.','Keiner reißt, die Masse fällt.'],a:1,e:'Beim ruckartigen Ziehen kann der Impuls nicht schnell genug in das träge Massestück fließen und es in Bewegung setzen. Der Impulsstrom im unteren Faden wird zu groß, er reißt. Beim langsamen Ziehen reißt dagegen der obere, weil er zusätzlich das Gewicht trägt.'},
  {q:'Ein LKW und ein Motorrad stoßen frontal zusammen. Welche Aussage ist richtig?',o:['Der LKW übt die größere Kraft aus, weil er schwerer ist.','Beide üben gleich große Kräfte aufeinander aus; das Motorrad erfährt wegen seiner kleineren Masse die viel größere Beschleunigung.','Beide erfahren dieselbe Beschleunigung, weil Δt gleich ist.','Das Motorrad übt keine Kraft auf den LKW aus.'],a:1,e:'3. Axiom: F_LKW→M = −F_M→LKW (derselbe Impulsstrom). Nach F = m·a ist dann die Beschleunigung umgekehrt proportional zur Masse. „Gleiche Beschleunigung, weil Δt gleich“ ist genau der Fehlschluss aus dem Hefteintrag („FALSCH!“).'},
- {q:'Warum verringert ein Airbag die Verletzungsgefahr?',o:['Er verringert die Impulsänderung des Kopfes.','Er verlängert die Zeit Δt, in der der Impuls abfließt; bei gleichem Δp ist die Kraft F = Δp/Δt kleiner.','Er erhöht die Masse des Kopfes.','Er erzeugt eine Gegenkraft, die den Impuls vernichtet.'],a:1,e:'Die Impulsänderung (z. B. von 50 km/h auf 0) ist gleich. Der Kraftstoß F·Δt = Δp bleibt gleich, aber mit längerem Δt wird F kleiner.'}
+ {q:'Warum verringert ein Airbag die Verletzungsgefahr?',o:['Er verringert die Impulsänderung des Kopfes.','Er verlängert die Zeit Δt, in der der Impuls abfließt; bei gleichem Δp ist die Kraft F = Δp/Δt kleiner.','Er erhöht die Masse des Kopfes.','Er erzeugt eine Gegenkraft, die den Impuls vernichtet.'],a:1,e:'Die Impulsänderung (z. B. von 50 km/h auf 0) ist gleich. Der Kraftstoß F·Δt = Δp bleibt gleich, aber mit längerem Δt wird F kleiner.'},
+ {q:'Wagen A (1 kg, 2 m/s) stößt elastisch auf den ruhenden Wagen B (3 kg). Was passiert nach dem Stoß?',o:['A bleibt stehen, B fährt mit 0,67 m/s weiter.','A rollt mit 1 m/s zurück, B fährt mit 1 m/s nach vorne.','Beide fahren gemeinsam mit 0,5 m/s weiter.','A fährt mit 0,5 m/s weiter, B mit 0,5 m/s.'],a:1,e:'Elastisch: v_A′ = (m_A − m_B)/(m_A + m_B) · v_A = (−2/4) · 2 m/s = −1 m/s und v_B′ = 2m_A/(m_A + m_B) · v_A = 1 m/s. Probe: vorher 2 Hy; nachher 1 kg · (−1 m/s) + 3 kg · 1 m/s = 2 Hy. Der leichte Wagen prallt am schweren zurück.'},
+ {q:'Auf einen ruhenden Ball (0,4 kg) wirkt beim Schuss 0,05 s lang eine mittlere Kraft von 200 N. Mit welcher Geschwindigkeit fliegt er weg?',o:['4 m/s','25 m/s','500 m/s','10 m/s'],a:1,e:'Kraftstoß: Δp = F·Δt = 200 N · 0,05 s = 10 Hy. Δv = Δp/m = 10 Hy / 0,4 kg = 25 m/s. (10 m/s wäre Δp, nicht Δv.)'},
+ {q:'Ein Ball (0,5 kg) trifft mit 4 m/s senkrecht auf eine Wand und prallt mit 4 m/s zurück. Die Berührung dauert 0,02 s. Wie groß ist die mittlere Kraft der Wand auf den Ball?',o:['0 N, weil sich der Betrag der Geschwindigkeit nicht ändert','100 N','200 N','400 N'],a:2,e:'Der Impuls ändert seine Richtung: von +2 Hy auf −2 Hy, also Δp = −4 Hy (Betrag 4 Hy). F = Δp/Δt = 4 Hy / 0,02 s = 200 N. Wer nur 2 Hy ansetzt (100 N), vergisst das Vorzeichen.'},
+ {q:'Eine ruhende Raumsonde (Gesamtmasse 1000 kg) stößt in kurzer Zeit 10 kg Gas mit 2000 m/s nach hinten aus. Wie schnell ist die Sonde danach ungefähr?',o:['etwa 0,2 m/s','etwa 20 m/s','etwa 200 m/s','etwa 2000 m/s'],a:1,e:'Σp = 0: p_Gas = 10 kg · (−2000 m/s) = −20 000 Hy ⇒ p_Sonde = +20 000 Hy. Mit der Restmasse 990 kg: v ≈ 20 000 Hy / 990 kg ≈ 20 m/s. (Vereinfachung: Gasgeschwindigkeit relativ zum Startsystem.)'},
+ {q:'Ein Massestück (2 kg) hängt an einer Federwaage in einem Aufzug, der mit 1 m/s² nach oben beschleunigt (g ≈ 9,81 N/kg). Was zeigt die Federwaage an?',o:['19,6 N','21,6 N','17,6 N','2,0 N'],a:1,e:'Die Masse wird nach oben beschleunigt, also muss die Feder mehr Kraft aufbringen als die Gewichtskraft: F_Feder − m·g = m·a ⇒ F_Feder = m·(g + a) = 2 kg · 10,81 m/s² ≈ 21,6 N. Im Impulsmodell: Es herrscht kein Fließgleichgewicht mehr – über die Feder fließt mehr (Aufwärts-)Impuls zu, als über das Gravitationsfeld abfließt.'},
+ {q:'Ein Buch liegt ruhig auf einem Tisch. Welche Kraft ist der Wechselwirkungspartner (actio = reactio) der Gewichtskraft F_Erde→Buch?',o:['Die Kraft des Tisches auf das Buch','Die Kraft des Buches auf den Tisch','Die Kraft des Buches auf die Erde','Es gibt keinen Partner, weil das Buch ruht.'],a:2,e:'Wechselwirkungspartner gehören zur selben Wechselwirkung und greifen am jeweils anderen Körper an: Erde→Buch ↔ Buch→Erde. Die Kraft des Tisches auf das Buch ist zwar gleich groß und entgegengesetzt, greift aber am selben Körper an – sie bildet mit der Gewichtskraft ein Kräftegleichgewicht.'},
+ {q:'Im p-t-Diagramm eines Körpers fällt der Impuls gleichmäßig von 0 auf −3 Hy. Was lässt sich sicher sagen?',o:['Der Körper wird langsamer und bleibt am Ende stehen.','Der Körper bewegt sich in negative Richtung und wird dabei schneller; währenddessen findet eine Wechselwirkung statt.','Der Körper ist im Fließgleichgewicht.','Der Körper bewegt sich in positive Richtung mit konstanter Geschwindigkeit.'],a:1,e:'p < 0 heißt Bewegung in negative Richtung; |p| wächst, also wird er schneller (vgl. Übungsblatt, Aufgabe 1). Da sich p ändert, fließt Impuls – es findet eine Wechselwirkung statt. Die konstante Steigung bedeutet eine konstante Kraft.'},
+ {q:'Zwei Eisläufer stehen ruhig voreinander: A (60 kg) und B (40 kg). Sie stoßen sich voneinander ab; A gleitet danach mit 2 m/s nach links. Wie bewegt sich B?',o:['mit 2 m/s nach rechts','mit 3 m/s nach rechts','mit 1,33 m/s nach rechts','B bleibt stehen, weil A gestoßen hat.'],a:1,e:'Σp = 0: p_A = 60 kg · (−2 m/s) = −120 Hy ⇒ p_B = +120 Hy ⇒ v_B = 120 Hy / 40 kg = 3 m/s nach rechts. Gleicher Impulsbetrag, aber der Leichtere ist schneller.'},
+ {q:'Eine Kiste (10 kg) steht auf einer reibungsfreien Fläche auf dem Mond (g ≈ 1,6 N/kg). Man schiebt sie waagerecht mit 20 N. Wie groß ist ihre Beschleunigung?',o:['2 m/s² – genauso groß wie auf der Erde','12,5 m/s², weil sie auf dem Mond leichter ist','0,2 m/s²','Sie lässt sich gar nicht beschleunigen.'],a:0,e:'Für die Beschleunigung zählt die träge Masse, und die ist ortsunabhängig: a = F/m = 20 N / 10 kg = 2 m/s². Nur die Gewichtskraft (schwere Masse · g) ist auf dem Mond kleiner.'},
+ {q:'Ein Auto (1200 kg) fährt konstant mit 72 km/h. Durch Luft- und Rollreibung fließen 600 Hy/s ab. Welche Aussage ist richtig?',o:['Der Motor pumpt 600 Hy/s hinein; die resultierende Kraft auf das Auto ist 0 N.','Der Motor pumpt 600 Hy/s hinein; die resultierende Kraft ist 600 N nach vorne.','Der Motor pumpt 24 000 Hy/s hinein, weil p = 24 000 Hy ist.','Der Motor pumpt keinen Impuls hinein, weil v konstant ist.'],a:0,e:'Fließgleichgewicht: Zufluss = Abfluss = 600 Hy/s, also Antriebskraft 600 N und Reibungskraft 600 N. Sie heben sich auf: resultierende Kraft 0 N, keine Beschleunigung (1. Axiom). Der Impuls des Autos (24 000 Hy) hat mit der Stromstärke nichts zu tun.'}
 ];
 let QST=load('impuls-lk11-quiz',{});
+const SUB=t=>t.replace(/([pvmF])_([A-Za-z→]+)/g,'$1<sub>$2</sub>');
 function buildQuiz(){
   QST=load('impuls-lk11-quiz',{});
-  const ROT=[0,2,0,0,2,0,3,1,2,3];
-  $('#quiz').innerHTML=QUIZ.map((q,i)=>{ const n=q.o.length, ord=q.o.map((_,k)=>(k+ROT[i%ROT.length])%n); return `<div class="q" data-i="${i}"><div class="qt"><span class="n">${i+1}.</span>${q.q}</div><div class="opts">${ord.map((j,pos)=>`<button data-j="${j}">${String.fromCharCode(65+pos)})&nbsp; ${q.o[j]}</button>`).join('')}</div><div class="ex"></div></div>`; }).join('');
+  const ROT=[0,2,0,0,2,0,3,1,2,3, 3,1,0,2,1,3,2,0,3,2];
+  $('#quiz').innerHTML=QUIZ.map((q,i)=>{ const n=q.o.length, ord=q.o.map((_,k)=>(k+ROT[i%ROT.length])%n); return (i===0?'<h3 class="qhead">Teil 1: Grundlagen</h3>':i===10?'<h3 class="qhead">Teil 2: Vertiefung – etwas anspruchsvoller</h3>':'')+`<div class="q" data-i="${i}"><div class="qt"><span class="n">${i+1}.</span>${SUB(q.q)}</div><div class="opts">${ord.map((j,pos)=>`<button data-j="${j}">${String.fromCharCode(65+pos)})&nbsp; ${SUB(q.o[j])}</button>`).join('')}</div><div class="ex"></div></div>`; }).join('');
   $$('#quiz .q').forEach(d=>{ const i=+d.dataset.i; $$('button',d).forEach(b=>b.onclick=()=>answer(d,i,+b.dataset.j,true)); if(QST[i]!=null) answer(d,i,QST[i],false); });
   score();
 }
 function answer(d,i,j,save){ const q=QUIZ[i]; if(d.classList.contains('answered')) return; d.classList.add('answered');
   $$('button',d).forEach(b=>{ const k=+b.dataset.j; b.disabled=true; if(k===q.a) b.classList.add('right'); else if(k===j) b.classList.add('wrong'); });
-  const ex=$('.ex',d); ex.classList.toggle('bad',j!==q.a); ex.innerHTML=(j===q.a?'<b>Richtig!</b> ':'<b>Leider falsch.</b> ')+q.e;
+  const ex=$('.ex',d); ex.classList.toggle('bad',j!==q.a); ex.innerHTML=(j===q.a?'<b>Richtig!</b> ':'<b>Leider falsch.</b> ')+SUB(q.e);
   if(save){ QST[i]=j; store('impuls-lk11-quiz',QST); if(Object.keys(QST).length>=QUIZ.length) markSeen('quiz'); }
   score(); }
 function score(){ const n=Object.keys(QST).length, r=Object.entries(QST).filter(([i,j])=>QUIZ[i].a===j).length;
-  $('#score').textContent=n?`Ergebnis: ${r} von ${n} beantworteten Fragen richtig${n===QUIZ.length?(r>=8?' – stark! 🎉':r>=5?' – solide, schau dir die Erklärungen noch einmal an.':' – lies die Abschnitte noch einmal und versuche es erneut.'):''}`:''; }
+  $('#score').textContent=n?`Ergebnis: ${r} von ${n} beantworteten Fragen richtig${n===QUIZ.length?(r>=0.8*n?' – stark! 🎉':r>=0.5*n?' – solide, schau dir die Erklärungen noch einmal an.':' – lies die Abschnitte noch einmal und versuche es erneut.'):''}`:''; }
 $('#quizreset').onclick=()=>{ store('impuls-lk11-quiz',{}); buildQuiz(); };
 
 /* ======================= Auf-/Zuklappen ======================= */
@@ -1774,7 +1786,7 @@ function initCollapse(){
     head.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); setLab(lab,lab.classList.contains('closed')); } });
     setLab(lab,false); });
   $$('section.unit').forEach(sec=>{
-    const cols=$('.cols',sec); if(cols){ const txt=cols.firstElementChild; const d=document.createElement('details'); d.className='erkl'; d.open=true; d.innerHTML='<summary>Erklärung</summary>'; while(txt.firstChild) d.appendChild(txt.firstChild); txt.appendChild(d); }
+    const cols=$('.cols',sec); if(cols){ const txt=cols.firstElementChild; const d=document.createElement('details'); d.className='erkl'; d.open=false; d.innerHTML='<summary>Erklärung</summary>'; while(txt.firstChild) d.appendChild(txt.firstChild); txt.appendChild(d); }
     const n=$$('.lab',sec).length; if(!n) return;
     const bar=document.createElement('div'); bar.className='secbar';
     bar.innerHTML=`<button data-a="1">▾ Alles aufklappen</button><button data-a="0">▸ Alles zuklappen</button><span style="font-size:12.5px;color:var(--muted);align-self:center">${n} ${n>1?'Labore':'Labor'} in diesem Abschnitt</span>`;
