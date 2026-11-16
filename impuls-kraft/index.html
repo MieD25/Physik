@@ -498,10 +498,10 @@ details.erkl:not([open])>summary::after{content:" – aufklappen";font-weight:40
 <!-- ===================== Quiz ===================== -->
 <section class="unit card" id="s-quiz" data-l="quiz">
   <div class="crumbs"><span><a data-go="karte">Lernlandkarte</a> › Abschlussquiz</span><a class="up" data-go="karte">↑ zur Lernlandkarte</a></div>
-  <div class="sechead"><div class="badge" style="background:var(--ok)">🏁</div><div><h2>Abschlussquiz</h2><p class="lq">20 Fragen quer durch die Einheit: zehn Grundlagen- und zehn Vertiefungsaufgaben. Nach jeder Antwort erscheint eine Erklärung.</p></div></div>
+  <div class="sechead"><div class="badge" style="background:var(--ok)">🏁</div><div><h2>Abschlussquiz</h2><p class="lq">20 Fragen quer durch die Einheit: zehn Grundlagen- und zehn Vertiefungsaufgaben. Bei jedem neuen Quiz werden die Zahlen in den Rechenaufgaben neu gewürfelt und die Antworten neu gemischt. Nach jeder Antwort erscheint eine Erklärung.</p></div></div>
   <div id="quiz"></div>
   <div class="score" id="score"></div>
-  <button class="btn" id="quizreset" style="margin-top:10px">Quiz neu starten</button>
+  <button class="btn" id="quizreset" style="margin-top:10px">🎲 Neues Quiz (neue Zahlen, neu gemischt)</button>
 </section>
 
 <footer><a href="../">← Alle Lerneinheiten</a> · Lerneinheit für den Physik-Leistungskurs 11 · Inhalte nach den Hefteinträgen 1–15 und dem Übungsblatt „Impuls“ · Alle Abbildungen eigens gezeichnet · Simulationen sind vereinfachte Modelle zur Veranschaulichung.</footer>
@@ -1721,7 +1721,7 @@ function initNav(){
   }
   let tk=false; window.addEventListener('scroll',()=>{ if(!tk){tk=true;requestAnimationFrame(()=>{tk=false;onScroll();});} },{passive:true});
   window.addEventListener('resize',onScroll); onScroll();
-  $('#resetprog').onclick=()=>{ SEEN=new Set(); store('impuls-lk11-seen',[]); store('impuls-lk11-quiz',{}); updProg(); buildQuiz(); };
+  $('#resetprog').onclick=()=>{ SEEN=new Set(); store('impuls-lk11-seen',[]); store('impuls-lk11-quiz2',null); updProg(); buildQuiz(true); };
 }
 
 /* ======================= Sortier-Check ======================= */
@@ -1733,7 +1733,7 @@ function buildSorter(){
 }
 
 /* ======================= Quiz ======================= */
-const QUIZ=[
+const QBASE=[
  {q:'Ein Tennisball (58 g) fliegt mit 263 km/h. Wie groß ist sein Impuls ungefähr?',o:['15 254 Hy','4,2 Hy','0,42 Hy','15,3 Hy'],a:1,e:'Erst umrechnen: m = 0,058 kg, v = 263 : 3,6 m/s ≈ 73,1 m/s. Dann p = m·v ≈ 0,058 kg · 73,1 m/s ≈ 4,2 Hy. 15 254 entsteht, wenn man g und km/h direkt multipliziert.'},
  {q:'Ein Skateboardfahrer (65 kg) springt mit 5 m/s auf sein ruhendes Board (3 kg). Wie schnell rollen beide danach (ohne Reibung)?',o:['5,00 m/s','4,78 m/s','2,50 m/s','0,23 m/s'],a:1,e:'Impulserhaltung (unelastisch): 65 kg · 5 m/s = (65 kg + 3 kg) · v′ ⇒ v′ = 325 Hy / 68 kg ≈ 4,78 m/s. (Übungsblatt, Aufgabe 2)'},
  {q:'Wagen 1 (3 kg, 1 m/s) stößt auf den ruhenden Wagen 2 (2 kg); beide koppeln. Was gilt nach dem Stoß?',o:['v′ = 0,6 m/s; p₁′ = 1,8 Hy; p₂′ = 1,2 Hy','v′ = 0,6 m/s; p₁′ = p₂′ = 3 Hy','v′ = 1 m/s; p₁′ = 3 Hy; p₂′ = 2 Hy','v′ = 0,5 m/s; p₁′ = p₂′ = 1,5 Hy'],a:0,e:'p_ges = 3 kg · 1 m/s = 3 Hy. v′ = 3 Hy / 5 kg = 0,6 m/s. Danach: p₁′ = 3 kg · 0,6 m/s = 1,8 Hy, p₂′ = 2 kg · 0,6 m/s = 1,2 Hy – zusammen wieder 3 Hy. Nur die Summe ist 3 Hy, nicht jeder Einzelimpuls.'},
@@ -1755,23 +1755,72 @@ const QUIZ=[
  {q:'Eine Kiste (10 kg) steht auf einer reibungsfreien Fläche auf dem Mond (g ≈ 1,6 N/kg). Man schiebt sie waagerecht mit 20 N. Wie groß ist ihre Beschleunigung?',o:['2 m/s² – genauso groß wie auf der Erde','12,5 m/s², weil sie auf dem Mond leichter ist','0,2 m/s²','Sie lässt sich gar nicht beschleunigen.'],a:0,e:'Für die Beschleunigung zählt die träge Masse, und die ist ortsunabhängig: a = F/m = 20 N / 10 kg = 2 m/s². Nur die Gewichtskraft (schwere Masse · g) ist auf dem Mond kleiner.'},
  {q:'Ein Auto (1200 kg) fährt konstant mit 72 km/h. Durch Luft- und Rollreibung fließen 600 Hy/s ab. Welche Aussage ist richtig?',o:['Der Motor pumpt 600 Hy/s hinein; die resultierende Kraft auf das Auto ist 0 N.','Der Motor pumpt 600 Hy/s hinein; die resultierende Kraft ist 600 N nach vorne.','Der Motor pumpt 24 000 Hy/s hinein, weil p = 24 000 Hy ist.','Der Motor pumpt keinen Impuls hinein, weil v konstant ist.'],a:0,e:'Fließgleichgewicht: Zufluss = Abfluss = 600 Hy/s, also Antriebskraft 600 N und Reibungskraft 600 N. Sie heben sich auf: resultierende Kraft 0 N, keine Beschleunigung (1. Axiom). Der Impuls des Autos (24 000 Hy) hat mit der Stromstärke nichts zu tun.'}
 ];
-let QST=load('impuls-lk11-quiz',{});
 const SUB=t=>t.replace(/([pvmF])_([A-Za-z→]+)/g,'$1<sub>$2</sub>');
-function buildQuiz(){
-  QST=load('impuls-lk11-quiz',{});
-  const ROT=[0,2,0,0,2,0,3,1,2,3, 3,1,0,2,1,3,2,0,3,2];
-  $('#quiz').innerHTML=QUIZ.map((q,i)=>{ const n=q.o.length, ord=q.o.map((_,k)=>(k+ROT[i%ROT.length])%n); return (i===0?'<h3 class="qhead">Teil 1: Grundlagen</h3>':i===10?'<h3 class="qhead">Teil 2: Vertiefung – etwas anspruchsvoller</h3>':'')+`<div class="q" data-i="${i}"><div class="qt"><span class="n">${i+1}.</span>${SUB(q.q)}</div><div class="opts">${ord.map((j,pos)=>`<button data-j="${j}">${String.fromCharCode(65+pos)})&nbsp; ${SUB(q.o[j])}</button>`).join('')}</div><div class="ex"></div></div>`; }).join('');
-  $$('#quiz .q').forEach(d=>{ const i=+d.dataset.i; $$('button',d).forEach(b=>b.onclick=()=>answer(d,i,+b.dataset.j,true)); if(QST[i]!=null) answer(d,i,QST[i],false); });
+/* ---- Zufallsaufgaben: Generator je Frage (Index wie in QBASE) ---- */
+function rng(seed){ let a=seed>>>0; return ()=>{ a=(a+0x6D2B79F5)>>>0; let t=a; t=Math.imul(t^(t>>>15),t|1); t^=t+Math.imul(t^(t>>>7),t|61); return ((t^(t>>>14))>>>0)/4294967296; }; }
+const pick=(R,arr)=>arr[Math.floor(R()*arr.length)];
+const rr=(R,a,b,st)=>a+st*Math.floor(R()*(Math.round((b-a)/st)+1));
+const f=(x,d)=>fmt(x,d);
+const sig=x=>{ const a=Math.abs(x); return fmt(x,a>=100?0:a>=10?1:a>=1?2:3); };
+const GEN={
+ 0:R=>{ const m=pick(R,[56,57,58,59]), v=rr(R,150,260,10), vs=v/3.6, p=m/1000*vs;
+   return {q:`Ein Tennisball (${m} g) fliegt mit ${v} km/h. Wie groß ist sein Impuls ungefähr?`,o:[`${sig(p)} Hy`,`${fmt(m*v,0)} Hy`,`${sig(m/1000*v)} Hy`,`${sig(p/10)} Hy`],a:0,
+     e:`Erst umrechnen: m = ${f(m/1000,3)} kg, v = ${v} km/h : 3,6 ≈ ${f(vs,1)} m/s. Dann p = m·v ≈ ${f(m/1000,3)} kg · ${f(vs,1)} m/s ≈ ${sig(p)} Hy. ${fmt(m*v,0)} entsteht, wenn man g und km/h direkt multipliziert; ${sig(m/1000*v)} Hy, wenn man km/h nicht umrechnet.`}; },
+ 1:R=>{ const M=rr(R,50,80,5), v=rr(R,3,6,0.5), mb=rr(R,2,5,1), vn=M*v/(M+mb);
+   return {q:`Ein Skateboardfahrer (${M} kg) springt mit ${f(v,1)} m/s auf sein ruhendes Board (${mb} kg). Wie schnell rollen beide danach (ohne Reibung)?`,o:[`${f(vn,2)} m/s`,`${f(v,2)} m/s`,`${f(v/2,2)} m/s`,`${f(mb*v/(M+mb),2)} m/s`],a:0,
+     e:`Impulserhaltung (unelastisch): ${M} kg · ${f(v,1)} m/s = (${M} kg + ${mb} kg) · v′ ⇒ v′ = ${f(M*v,1)} Hy / ${M+mb} kg ≈ ${f(vn,2)} m/s. (vgl. Übungsblatt, Aufgabe 2)`}; },
+ 2:R=>{ let m1,m2; do{ m1=rr(R,2,4,1); m2=rr(R,1,3,1); }while(m1===m2); const v1=rr(R,0.5,2,0.5), p=m1*v1, vn=p/(m1+m2);
+   return {q:`Wagen 1 (${m1} kg, ${f(v1,1)} m/s) stößt auf den ruhenden Wagen 2 (${m2} kg); beide koppeln. Was gilt nach dem Stoß?`,
+     o:[`v′ = ${f(vn,2)} m/s; p₁′ = ${f(m1*vn,2)} Hy; p₂′ = ${f(m2*vn,2)} Hy`,`v′ = ${f(vn,2)} m/s; p₁′ = p₂′ = ${f(p,2)} Hy`,`v′ = ${f(v1,2)} m/s; p₁′ = ${f(p,2)} Hy; p₂′ = ${f(m2*v1,2)} Hy`,`v′ = ${f(v1/2,2)} m/s; p₁′ = p₂′ = ${f(p/2,2)} Hy`],a:0,
+     e:`p_ges = ${m1} kg · ${f(v1,1)} m/s = ${f(p,2)} Hy. v′ = ${f(p,2)} Hy / ${m1+m2} kg ≈ ${f(vn,2)} m/s. Danach p₁′ = ${m1} kg · v′ ≈ ${f(m1*vn,2)} Hy und p₂′ = ${m2} kg · v′ ≈ ${f(m2*vn,2)} Hy – zusammen wieder ${f(p,2)} Hy. Nur die Summe ist erhalten, nicht jeder Einzelimpuls.`}; },
+ 3:R=>{ const p=rr(R,0.3,0.9,0.1);
+   return {q:`Zwei ruhende Wagen werden von einer Feder auseinandergetrieben. Danach hat Wagen A ${f(p,1)} Hy nach links, Wagen B ${f(p,1)} Hy nach rechts. Wie groß ist der Gesamtimpuls?`,o:['0 Hy',`${f(2*p,1)} Hy`,`${f(p,1)} Hy`,'Er lässt sich ohne Massen nicht angeben.'],a:0,
+     e:`Mit Vorzeichen: p_A = −${f(p,1)} Hy, p_B = +${f(p,1)} Hy ⇒ Σp = 0 Hy – wie vorher. Der Impuls ist ein Vektor; entgegengesetzte Impulse heben sich in der Summe auf.`}; },
+ 10:R=>{ const mB=pick(R,[2,3,4,5]), v=rr(R,1,3,0.5), va=(1-mB)/(1+mB)*v, vb=2/(1+mB)*v;
+   return {q:`Wagen A (1 kg, ${f(v,1)} m/s) stößt elastisch auf den ruhenden Wagen B (${mB} kg). Was passiert nach dem Stoß?`,
+     o:[`A rollt mit ${f(-va,2)} m/s zurück, B fährt mit ${f(vb,2)} m/s nach vorne.`,`A bleibt stehen, B fährt mit ${f(v/mB,2)} m/s weiter.`,`Beide fahren gemeinsam mit ${f(v/(1+mB),2)} m/s weiter.`,`A fährt mit ${f(-va,2)} m/s weiter nach vorne, B mit ${f(vb,2)} m/s.`],a:0,
+     e:`Elastisch: v_A′ = (m_A − m_B)/(m_A + m_B) · v_A = (${1-mB}/${1+mB}) · ${f(v,1)} m/s ≈ ${f(va,2)} m/s und v_B′ = 2m_A/(m_A + m_B) · v_A ≈ ${f(vb,2)} m/s. Probe: vorher ${f(v,2)} Hy; nachher 1 kg · (${f(va,2)} m/s) + ${mB} kg · ${f(vb,2)} m/s = ${f(va+mB*vb,2)} Hy. Der leichte Wagen prallt am schweren zurück.`}; },
+ 11:R=>{ const m=pick(R,[0.3,0.4,0.45,0.5]), F=rr(R,100,300,50), dt=pick(R,[0.02,0.03,0.04,0.05]), dp=F*dt, dv=dp/m;
+   return {q:`Auf einen ruhenden Ball (${f(m,2)} kg) wirkt beim Schuss ${f(dt,2)} s lang eine mittlere Kraft von ${F} N. Mit welcher Geschwindigkeit fliegt er weg?`,o:[`${sig(dv)} m/s`,`${sig(dp)} m/s`,`${sig(F/m)} m/s`,`${sig(dp*m)} m/s`],a:0,
+     e:`Kraftstoß: Δp = F·Δt = ${F} N · ${f(dt,2)} s = ${sig(dp)} Hy. Δv = Δp/m = ${sig(dp)} Hy / ${f(m,2)} kg ≈ ${sig(dv)} m/s. (${sig(dp)} wäre Δp, nicht Δv; ${sig(F/m)} wäre die Beschleunigung in m/s².)`}; },
+ 12:R=>{ const m=pick(R,[0.2,0.3,0.4,0.5,0.6]), v=rr(R,2,6,1), dt=pick(R,[0.01,0.02,0.04]), F=2*m*v/dt;
+   return {q:`Ein Ball (${f(m,1)} kg) trifft mit ${v} m/s senkrecht auf eine Wand und prallt mit ${v} m/s zurück. Die Berührung dauert ${f(dt,2)} s. Wie groß ist die mittlere Kraft der Wand auf den Ball?`,o:[`${fmt(F,0)} N`,'0 N, weil sich der Betrag der Geschwindigkeit nicht ändert',`${fmt(F/2,0)} N`,`${fmt(2*F,0)} N`],a:0,
+     e:`Der Impuls ändert seine Richtung: von +${f(m*v,1)} Hy auf −${f(m*v,1)} Hy, also |Δp| = ${f(2*m*v,1)} Hy. F = Δp/Δt = ${f(2*m*v,1)} Hy / ${f(dt,2)} s = ${fmt(F,0)} N. Wer nur ${f(m*v,1)} Hy ansetzt (${fmt(F/2,0)} N), vergisst den Richtungswechsel.`}; },
+ 13:R=>{ const M=rr(R,800,1500,100), mg=rr(R,5,20,5), u=rr(R,1500,3000,500), v=mg*u/(M-mg);
+   return {q:`Eine ruhende Raumsonde (Gesamtmasse ${M} kg) stößt in kurzer Zeit ${mg} kg Gas mit ${u} m/s nach hinten aus. Wie schnell ist die Sonde danach ungefähr?`,o:[`etwa ${sig(v)} m/s`,`etwa ${sig(v/10)} m/s`,`etwa ${sig(v*10)} m/s`,`etwa ${u} m/s`],a:0,
+     e:`Σp = 0: p_Gas = ${mg} kg · (−${u} m/s) = −${fmt(mg*u,0)} Hy ⇒ p_Sonde = +${fmt(mg*u,0)} Hy. Mit der Restmasse ${M-mg} kg: v ≈ ${fmt(mg*u,0)} Hy / ${M-mg} kg ≈ ${sig(v)} m/s. (Vereinfachung: Gasgeschwindigkeit relativ zum Startsystem.)`}; },
+ 14:R=>{ const m=rr(R,1,5,1), a=rr(R,0.5,2.5,0.5), g=9.81;
+   return {q:`Ein Massestück (${m} kg) hängt an einer Federwaage in einem Aufzug, der mit ${f(a,1)} m/s² nach oben beschleunigt (g ≈ 9,81 N/kg). Was zeigt die Federwaage an?`,o:[`${f(m*(g+a),1)} N`,`${f(m*g,1)} N`,`${f(m*(g-a),1)} N`,`${f(m*a,1)} N`],a:0,
+     e:`Die Masse wird nach oben beschleunigt, also muss die Feder mehr Kraft aufbringen als die Gewichtskraft: F_Feder − m·g = m·a ⇒ F_Feder = m·(g + a) = ${m} kg · ${f(g+a,2)} m/s² ≈ ${f(m*(g+a),1)} N. Im Impulsmodell: Es herrscht kein Fließgleichgewicht mehr – über die Feder fließt mehr (Aufwärts-)Impuls zu, als über das Gravitationsfeld abfließt.`}; },
+ 17:R=>{ let mA,mB; do{ mA=rr(R,50,80,5); mB=rr(R,30,55,5); }while(mA===mB); const v=rr(R,1,3,0.5), vb=mA*v/mB;
+   return {q:`Zwei Eisläufer stehen ruhig voreinander: A (${mA} kg) und B (${mB} kg). Sie stoßen sich voneinander ab; A gleitet danach mit ${f(v,1)} m/s nach links. Wie bewegt sich B?`,o:[`mit ${f(vb,2)} m/s nach rechts`,`mit ${f(v,2)} m/s nach rechts`,`mit ${f(mB*v/mA,2)} m/s nach rechts`,'B bleibt stehen, weil A gestoßen hat.'],a:0,
+     e:`Σp = 0: p_A = ${mA} kg · (−${f(v,1)} m/s) = −${f(mA*v,0)} Hy ⇒ p_B = +${f(mA*v,0)} Hy ⇒ v_B = ${f(mA*v,0)} Hy / ${mB} kg ≈ ${f(vb,2)} m/s nach rechts. Gleicher Impulsbetrag, aber ${mB<mA?'der Leichtere ist schneller':'der Schwerere ist langsamer'}.`}; },
+ 18:R=>{ const m=rr(R,5,20,5), F=rr(R,10,40,10), a=F/m;
+   return {q:`Eine Kiste (${m} kg) steht auf einer reibungsfreien Fläche auf dem Mond (g ≈ 1,6 N/kg). Man schiebt sie waagerecht mit ${F} N. Wie groß ist ihre Beschleunigung?`,o:[`${sig(a)} m/s² – genauso groß wie auf der Erde`,`${sig(F/(m/6))} m/s², weil sie auf dem Mond „leichter“ ist`,`${sig(a/6)} m/s²`,'Sie lässt sich gar nicht beschleunigen.'],a:0,
+     e:`Für die Beschleunigung zählt die träge Masse, und die ist ortsunabhängig: a = F/m = ${F} N / ${m} kg = ${sig(a)} m/s². Nur die Gewichtskraft (schwere Masse · g) ist auf dem Mond kleiner (etwa ein Sechstel).`}; },
+ 19:R=>{ const m=rr(R,1000,1500,100), v=pick(R,[54,72,90,108]), out=rr(R,400,900,50), p=m*v/3.6;
+   return {q:`Ein Auto (${m} kg) fährt konstant mit ${v} km/h. Durch Luft- und Rollreibung fließen ${out} Hy/s ab. Welche Aussage ist richtig?`,o:[`Der Motor pumpt ${out} Hy/s hinein; die resultierende Kraft auf das Auto ist 0 N.`,`Der Motor pumpt ${out} Hy/s hinein; die resultierende Kraft ist ${out} N nach vorne.`,`Der Motor pumpt ${fmt(p,0)} Hy/s hinein, weil p = ${fmt(p,0)} Hy ist.`,'Der Motor pumpt keinen Impuls hinein, weil v konstant ist.'],a:0,
+     e:`Fließgleichgewicht: Zufluss = Abfluss = ${out} Hy/s, also Antriebskraft ${out} N und Reibungskraft ${out} N. Sie heben sich auf: resultierende Kraft 0 N, keine Beschleunigung (1. Axiom). Der Impuls des Autos (${fmt(p,0)} Hy) hat mit der Stromstärke nichts zu tun.`}; }
+};
+function shuffleQ(q,R){ const idx=q.o.map((_,k)=>k); for(let k=idx.length-1;k>0;k--){ const j=Math.floor(R()*(k+1)); [idx[k],idx[j]]=[idx[j],idx[k]]; } return {...q,o:idx.map(k=>q.o[k]),a:idx.indexOf(q.a)}; }
+let QUIZ=[], QST={seed:0,ans:{}};
+function makeQuiz(seed){ const R=rng(seed); QUIZ=QBASE.map((b,i)=>shuffleQ(GEN[i]?GEN[i](R):b,R)); }
+function buildQuiz(fresh){
+  QST=load('impuls-lk11-quiz2',null);
+  if(fresh||!QST||!QST.ans||!Object.keys(QST.ans).length){ QST={seed:(Math.random()*4294967296)>>>0,ans:{}}; store('impuls-lk11-quiz2',QST); }
+  makeQuiz(QST.seed);
+  $('#quiz').innerHTML=QUIZ.map((q,i)=>(i===0?'<h3 class="qhead">Teil 1: Grundlagen</h3>':i===10?'<h3 class="qhead">Teil 2: Vertiefung – etwas anspruchsvoller</h3>':'')+`<div class="q" data-i="${i}"><div class="qt"><span class="n">${i+1}.</span>${SUB(q.q)}</div><div class="opts">${q.o.map((o,j)=>`<button data-j="${j}">${String.fromCharCode(65+j)})&nbsp; ${SUB(o)}</button>`).join('')}</div><div class="ex"></div></div>`).join('');
+  $$('#quiz .q').forEach(d=>{ const i=+d.dataset.i; $$('button',d).forEach(b=>b.onclick=()=>answer(d,i,+b.dataset.j,true)); if(QST.ans[i]!=null) answer(d,i,QST.ans[i],false); });
   score();
 }
 function answer(d,i,j,save){ const q=QUIZ[i]; if(d.classList.contains('answered')) return; d.classList.add('answered');
   $$('button',d).forEach(b=>{ const k=+b.dataset.j; b.disabled=true; if(k===q.a) b.classList.add('right'); else if(k===j) b.classList.add('wrong'); });
   const ex=$('.ex',d); ex.classList.toggle('bad',j!==q.a); ex.innerHTML=(j===q.a?'<b>Richtig!</b> ':'<b>Leider falsch.</b> ')+SUB(q.e);
-  if(save){ QST[i]=j; store('impuls-lk11-quiz',QST); if(Object.keys(QST).length>=QUIZ.length) markSeen('quiz'); }
+  if(save){ QST.ans[i]=j; store('impuls-lk11-quiz2',QST); if(Object.keys(QST.ans).length>=QUIZ.length) markSeen('quiz'); }
   score(); }
-function score(){ const n=Object.keys(QST).length, r=Object.entries(QST).filter(([i,j])=>QUIZ[i].a===j).length;
+function score(){ const A=QST.ans, n=Object.keys(A).length, r=Object.entries(A).filter(([i,j])=>QUIZ[i].a===j).length;
   $('#score').textContent=n?`Ergebnis: ${r} von ${n} beantworteten Fragen richtig${n===QUIZ.length?(r>=0.8*n?' – stark! 🎉':r>=0.5*n?' – solide, schau dir die Erklärungen noch einmal an.':' – lies die Abschnitte noch einmal und versuche es erneut.'):''}`:''; }
-$('#quizreset').onclick=()=>{ store('impuls-lk11-quiz',{}); buildQuiz(); };
+$('#quizreset').onclick=()=>{ buildQuiz(true); $('#s-quiz').scrollIntoView({behavior:'smooth'}); };
 
 /* ======================= Auf-/Zuklappen ======================= */
 function setLab(lab,open){ lab.classList.toggle('closed',!open); const h=$('.labhead',lab); if(h) h.setAttribute('aria-expanded',open); if(open) setTimeout(()=>window.dispatchEvent(new Event('resize')),0); }
