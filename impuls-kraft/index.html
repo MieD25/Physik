@@ -817,12 +817,12 @@ function loop(now){ for(const L of LABS){ try{ L.frame(now); }catch(e){ console.
   const node=(k,p)=>k+Math.round(clamp(p,-1,1)*10);
   const mk=S=>({A:node('A',S.pA),B:node('B',S.pB),S:node('S',S.err?Math.abs(S.pA)+Math.abs(S.pB):S.pA+S.pB)});
   const P0=0.5;
-  function initSpring(L){ const mB=L.pv('mB'); return {mode:'spring',mA:1,mB,xA:250,xB:330,pA:0,pB:0,vA:0,vB:0,spring:1,showP:false,err:false,flow:false,fdir:1}; }
+  function initSpring(L){ const mB=L.pv('mB'); return {mode:'spring',mA:1,mB,xA:270,xB:300,pA:0,pB:0,vA:0,vB:0,spring:1,showP:false,err:false,flow:false,fdir:1}; }
   function initFront(L){ const mB=L.pv('mB'); return {mode:'front',mA:1,mB,xA:90,xB:470,pA:P0,pB:-P0,vA:P0,vB:-P0/mB,showP:true,err:false,flow:false,stuck:false}; }
   const W=m=>48+16*m;
   const sepAnim=S=>({dur:1600,up:(S,k)=>{ S.xA=250-k*130*Math.abs(S.vA)/0.5*0.9; S.xB=330+k*130*Math.abs(S.vB)/0.5*0.9; }});
   const springSteps=(err)=>[
-    {t:'Feder wird ausgelöst',mark:mk,run:S=>{S.flow=true;S.fdir=1; return {dur:1400,up:(S,k)=>{S.spring=1+k*0.8; S.pA=-P0*k; S.pB=P0*k;}, end:S=>{S.flow=false;S.vA=-P0/S.mA;S.vB=P0/S.mB;}};},
+    {t:'Feder wird ausgelöst',mark:mk,run:S=>{S.flow=true;S.fdir=1; return {dur:1400,up:(S,k)=>{S.spring=1+k*0.8; S.xA=270-20*k; S.xB=300+30*k; S.pA=-P0*k; S.pB=P0*k;}, end:S=>{S.flow=false;S.vA=-P0/S.mA;S.vB=P0/S.mB;}};},
      x:'Die Feder entspannt sich und drückt die Wagen auseinander. Dabei pumpt sie Impuls aus Wagen A heraus und in Wagen B hinein (Punkte). A bekommt Linksimpuls, B Rechtsimpuls.'},
     {t:'Wagen fahren auseinander',mark:mk,run:S=>{S.showP=true; return sepAnim(S);},
      x:S=>`Beide Wagen rollen in entgegengesetzte Richtungen. Wagen A (1 kg) fährt mit ${fmt(Math.abs(S.vA),2)} m/s nach links, Wagen B (${fmt(S.mB,1)} kg) mit ${fmt(Math.abs(S.vB),2)} m/s nach rechts. Die Pfeile zeigen die Impulse: gleich lang, entgegengesetzt.`},
@@ -855,8 +855,10 @@ function loop(now){ for(const L of LABS){ try{ L.frame(now); }catch(e){ console.
       let xA=S.xA,xB=S.xB;
       if(S.mode==='spring'){ xA=S.xA-wa; }
       const yC=190;
-      if(S.mode==='spring'){ const x1=xA+wa,x2=xB, n=8; let d=`M${x1},${yC+14}`; for(let i=1;i<=n;i++){ d+=` L${lerp(x1,x2,(i-.5)/n)},${yC+14+(i%2?-8:8)}`; } d+=` L${x2},${yC+14}`;
-        if(S.spring<1.75) s+=`<path d="${d}" fill="none" stroke="${COL.muted}" stroke-width="2"/>`; }
+      if(S.mode==='spring'){ // Feder bleibt an Wagen A befestigt; entspannte Länge 80 px
+        const x1=xA+wa, x2=x1+Math.min(xB-x1,80), n=8; let d=`M${x1},${yC+14}`; for(let i=1;i<=n;i++){ d+=` L${lerp(x1,x2,(i-.5)/n)},${yC+14+(i%2?-8:8)}`; } d+=` L${x2},${yC+14}`;
+        s+=`<path d="${d}" fill="none" stroke="${COL.text}" stroke-width="2"/><line x1="${x2}" y1="${yC+3}" x2="${x2}" y2="${yC+25}" stroke="${COL.text}" stroke-width="3" stroke-linecap="round"/>`;
+        if(xB-x1<=80.5&&!S.showP) s+=T((x1+x2)/2,yC-8,xB-x1<40?'Feder gespannt':'',{s:11.5,c:COL.muted}); }
       s+=CART(xA,yC,wa,COL.A,`A · ${fmt(S.mA,0)} kg`)+CART(xB,yC,wb,COL.B,`B · ${fmt(S.mB,1)} kg`,{fs:12});
       if(S.mode==='front'&&S.stuck) s+=`<rect x="${xA+wa-3}" y="${yC+8}" width="9" height="14" rx="3" fill="${COL.hint}"/>`;
       if(S.flow){ s+=DOTS(xA+wa/2,yC+15,xB+wb/2,yC+15,S.phase,'#fff',4,3.5); }
