@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Physik – Interaktive Lerneinheiten</title>
+<style>
+:root{--bg:#f6f4ef;--card:#fffdf8;--text:#1d2433;--muted:#5b6475;--line:#e5dfd2;--acc:#0f766e;--A:#2563eb;--B:#c2410c;--C:#7c3aed;--D:#0f766e}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+.wrap{max-width:1280px;margin:0 auto;padding:48px 20px 40px}
+.kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--acc)}
+h1{font-size:40px;margin:10px 0 6px;letter-spacing:-.01em}
+.lead{font-size:18px;color:#3a4356;max-width:760px;margin:0 0 28px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+a.unit{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px 22px;text-decoration:none;color:inherit;transition:transform .15s,box-shadow .15s,border-color .15s}
+a.unit:hover,a.unit:focus{transform:translateY(-2px);box-shadow:0 8px 22px rgba(29,36,51,.08);border-color:var(--acc);outline:none}
+.unit svg{width:100%;height:auto;border-radius:12px;background:#fbfaf6;border:1px solid var(--line);margin-bottom:14px}
+.unit .tag{font:600 12px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.unit h2{margin:4px 0 6px;font-size:22px}
+.unit p{margin:0 0 12px;color:#3a4356;font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
+.chips span{font-size:12.5px;border:1px solid var(--line);border-radius:999px;padding:2px 9px;background:#fff;color:#3a4356}
+.go{margin-top:14px;font-weight:600;color:var(--acc)}
+footer{color:var(--muted);font-size:13.5px;margin-top:36px}
+@keyframes slide{0%,100%{transform:translateX(0)}50%{transform:translateX(40px)}}
+.an{animation:slide 3s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.an{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">Physik · Interaktive Lerneinheiten</div>
+  <h1>Physik zum Ausprobieren</h1>
+  <p class="lead">Lerneinheiten mit Lernlandkarte, Schritt-für-Schritt-Simulationen, Musterantworten und Abschlussquiz. Alles läuft direkt im Browser – ohne Anmeldung.</p>
+  <div class="grid">
+    <!-- Einheit: Impuls und Kraft -->
+    <a class="unit" href="impuls-kraft/">
+      <svg viewBox="0 0 320 120" aria-hidden="true">
+        <line x1="10" y1="96" x2="310" y2="96" stroke="#d8cfbb" stroke-width="2"/>
+        <g class="an"><rect x="40" y="62" width="60" height="26" rx="6" fill="#2563eb"/><circle cx="54" cy="94" r="7" fill="#fff" stroke="#1d2433" stroke-width="2"/><circle cx="86" cy="94" r="7" fill="#fff" stroke="#1d2433" stroke-width="2"/>
+          <line x1="70" y1="44" x2="118" y2="44" stroke="#2563eb" stroke-width="4"/><polygon points="126,44 116,38 116,50" fill="#2563eb"/></g>
+        <rect x="200" y="62" width="60" height="26" rx="6" fill="#c2410c"/><circle cx="214" cy="94" r="7" fill="#fff" stroke="#1d2433" stroke-width="2"/><circle cx="246" cy="94" r="7" fill="#fff" stroke="#1d2433" stroke-width="2"/>
+        <text x="300" y="24" font-size="13" text-anchor="end" fill="#5b6475" font-family="system-ui,sans-serif">p = m · v</text>
+      </svg>
+      <div class="tag">LK 11 · Mechanik</div>
+      <h2>Impuls und Kraft</h2>
+      <p>Impuls als fließende Größe, Impulserhaltung und Stöße, Impulsleiter und -pumpen, Fließgleichgewicht, Rückstoß, die drei Newtonschen Axiome und die Grundgleichung der Mechanik.</p>
+      <div class="chips"><span>10 Leitfragen</span><span>11 Labore</span><span>Quiz</span></div>
+      <div class="go">Zur Lerneinheit →</div>
+    </a>
+  </div>
+  <footer>Simulationen sind vereinfachte Modelle zur Veranschaulichung. Alle Abbildungen sind eigens gezeichnet.</footer>
+</div>
+</body>
+</html>

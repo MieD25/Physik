@@ -1,0 +1,1747 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Impuls und Kraft – Mechanik im Impulsmodell · Physik LK 11</title>
+<style>
+:root{
+  --bg:#f6f4ef;--card:#fffdf8;--text:#1d2433;--muted:#5b6475;--line:#e5dfd2;--soft:#efebe2;
+  --acc:#0f766e;--acc-soft:#e6f3f1;--warn:#b42318;--warn-soft:#fdecea;--ok:#15803d;--ok-soft:#e8f5ec;
+  --hint:#b45309;--hint-soft:#fdf3e4;
+  --A:#2563eb;--B:#c2410c;--C:#7c3aed;--D:#0f766e;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}
+.wrap{max-width:1280px;margin:0 auto;padding:0 20px}
+a{color:var(--acc)}
+h1,h2,h3{line-height:1.25}
+sub{font-size:.72em}
+/* ---------- Navigation ---------- */
+nav.top{position:fixed;top:0;left:0;right:0;height:48px;background:rgba(255,253,248,.96);border-bottom:1px solid var(--line);z-index:60;backdrop-filter:blur(6px)}
+nav.top .inner{max-width:1280px;margin:0 auto;height:100%;display:flex;align-items:center;gap:6px;padding:0 20px;overflow-x:auto;scrollbar-width:none}
+nav.top .inner::-webkit-scrollbar{display:none}
+.navmap{flex:none;border:1px solid var(--acc);background:var(--acc);color:#fff;border-radius:999px;padding:5px 12px;font-weight:600;font-size:14px;line-height:1;font-family:inherit;cursor:pointer;white-space:nowrap}
+.navmap:hover{filter:brightness(1.08)}
+.navsep{flex:none;width:1px;height:24px;background:var(--line);margin:0 4px}
+.chip{flex:none;position:relative;border:1px solid var(--line);background:#fff;color:var(--text);border-radius:999px;min-width:34px;height:30px;padding:0 10px;font-weight:600;font-size:14px;line-height:28px;font-family:inherit;cursor:pointer;text-align:center}
+.chip:hover{border-color:var(--acc)}
+.chip.cur{background:var(--text);color:#fff;border-color:var(--text)}
+.chip.seen::after{content:"✓";position:absolute;top:-6px;right:-5px;width:15px;height:15px;border-radius:50%;background:var(--ok);color:#fff;font-size:10px;line-height:15px;text-align:center}
+.navprog{flex:none;margin-left:auto;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);white-space:nowrap;padding-left:10px}
+.navprog .bar{width:90px;height:7px;border-radius:9px;background:var(--soft);overflow:hidden}
+.navprog .bar i{display:block;height:100%;width:0;background:var(--ok);transition:width .4s}
+/* ---------- Kopf ---------- */
+header.hero{padding:76px 0 8px}
+.kicker{font:600 13px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--acc)}
+header.hero h1{font-size:40px;margin:10px 0 8px;letter-spacing:-.01em}
+header.hero p.lead{font-size:18px;color:#3a4356;max-width:860px;margin:0 0 14px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 4px}
+.meta span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:13.5px;color:#3a4356}
+/* ---------- Karten / Abschnitte ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 26px;margin:24px 0;box-shadow:0 1px 0 rgba(29,36,51,.03)}
+section.unit{scroll-margin-top:60px;position:relative}
+.crumbs{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);margin-bottom:10px;gap:10px;flex-wrap:wrap}
+.crumbs a{color:var(--muted);text-decoration:none;border-bottom:1px dotted var(--muted);cursor:pointer}
+.crumbs a:hover{color:var(--acc);border-color:var(--acc)}
+.crumbs .up{border:1px solid var(--line);border-radius:999px;padding:3px 10px;border-bottom:1px solid var(--line);background:#fff}
+.sechead{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+.badge{flex:none;width:44px;height:44px;border-radius:13px;color:#fff;font-weight:700;font-size:22px;line-height:44px;text-align:center;font-family:inherit}
+.sechead h2{margin:0;font-size:26px}
+.sechead .lq{margin:2px 0 0;color:var(--muted);font-size:15.5px}
+.cols{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px;align-items:start}
+.cols p{margin:.5em 0}
+.kern{border-left:5px solid var(--acc);background:var(--acc-soft);padding:12px 16px;border-radius:0 12px 12px 0;font-weight:600;margin:12px 0}
+.kern b{color:var(--acc)}
+.formula{font:600 20px/1.4 "Cambria Math","Times New Roman",serif;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 14px;display:inline-block;margin:4px 0}
+.info{background:var(--hint-soft);border:1px solid #f1d9b5;border-radius:12px;padding:10px 14px;font-size:15px;margin:10px 0}
+.info b{color:var(--hint)}
+.tag-model{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--hint);background:var(--hint-soft);border:1px solid #f1d9b5;border-radius:999px;padding:2px 10px;max-width:100%}
+table.tbl{border-collapse:collapse;width:100%;font-size:14.5px;margin:8px 0}
+table.tbl th,table.tbl td{border:1px solid var(--line);padding:6px 9px;text-align:left;vertical-align:top}
+table.tbl th{background:var(--soft)}
+details.muster{border:1px solid var(--line);border-radius:12px;background:#fff;margin-top:16px}
+details.muster summary{cursor:pointer;padding:10px 14px;font-weight:600;color:var(--acc);list-style:none}
+details.muster summary::-webkit-details-marker{display:none}
+details.muster summary::before{content:"▸ ";display:inline-block;transition:transform .2s}
+details.muster[open] summary::before{transform:rotate(90deg)}
+details.muster .mbody{padding:0 18px 14px;border-top:1px dashed var(--line)}
+details.muster .mbody p{margin:.6em 0}
+/* ---------- Labor ---------- */
+.lab{border:1px solid var(--line);border-radius:16px;background:#fff;padding:14px 16px 16px;margin:18px 0 6px}
+.labhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.labhead h3{font:700 15px/1.3 var(--mono);margin:0;letter-spacing:.01em}
+.labhead h3::before{content:"⚗ ";color:var(--acc)}
+.labhead .tag-model{margin-left:auto}
+.scen{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 10px}
+.scen button{border:1px solid var(--line);background:var(--card);border-radius:9px;padding:5px 10px;font-weight:500;font-size:13.5px;line-height:1.2;font-family:inherit;cursor:pointer;color:var(--text)}
+.scen button .k{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-right:5px;color:var(--ok)}
+.scen button.sp .k{color:var(--hint)}
+.scen button.err{border-color:#f0c4bf}
+.scen button.err .k{color:var(--warn)}
+.scen button.act{border-color:var(--text);background:var(--text);color:#fff}
+.scen button.act .k{color:#cde}
+.scen button.done::after{content:" ✓";color:var(--ok);font-weight:700}
+.scen button.act.done::after{color:#9fe0b4}
+.labgrid{display:grid;grid-template-columns:minmax(0,1.85fr) minmax(230px,1fr) 290px;gap:14px;align-items:start}
+.labgrid.noschema{grid-template-columns:minmax(0,1.7fr) minmax(260px,1fr)}
+.stage{border:1px solid var(--line);border-radius:12px;background:#fbfaf6;overflow:hidden;position:relative}
+.stage svg{display:block;width:100%;height:auto;touch-action:none;user-select:none;-webkit-user-select:none}
+.ctrl{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-top:10px}
+.btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 9px;font-weight:600;font-size:13.5px;line-height:1.2;font-family:inherit;cursor:pointer;color:var(--text)}
+.btn:hover{border-color:var(--acc)}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.primary{background:var(--acc);border-color:var(--acc);color:#fff}
+.btn.primary:disabled{background:#9cbfba;border-color:#9cbfba}
+.btn.on{background:var(--text);border-color:var(--text);color:#fff}
+.btn.pulse{animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(15,118,110,.45)}50%{box-shadow:0 0 0 8px rgba(15,118,110,0)}}
+.tempo{display:flex;align-items:center;gap:4px;font-size:13px;color:var(--muted)}
+.tempo input{width:54px;accent-color:var(--acc)}
+.vec{position:relative;display:inline-block}
+.vec::after{content:"→";position:absolute;left:50%;transform:translateX(-50%);top:-.62em;font-size:.62em;line-height:1}
+.params{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:10px;padding:8px 12px;background:var(--soft);border-radius:10px;font-size:13.5px}
+.params label{display:flex;align-items:center;gap:6px}
+.params input[type=range]{width:120px;accent-color:var(--acc)}
+.params output{font:600 13px var(--mono);min-width:58px}
+.params select{font:inherit;border:1px solid var(--line);border-radius:7px;padding:2px 6px;background:#fff}
+.explain{border:1px solid var(--line);border-left:5px solid var(--acc);border-radius:10px;background:var(--card);padding:10px 13px;min-height:150px}
+.explain .stepno{font:600 12px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.explain h4{margin:3px 0 5px;font-size:16px}
+.explain p{margin:0;font-size:14.8px;line-height:1.5}
+.explain.err{border-left-color:var(--warn);background:var(--warn-soft)}
+.explain.sp{border-left-color:var(--hint)}
+.explain.fin{border-left-color:var(--ok)}
+.hist{margin-top:10px;font-size:13.2px;color:#3a4356}
+.hist .ht{font:600 12px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+.hist ol{margin:0;padding:0 0 0 22px;max-height:170px;overflow:auto}
+.hist li{margin:2px 0}
+.hist li.last{font-weight:600;color:var(--text)}
+.schema{position:sticky;top:60px;max-height:calc(100vh - 76px);overflow:auto;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:8px}
+.schema .st{font:600 12px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:2px 4px 4px}
+.schema svg{display:block;width:100%;height:auto;max-height:calc(100vh - 110px)}
+.schema [data-n] rect{transition:stroke-width .3s,fill .3s}
+.schema [data-n].hl rect{stroke-width:3.2;fill:#fff6dc}
+.legend{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:12px;color:var(--muted);margin:4px 4px 0}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:-1px}
+.hint-next{font-size:12.5px;color:var(--muted);margin-top:6px}
+/* Mini-Aufgaben */
+.sorter{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px;margin-top:8px}
+.sorter .it{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--card);font-size:14px}
+.sorter .it .nm{font-weight:600;margin-bottom:5px}
+.sorter .it .bt{display:flex;gap:4px;flex-wrap:wrap}
+.sorter .it button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:2px 7px;font-size:12.5px;font-family:inherit;cursor:pointer}
+.sorter .it.r{border-color:var(--ok);background:var(--ok-soft)}
+.sorter .it.w{border-color:var(--warn);background:var(--warn-soft)}
+.sorter .it .fb{font-size:12.5px;margin-top:4px;color:#3a4356}
+/* ---------- Lernlandkarte ---------- */
+#karte{scroll-margin-top:56px}
+.mapsvg{width:100%;height:auto;display:block}
+.mapsvg .mcard{cursor:pointer}
+.mapsvg .mcard:hover .mc-bg,.mapsvg .mcard:focus .mc-bg{stroke-width:2.6;filter:drop-shadow(0 3px 6px rgba(29,36,51,.15))}
+.mapsvg .mcard:focus{outline:none}
+.mapsvg .chk{opacity:0;transition:opacity .3s}
+.mapsvg .mcard.seen .chk{opacity:1}
+.maplist{display:none;list-style:none;padding:0;margin:10px 0 0}
+.maplist li{border:1px solid var(--line);border-left:6px solid var(--acc);border-radius:10px;background:#fff;padding:9px 12px;margin:7px 0;cursor:pointer}
+.maplist li .t{font-weight:700}
+.maplist li .mq{font-size:14px;color:var(--muted)}
+.maplist li.seen .t::after{content:" ✓";color:var(--ok)}
+.maplist .reg{font:600 12px var(--mono);text-transform:uppercase;color:var(--muted);margin:14px 0 2px;border:0;padding:0;background:none;cursor:default}
+.mapfoot{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:8px;font-size:14px;color:var(--muted)}
+.mapfoot .bar{flex:1;min-width:160px;max-width:360px;height:10px;border-radius:9px;background:var(--soft);overflow:hidden}
+.mapfoot .bar i{display:block;height:100%;width:0;background:var(--ok);transition:width .4s}
+.mapfoot button{margin-left:auto}
+/* Illustrationen-Animationen */
+@keyframes slideR{0%{transform:translateX(0)}60%,100%{transform:translateX(26px)}}
+@keyframes slideL{0%,40%{transform:translateX(0)}100%{transform:translateX(-14px)}}
+@keyframes hitR{0%,45%{transform:translateX(0)}100%{transform:translateX(22px)}}
+@keyframes flowdash{to{stroke-dashoffset:-16}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(3px)}}
+@keyframes lean{0%,30%{transform:rotate(0)}60%,100%{transform:rotate(18deg)}}
+@keyframes puff{0%{opacity:.9;transform:translateX(0) scale(.6)}100%{opacity:0;transform:translateX(-16px) scale(1.3)}}
+@keyframes grow{0%{transform:scaleX(.3)}100%{transform:scaleX(1)}}
+@keyframes pulseo{0%,100%{opacity:.35}50%{opacity:1}}
+@keyframes flag{0%,100%{transform:skewY(0)}50%{transform:skewY(-6deg)}}
+.an-slideR{animation:slideR 2.4s ease-in-out infinite}
+.an-slideL{animation:slideL 2.4s ease-in-out infinite}
+.an-hitR{animation:hitR 2.4s ease-in infinite}
+.an-flow{stroke-dasharray:4 4;animation:flowdash .8s linear infinite}
+.an-bob{animation:bob 1.8s ease-in-out infinite}
+.an-lean{animation:lean 2.6s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+.an-puff{animation:puff 1.2s ease-out infinite;transform-box:fill-box;transform-origin:center}
+.an-grow{animation:grow 2.2s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:0 50%}
+.an-po{animation:pulseo 1.6s ease-in-out infinite}
+.an-flag{animation:flag 2s ease-in-out infinite;transform-box:fill-box;transform-origin:0 50%}
+@media (prefers-reduced-motion:reduce){.an-slideR,.an-slideL,.an-hitR,.an-flow,.an-bob,.an-lean,.an-puff,.an-grow,.an-po,.an-flag,.btn.pulse{animation:none}}
+/* ---------- Quiz ---------- */
+.q{border:1px solid var(--line);border-radius:12px;background:#fff;padding:12px 16px;margin:12px 0}
+.q .qt{font-weight:600;margin-bottom:8px}
+.q .qt .n{display:inline-block;min-width:26px;color:var(--acc);font-family:var(--mono)}
+.q .opts{display:grid;gap:6px}
+.q .opts button{text-align:left;border:1px solid var(--line);background:var(--card);border-radius:9px;padding:7px 11px;font-size:14.5px;line-height:1.4;font-family:inherit;cursor:pointer;color:var(--text)}
+.q .opts button:hover:not(:disabled){border-color:var(--acc)}
+.q .opts button.right{border-color:var(--ok);background:var(--ok-soft)}
+.q .opts button.wrong{border-color:var(--warn);background:var(--warn-soft)}
+.q .opts button:disabled{cursor:default}
+.q .ex{display:none;margin-top:8px;font-size:14.5px;border-left:4px solid var(--ok);padding:6px 10px;background:var(--ok-soft);border-radius:0 8px 8px 0}
+.q .ex.bad{border-left-color:var(--warn);background:var(--warn-soft)}
+.q.answered .ex{display:block}
+.score{font-weight:600;font-size:17px;margin-top:12px}
+footer{color:var(--muted);font-size:13.5px;padding:10px 0 40px}
+/* ---------- Responsiv ---------- */
+@media (max-width:1180px){
+  .labgrid{grid-template-columns:minmax(0,1.6fr) minmax(240px,1fr)}
+  .labgrid .schema{grid-column:1/-1;position:static;max-height:none}
+  .labgrid .schema svg{max-height:420px}
+}
+@media (max-width:900px){.cols{grid-template-columns:1fr}}
+@media (max-width:760px){
+  .mapsvg{display:none}.maplist{display:block}
+  .labgrid,.labgrid.noschema{grid-template-columns:1fr}
+  .card{padding:16px 14px}
+  header.hero h1{font-size:30px}
+  .navprog{display:none}
+  .labhead .tag-model{margin-left:0}
+  table.tbl{font-size:13px}
+  table.tbl th,table.tbl td{padding:5px 6px}
+  .formula{font-size:18px}
+}
+</style>
+</head>
+<body>
+<nav class="top" aria-label="Abschnitte">
+  <div class="inner" id="navinner">
+    <button class="navmap" data-go="karte">🗺 Lernlandkarte</button>
+    <span class="navsep"></span>
+    <!-- Chips werden per JS erzeugt -->
+    <div class="navprog"><span id="navprogtxt">0 / 11</span><div class="bar"><i id="navprogbar"></i></div></div>
+  </div>
+</nav>
+
+<div class="wrap">
+<header class="hero">
+  <div class="kicker">Physik · Leistungskurs 11 · Mechanik</div>
+  <h1>Impuls und Kraft</h1>
+  <p class="lead">Wie und warum ändert ein Körper seinen Bewegungszustand? In dieser Einheit beschreiben wir Bewegung mit dem <b>Impuls</b> – einer Größe, die fließen kann, aber nie verloren geht. Am Ende übersetzen wir alles in die Sprache der <b>Kräfte</b> und kommen bei den drei Newtonschen Axiomen und der Grundgleichung der Mechanik an.</p>
+  <div class="meta">
+    <span>10 Leitfragen in 4 Teilbereichen</span><span>11 interaktive Labore</span><span>Abschlussquiz mit 10 Fragen</span><span>Grundlage: Hefteinträge 1–15 und Übungsblatt „Impuls“</span>
+  </div>
+</header>
+
+<section class="card" id="karte" aria-labelledby="karte-h">
+  <div class="sechead"><div class="badge" style="background:var(--text)">🗺</div><div><h2 id="karte-h">Lernlandkarte</h2><p class="lq">Klicke eine Karte an, um zum Abschnitt zu springen. Ein grüner Haken zeigt, was du schon angeschaut hast.</p></div></div>
+  <svg class="mapsvg" id="mapsvg" viewBox="0 0 1200 760" role="img" aria-label="Lernlandkarte zur Einheit Impuls und Kraft"></svg>
+  <ul class="maplist" id="maplist"></ul>
+  <div class="mapfoot"><span id="mapprogtxt">Fortschritt: 0 von 11 Stationen</span><div class="bar"><i id="mapprogbar"></i></div><button class="btn" id="resetprog" title="Haken und Quiz zurücksetzen">Fortschritt zurücksetzen</button></div>
+</section>
+
+<!-- ===================== a ===================== -->
+<section class="unit card" id="s-a" data-l="a">
+  <div class="crumbs"><span><a data-go="karte">Lernlandkarte</a> › Impuls – eine Größe</span><a class="up" data-go="karte">↑ zur Lernlandkarte</a></div>
+  <div class="sechead"><div class="badge" style="background:var(--A)">a</div><div><h2>Was ist Impuls?</h2><p class="lq">Leitfrage: Wovon hängt die „Wucht“ eines bewegten Körpers ab?</p></div></div>
+  <div class="cols">
+    <div>
+      <p>Im Alltag sagen wir, ein bewegter Körper hat <i>Wucht</i> oder <i>Schwung</i>. Ein Medizinball, der genauso schnell geworfen wird wie ein Volleyball, hat mehr Wucht – er hat die <b>größere Masse</b>. Von zwei gleich gebauten Autos hat das schnellere mehr Wucht – es hat die <b>größere Geschwindigkeit</b>. Ein Golfball beim Abschlag ist leicht, aber sehr schnell; eine Abrissbirne ist langsam, aber sehr schwer.</p>
+      <p>In der Physik heißt diese Größe <b>Impuls</b> (Formelzeichen <i>p</i>, von engl. <i>impulse</i> bzw. lat. <i>pellere</i>).</p>
+    </div>
+    <div>
+      <div class="kern">Der Impuls eines Körpers ist umso größer, je größer seine Masse und je größer seine Geschwindigkeit ist:<br><span class="formula">p = m · v</span></div>
+      <div class="info"><b>Einheit:</b> 1 Hy (Huygens) = 1 kg · m/s. „Hy“ ist die Einheit aus dem Karlsruher Physikkurs; in vielen anderen Büchern steht stattdessen kg·m/s oder N·s – das ist dieselbe Einheit.</div>
+    </div>
+  </div>
+  <div class="lab" id="lab-a1"></div>
+  <div class="lab" id="lab-a2"></div>
+  <details class="muster"><summary>Musterantwort: Wovon hängt die „Wucht“ eines bewegten Körpers ab?</summary><div class="mbody">
+    <p>Die „Wucht“ eines Körpers wird physikalisch durch seinen <b>Impuls p</b> beschrieben. Der Impuls ist proportional zur Masse <i>m</i> und zur Geschwindigkeit <i>v</i> des Körpers: <b>p = m · v</b>, Einheit 1 Hy = 1 kg·m/s.</p>
+    <p>Bei gleicher Geschwindigkeit hat also der Körper mit der größeren Masse den größeren Impuls (Medizinball gegenüber Volleyball, LKW gegenüber Auto); bei gleicher Masse hat der schnellere Körper den größeren Impuls.</p>
+    <p>Beispiel: Ein Tennisball (m = 58 g = 0,058 kg) fliegt mit v = 263 km/h = 73,1 m/s. Sein Impuls ist p = 0,058 kg · 73,1 m/s ≈ 4,2 Hy. Vor dem Einsetzen müssen alle Größen in SI-Einheiten (kg, m/s) umgerechnet werden.</p>
+  </div></details>
+</section>
+
+<!-- ===================== b ===================== -->
+<section class="unit card" id="s-b" data-l="b">
+  <div class="crumbs"><span><a data-go="karte">Lernlandkarte</a> › Impuls – eine Größe</span><a class="up" data-go="karte">↑ zur Lernlandkarte</a></div>
+  <div class="sechead"><div class="badge" style="background:var(--A)">b</div><div><h2>Impuls als Vektor</h2><p class="lq">Leitfrage: Warum braucht der Impuls eine Richtung – und wie rechnet man damit?</p></div></div>
+  <div class="cols">
+    <div>
+      <p><b>Experiment 1:</b> Zwei ruhende Wagen sind durch eine zusammengedrückte Feder verbunden. Entspannt sich die Feder, fahren beide in entgegengesetzte Richtungen los. Vorher war der Gesamtimpuls 0 – nachher haben <i>beide</i> Wagen Impuls. Widerspricht das der Impulserhaltung?</p>
+      <p><b>Experiment 2:</b> Zwei Wagen fahren gleich schnell aufeinander zu und bleiben nach dem Zusammenstoß stehen. Vorher hatten beide Impuls – nachher keiner mehr. Wieder ein scheinbarer Widerspruch.</p>
+      <p><b>Lösung:</b> Impulse in entgegengesetzte Richtungen bekommen entgegengesetzte Vorzeichen. Wir legen fest: <b>Rechtsimpuls ist positiv, Linksimpuls ist negativ.</b> Allgemein stellt man den Impuls als Pfeil (Vektor) dar: Die Länge ist der Betrag, die Pfeilrichtung die Richtung des Impulses.</p>
+    </div>
+    <div>
+      <div class="kern">Der Impuls ist ein <b>Vektor</b>: <span class="formula"><span class="vec">p</span> = m · <span class="vec">v</span></span><br>Der Impulserhaltungssatz gilt vektoriell – und damit für jede Richtung (x und y) einzeln.</div>
+      <div class="info"><b>Vorzeichen-Regel</b> (eindimensional): Bewegung nach rechts → p &gt; 0, Bewegung nach links → p &lt; 0. Die Wahl der positiven Richtung ist frei, muss aber in einer Rechnung beibehalten werden.</div>
+    </div>
+  </div>
+  <div class="lab" id="lab-b1"></div>
+  <div class="lab" id="lab-b2"></div>
+  <details class="muster"><summary>Musterantwort: Warum braucht der Impuls eine Richtung?</summary><div class="mbody">
+    <p>Würde man nur die Beträge der Impulse addieren, wäre der Impulserhaltungssatz in vielen Experimenten scheinbar verletzt: Zwei durch eine Feder auseinandergetriebene Wagen hätten nachher zusammen mehr Impuls als vorher (0 Hy), zwei frontal zusammenstoßende und liegen bleibende Wagen nachher weniger.</p>
+    <p>Der Widerspruch löst sich, wenn man den Impuls als <b>Vektor</b> <span class="vec">p</span> = m·<span class="vec">v</span> auffasst. In einer Dimension heißt das: Rechtsimpuls positiv, Linksimpuls negativ. Bei der Feder gilt nachher p<sub>links</sub> = −p<sub>rechts</sub>, also p<sub>ges</sub> = p<sub>links</sub> + p<sub>rechts</sub> = 0 = p<sub>ges, vorher</sub>.</p>
+    <p>Bei zweidimensionalen Stößen (z. B. Billard) werden die Impulspfeile vektoriell addiert: <span class="vec">p</span><sub>1</sub> = <span class="vec">p</span><sub>1</sub>′ + <span class="vec">p</span><sub>2</sub>′. Zerlegt man die Impulse in x- und y-Komponenten, gilt der Impulserhaltungssatz für jede Komponente einzeln.</p>
+  </div></details>
+</section>
+
+<!-- ===================== c ===================== -->
+<section class="unit card" id="s-c" data-l="c">
+  <div class="crumbs"><span><a data-go="karte">Lernlandkarte</a> › Impuls fließt</span><a class="up" data-go="karte">↑ zur Lernlandkarte</a></div>
+  <div class="sechead"><div class="badge" style="background:var(--B)">c</div><div><h2>Impuls fließt – Stöße und Impulserhaltung</h2><p class="lq">Leitfrage: Was passiert mit dem Impuls, wenn Körper zusammenstoßen?</p></div></div>
+  <div class="cols">
+    <div>
+      <p>Ein Ball erhält beim Werfen Impuls von der Werferin und gibt ihn beim Fangen an den Fänger ab. Beim Anschubsen fließt Impuls vom Opa ins Kind auf der Schaukel. <b>Impuls kann von einem Körper auf einen anderen übertragen werden – er „fließt“.</b></p>
+      <p>Mit Wagen auf einer Fahrbahn lässt sich das genau untersuchen: Bei <b>elastischen Stößen</b> (Feder zwischen den Wagen) trennen sich die Wagen wieder, bei <b>unelastischen Stößen</b> (Wagen koppeln aneinander) fahren sie gemeinsam weiter. In allen Fällen ist die Summe der Impulse vorher und nachher gleich.</p>
+      <p>Rollt ein Spielzeugauto auf dem Tisch aus, scheint der Impuls zu verschwinden. Tatsächlich fließt er über die Reibung in den Tisch und weiter in die Erde. Wegen ihrer riesigen Masse ändert sich ihre Geschwindigkeit dabei nicht messbar.</p>
+    </div>
+    <div>
+      <div class="kern">Impuls kann übertragen, aber weder erzeugt noch vernichtet werden (<b>Impulserhaltungssatz</b>):<br><span class="formula">p<sub>1</sub> + p<sub>2</sub> = p<sub>1</sub>′ + p<sub>2</sub>′</span><br>Impuls fließt immer dann, wenn zwei Körper miteinander wechselwirken.</div>
+      <div class="info"><b>Vorgehen bei Stoßaufgaben:</b> 1. Impulse vorher bestimmen, 2. Art des Stoßes klären, 3. Impulserhaltung ansetzen, 4. nach der Unbekannten auflösen, 5. Bilanz prüfen.</div>
+    </div>
+  </div>
+  <div class="lab" id="lab-c"></div>
+  <details class="muster"><summary>Musterantwort: Was passiert mit dem Impuls bei einem Stoß?</summary><div class="mbody">
+    <p>Bei einem Stoß wechselwirken die beiden Körper miteinander. Während der Wechselwirkung fließt Impuls vom einen Körper in den anderen. Impuls kann dabei weder erzeugt noch vernichtet werden; die Summe der Impulse bleibt konstant (Impulserhaltungssatz): p<sub>1</sub> + p<sub>2</sub> = p<sub>1</sub>′ + p<sub>2</sub>′.</p>
+    <p><b>Elastischer Stoß, gleiche Massen:</b> Der stoßende Wagen gibt seinen gesamten Impuls ab und bleibt stehen, der gestoßene fährt mit der ursprünglichen Geschwindigkeit weiter. <b>Unelastischer Stoß (Wagen koppeln):</b> Der Impuls verteilt sich auf beide Wagen; sie fahren mit gemeinsamer Geschwindigkeit v′ = m<sub>1</sub>v<sub>1</sub> / (m<sub>1</sub>+m<sub>2</sub>) weiter.</p>
+    <p>Rechenbeispiel (Übungsblatt, Aufgabe 4): m<sub>1</sub> = 3 kg, v<sub>1</sub> = 1 m/s, m<sub>2</sub> = 2 kg ruht, Wagen koppeln: p<sub>ges</sub> = 3 Hy, v′ = 3 Hy / 5 kg = 0,6 m/s; danach p<sub>1</sub>′ = 1,8 Hy und p<sub>2</sub>′ = 1,2 Hy, zusammen wieder 3 Hy.</p>
+    <p>Kommt ein Körper durch Reibung zur Ruhe, verschwindet sein Impuls nicht, sondern fließt in die Erde ab. Deren Geschwindigkeitsänderung ist wegen ihrer großen Masse nicht messbar.</p>
+  </div></details>
+</section>
+
+<!-- ===================== d ===================== -->
+<section class="unit card" id="s-d" data-l="d">
+  <div class="crumbs"><span><a data-go="karte">Lernlandkarte</a> › Impuls fließt</span><a class="up" data-go="karte">↑ zur Lernlandkarte</a></div>
+  <div class="sechead"><div class="badge" style="background:var(--B)">d</div><div><h2>Impulsleiter, Impulsisolatoren und Impulspumpen</h2><p class="lq">Leitfrage: Auf welchen Wegen kann Impuls fließen – und was hält ihn auf?</p></div></div>
+  <div class="cols">
+    <div>
+      <p>Mit einer <b>Stange</b> kann man einen Wagen schieben und ziehen: Der Impuls fließt in beide Richtungen. Mit einem <b>Seil</b> kann man nur ziehen – der Impuls fließt nur in einer Richtung. Auch <b>Federn</b> leiten Impuls.</p>
+      <p>Ein Magnet kann ein Skateboard anziehen oder abstoßen, ohne es zu berühren. Hier leitet das <b>Magnetfeld</b> den Impuls. Ebenso leiten das elektrische Feld und das <b>Gravitationsfeld</b> Impuls: Ein fallender Ball bekommt seinen Impuls über das Gravitationsfeld aus der Erde.</p>
+      <p>Motor und Muskeln sind <b>Impulspumpen</b>: Sie pumpen Impuls, z. B. aus der Erde in ein Auto oder eine Läuferin. Auf Glatteis funktioniert das nicht – es ist ein <b>Impulsisolator</b>: Man kann weder anfahren noch richtig bremsen.</p>
+    </div>
+    <div>
+      <div class="kern"><b>Impulsleiter:</b> Stange (beide Richtungen), Seil (nur Zug), Feder, Felder.<br><b>Impulsisolatoren:</b> alles (fast) Reibungsfreie – Glatteis, gut gelagerte Rollen, Luftkissen.<br><b>Impulspumpen:</b> Motor, Muskeln.</div>
+    </div>
+  </div>
+  <div class="lab" id="lab-d"></div>
+  <div class="lab"><div class="labhead"><h3>Sortier-Check: Leiter, Isolator oder Pumpe?</h3><span class="tag-model">Selbsttest</span></div><div class="sorter" id="sorter"></div></div>
+  <details class="muster"><summary>Musterantwort: Auf welchen Wegen kann Impuls fließen?</summary><div class="mbody">
+    <p>Impuls fließt zwischen Körpern, die miteinander wechselwirken. Gegenstände und Felder, durch die Impuls fließen kann, heißen <b>Impulsleiter</b>: Eine Stange leitet Impuls in beide Richtungen (Schieben und Ziehen), ein Seil nur in eine Richtung (nur Ziehen), außerdem Federn. Auch magnetische und elektrische Felder sowie das Gravitationsfeld leiten Impuls – dadurch ist eine Wechselwirkung ohne Berührung möglich.</p>
+    <p><b>Impulsisolatoren</b> verhindern den Impulsfluss weitgehend; dazu gehört alles (fast) Reibungsfreie wie Glatteis, gut gelagerte Rollen oder Luftkissen.</p>
+    <p><b>Impulspumpen</b> wie Motoren oder Muskeln pumpen Impuls von einem Körper in einen anderen, z. B. beim Anfahren aus der Erde über die Räder ins Auto. Auf Glatteis kann kein Impuls aus der Erde gepumpt werden und auch keiner in die Erde abfließen.</p>
+  </div></details>
+</section>
+
+<!-- ===================== e ===================== -->
+<section class="unit card" id="s-e" data-l="e">
+  <div class="crumbs"><span><a data-go="karte">Lernlandkarte</a> › Impuls fließt</span><a class="up" data-go="karte">↑ zur Lernlandkarte</a></div>
+  <div class="sechead"><div class="badge" style="background:var(--B)">e</div><div><h2>Impulskreisläufe und Fließgleichgewicht</h2><p class="lq">Leitfrage: Warum braucht ein Auto bei konstantem Tempo trotzdem den Motor?</p></div></div>
+  <div class="cols">
+    <div>
+      <p>Beim <b>Anfahren</b> pumpt der Motor Impuls aus der Erde über die Räder ins Auto – es wird schneller. Beim <b>Bremsen</b> fließt Impuls aus dem Auto in die Erde – es wird langsamer.</p>
+      <p>Fährt das Auto mit <b>konstanter Geschwindigkeit</b>, bleibt sein Impuls gleich. Trotzdem fließt durch Luftwiderstand und Rollreibung ständig Impuls ab. Der Motor muss also ständig genauso viel Impuls nachpumpen, wie abfließt. Es entsteht ein <b>Impulskreislauf</b>.</p>
+      <p>Auch ein ruhender Körper kann im Fließgleichgewicht sein: Hält man eine Laterne ruhig in der Hand, fließt über das Gravitationsfeld ständig Impuls aus der Erde in die Laterne und über Arm und Körper wieder in die Erde zurück.</p>
+    </div>
+    <div>
+      <div class="kern">Fließt einem Körper in jedem Moment genauso viel Impuls zu, wie abfließt, bleibt sein Impuls konstant: <b>Fließgleichgewicht</b>. Das gilt für ruhende Körper und für Körper mit konstanter Geschwindigkeit.</div>
+      <div class="info"><b>Verbindung zum p-t-Diagramm:</b> Steigt p, fließt mehr zu als ab. Fällt p, fließt mehr ab als zu. Ist p konstant, herrscht Fließgleichgewicht (oder es fließt gar nichts).</div>
+    </div>
+  </div>
+  <div class="lab" id="lab-e"></div>
+  <details class="muster"><summary>Musterantwort: Warum braucht ein Auto bei konstantem Tempo den Motor?</summary><div class="mbody">
+    <p>Auch bei konstanter Geschwindigkeit fließt über Luftwiderstand und Rollreibung ständig Impuls aus dem Auto in die Umgebung und damit in die Erde ab. Ohne Motor würde der Impuls des Autos – und damit seine Geschwindigkeit – abnehmen.</p>
+    <p>Der Motor wirkt als Impulspumpe: Er pumpt über die Räder Impuls aus der Erde ins Auto. Bei konstanter Geschwindigkeit pumpt er in jedem Moment genau so viel Impuls nach, wie abfließt. Zufluss und Abfluss sind gleich groß, der Impuls des Autos bleibt konstant – es herrscht ein <b>Fließgleichgewicht</b>. Der Impuls fließt dabei im Kreis (Erde → Auto → Erde): ein <b>Impulskreislauf</b>.</p>
+    <p>Ist der Zufluss größer als der Abfluss, wird das Auto schneller (Anfahren); ist der Abfluss größer, wird es langsamer (Bremsen, Ausrollen).</p>
+  </div></details>
+</section>
+
+<!-- ===================== f ===================== -->
+<section class="unit card" id="s-f" data-l="f">
+  <div class="crumbs"><span><a data-go="karte">Lernlandkarte</a> › Impuls fließt</span><a class="up" data-go="karte">↑ zur Lernlandkarte</a></div>
+  <div class="sechead"><div class="badge" style="background:var(--B)">f</div><div><h2>Antrieb durch Rückstoß</h2><p class="lq">Leitfrage: Wie kann sich ein Körper selbst antreiben?</p></div></div>
+  <div class="cols">
+    <div>
+      <p>Rakete, Düsenflugzeug, Wasserrakete, Jetski, Tintenfisch, Luftballon – alle funktionieren nach demselben Prinzip: <b>Das anzutreibende Objekt stößt Gas, Wasser … nach hinten aus und bewegt sich dadurch vorwärts.</b></p>
+      <p>Beim Ballonauto pumpt die gespannte Gummihaut des Ballons Impuls aus dem Auto in die ausströmende Luft. Die Luft bekommt Linksimpuls (negativ), das Auto genauso viel Rechtsimpuls (positiv). Auch der Rückstoß eines Gewehrs beruht darauf.</p>
+    </div>
+    <div>
+      <div class="kern">Vorher: p<sub>Auto</sub> + p<sub>Luft</sub> = 0. Nachher gilt wegen der Impulserhaltung<br><span class="formula">p<sub>Auto</sub> = − p<sub>Luft</sub></span><br>Das Objekt bekommt genauso viel Vorwärtsimpuls, wie der Ausstoß Rückwärtsimpuls erhält.</div>
+    </div>
+  </div>
+  <div class="lab" id="lab-f"></div>
+  <details class="muster"><summary>Musterantwort: Wie funktioniert Antrieb durch Rückstoß?</summary><div class="mbody">
+    <p>Beim Rückstoßantrieb stößt das Objekt Material (Gas, Wasser, Luft, eine Kugel …) nach hinten aus. Eine Impulspumpe – z. B. die gespannte Ballonhülle, der Treibsatz einer Rakete oder die Pulvergase im Gewehr – pumpt dabei Impuls aus dem Objekt in das ausgestoßene Material.</p>
+    <p>Vor dem Ausstoß ruhen beide, der Gesamtimpuls ist 0. Wegen der Impulserhaltung muss er auch nachher 0 sein: p<sub>Objekt</sub> + p<sub>Ausstoß</sub> = 0, also p<sub>Objekt</sub> = −p<sub>Ausstoß</sub>. Der Ausstoß hat Rückwärtsimpuls (negativ), das Objekt gleich viel Vorwärtsimpuls (positiv) und bewegt sich vorwärts.</p>
+    <p>Eine Rakete braucht deshalb keine Luft, gegen die sie sich „abstößt“ – der Antrieb funktioniert auch im Weltraum.</p>
+  </div></details>
+</section>
+
+<!-- ===================== g ===================== -->
+<section class="unit card" id="s-g" data-l="g">
+  <div class="crumbs"><span><a data-go="karte">Lernlandkarte</a> › Newtons Axiome im Impulsmodell</span><a class="up" data-go="karte">↑ zur Lernlandkarte</a></div>
+  <div class="sechead"><div class="badge" style="background:var(--C)">g</div><div><h2>Trägheit – das 1. Newtonsche Axiom</h2><p class="lq">Leitfrage: Warum fliegt man im bremsenden Bus nach vorne?</p></div></div>
+  <div class="cols">
+    <div>
+      <p>Während der Fahrt haben Bus, Person und Tasche dieselbe Geschwindigkeit – alle haben Impuls. Bremst der Bus, fließt <b>sein</b> Impuls über die Räder in die Straße. Der Impuls der Person und der Tasche kann aber nicht so schnell abfließen, weil die Verbindung zum Bus schwach ist. Sie behalten ihren Impuls und bewegen sich weiter – relativ zum Bus scheinen sie nach vorne zu fliegen.</p>
+      <p>Je besser die Verbindung (sitzen, festhalten, anschnallen), desto schneller kann der Impuls abfließen. Je stärker der Bus bremst, desto kürzer ist die Zeit für den Abfluss. Je größer die Masse, desto mehr Impuls muss abfließen.</p>
+      <p>Wie gut sich der Bewegungszustand eines Körpers ändern lässt, hängt von der Wechselwirkung (Dauer, übertragene Impulsmenge) und vom Körper selbst ab – von seiner <b>Masse</b>. Die Masse ist ein Maß für die <b>Trägheit</b>.</p>
+    </div>
+    <div>
+      <div class="kern"><b>1. Newtonsches Axiom (Trägheitssatz):</b> Ohne Wechselwirkung – also ohne dass Impuls zu- oder abfließt – bleibt ein Körper in Ruhe oder bewegt sich mit konstanter Geschwindigkeit geradlinig weiter.</div>
+      <div class="info"><b>Zwei Sorten Masse?</b> Die <i>schwere Masse</i> bestimmt, wie stark sich zwei Körper über die Gravitation anziehen (F ~ m<sub>1</sub>·m<sub>2</sub>). Die <i>träge Masse</i> bestimmt, wie schwer sich der Bewegungszustand ändern lässt. <b>Äquivalenzprinzip:</b> Beide haben denselben Wert. Experimentell ist das mit sehr hoher Genauigkeit bestätigt; Einstein machte es zur Grundlage der Allgemeinen Relativitätstheorie.</div>
+    </div>
+  </div>
+  <div class="lab" id="lab-g1"></div>
+  <div class="lab" id="lab-g2"></div>
+  <details class="muster"><summary>Musterantwort: Warum fliegt man im bremsenden Bus nach vorne?</summary><div class="mbody">
+    <p>Während der Fahrt haben Bus und Fahrgast dieselbe Geschwindigkeit und damit jeweils Impuls in Fahrtrichtung. Beim Bremsen fließt der Impuls des Busses über die Räder in die Straße bzw. die Erde ab. Der Fahrgast ist nur schwach mit dem Bus verbunden (Füße auf dem Boden, evtl. Hand an der Stange). Sein Impuls kann deshalb nicht so schnell in den Bus und die Erde abfließen.</p>
+    <p>Nach dem 1. Newtonschen Axiom (Trägheitssatz) behält ein Körper seinen Bewegungszustand bei, solange kein Impuls zu- oder abfließt. Der Fahrgast bewegt sich daher zunächst mit fast unveränderter Geschwindigkeit weiter, während der Bus langsamer wird. Relativ zum Bus scheint er nach vorne geschleudert zu werden – tatsächlich wird der Bus unter ihm langsamer.</p>
+    <p>Der Effekt ist umso stärker, je schwächer die Verbindung, je stärker die Bremsung (kürzere Zeit für den Impulsabfluss) und je größer die Masse (mehr Impuls muss abfließen). Ein Sicherheitsgurt verbessert die Verbindung, sodass der Impuls kontrolliert abfließen kann.</p>
+  </div></details>
+</section>
+
+<!-- ===================== h ===================== -->
+<section class="unit card" id="s-h" data-l="h">
+  <div class="crumbs"><span><a data-go="karte">Lernlandkarte</a> › Newtons Axiome im Impulsmodell</span><a class="up" data-go="karte">↑ zur Lernlandkarte</a></div>
+  <div class="sechead"><div class="badge" style="background:var(--C)">h</div><div><h2>Wechselwirkungssatz – das 3. Newtonsche Axiom</h2><p class="lq">Leitfrage: Wer zieht stärker, wenn zwei sich an einem Seil zusammenziehen?</p></div></div>
+  <div class="cols">
+    <div>
+      <p>Auf dem Skateboard isolieren die gut gelagerten Rollen ziemlich gut: Impuls, der ins Board gepumpt wird, bleibt darin. Stößt sich ein Mädchen von einer Wand ab, pumpt es Impuls aus der Wand (und damit aus der Erde) ins Board.</p>
+      <p>Stehen zwei Personen A und B auf Skateboards und A zieht an einem Seil, pumpt A Impuls aus B heraus. Vorher haben beide den Impuls 0. Nachher hat A positiven Impuls (Rechtsimpuls), B genauso viel negativen – beide rollen aufeinander zu. <b>Egal, ob beide ziehen oder nur einer zieht und der andere festhält:</b> Beide bewegen sich.</p>
+      <p>Man kann es auch so sagen: A pumpt Rechtsimpuls aus B – oder gleichwertig: B pumpt Linksimpuls aus A.</p>
+    </div>
+    <div>
+      <div class="kern"><b>Wechselwirkungssatz (3. Newtonsches Axiom):</b> Der Impuls, der bei einer Wechselwirkung aus einem Körper abfließt, fließt in den anderen hinein. Im Kraftmodell: Zu jeder Kraft gibt es eine gleich große, entgegengesetzte Gegenkraft – <i>actio = reactio</i>:<br><span class="formula"><span class="vec">F</span><sub>A auf B</sub> = − <span class="vec">F</span><sub>B auf A</sub></span></div>
+    </div>
+  </div>
+  <div class="lab" id="lab-h"></div>
+  <details class="muster"><summary>Musterantwort: Wer zieht stärker?</summary><div class="mbody">
+    <p>Keiner. Zieht A am Seil, fließt durch das Seil Impuls zwischen A und B: A pumpt Rechtsimpuls aus B heraus. Weil nirgendwo Impuls abfließen kann (die Rollen isolieren) und Impuls erhalten bleibt, bekommt A genau so viel Rechtsimpuls, wie B verliert: p<sub>A</sub> = −p<sub>B</sub>. Die Impulsstromstärke ist für beide gleich, denn es ist derselbe Impulsstrom.</p>
+    <p>Im Kraftmodell heißt das: A übt auf B die Kraft <span class="vec">F</span><sub>A auf B</sub> aus und B auf A die Gegenkraft <span class="vec">F</span><sub>B auf A</sub>. Beide Kräfte sind gleich groß, entgegengesetzt gerichtet und greifen an <b>verschiedenen</b> Körpern an (3. Newtonsches Axiom, actio = reactio). Das gilt unabhängig davon, ob beide ziehen oder nur einer.</p>
+    <p>Unterschiedlich sind nur die Geschwindigkeiten: Die leichtere Person bekommt bei gleichem Impuls die größere Geschwindigkeit (v = p/m).</p>
+  </div></details>
+</section>
+
+<!-- ===================== i ===================== -->
+<section class="unit card" id="s-i" data-l="i">
+  <div class="crumbs"><span><a data-go="karte">Lernlandkarte</a> › Vom Impuls zur Kraft</span><a class="up" data-go="karte">↑ zur Lernlandkarte</a></div>
+  <div class="sechead"><div class="badge" style="background:var(--D)">i</div><div><h2>Kraft = Impulsstromstärke</h2><p class="lq">Leitfrage: Was hat Kraft mit Impulsströmen zu tun?</p></div></div>
+  <div class="cols">
+    <div>
+      <p>Soll ein Karateschlag ein Brett zerbrechen, muss die Wechselwirkung Hand–Brett stark sein: In kurzer Zeit muss viel Impuls aus der Hand ins Brett fließen – die <b>Impulsstromstärke</b> muss groß sein. Im Alltag sagt man stattdessen: Das Brett wird mit großer <b>Kraft</b> getroffen.</p>
+      <p>Neben dem <b>Impulsmodell</b> beschreibt man Wechselwirkungen deshalb auch im <b>Kraftmodell</b>. Die Kraft ist ein Vektor mit Angriffspunkt. Es gibt niemals eine Kraft allein, sondern immer zwei: Die Hand übt eine Kraft auf das Brett aus, das Brett eine Gegenkraft auf die Hand.</p>
+      <p><b>Kraftmessung:</b> dynamisch über F = m·a oder statisch mit einer Federwaage. Hängt ein Massestück ruhig an einer Federwaage, herrscht <b>Kräftegleichgewicht</b>: Die Summe aller angreifenden Kräfte ist null, ihre Wirkungen heben sich auf. Kräfte werden wie Vektoren addiert und lassen sich in Komponenten zerlegen.</p>
+    </div>
+    <div>
+      <div class="kern">Die Kraft ist die Stärke des Impulsstroms:<br><span class="formula">F = Δp / Δt</span><br>Einheit: 1 N (Newton) = 1 Hy/s = 1 kg·m/s².</div>
+      <div class="info"><b>Gewichtskraft:</b> F<sub>G</sub> = m · g. Die Masse m ist ortsunabhängig, der Ortsfaktor g ist ortsabhängig (Erde ≈ 9,81 N/kg).</div>
+    </div>
+  </div>
+  <div class="lab" id="lab-i1"></div>
+  <div class="lab" id="lab-i2"></div>
+  <details class="muster"><summary>Musterantwort: Was hat Kraft mit Impulsströmen zu tun?</summary><div class="mbody">
+    <p>Eine Wechselwirkung lässt sich auf zwei gleichwertige Arten beschreiben. Im <b>Impulsmodell</b> fließt Impuls von einem Körper in den anderen; die Stärke der Wechselwirkung ist die Impulsstromstärke Δp/Δt. Im <b>Kraftmodell</b> übt der eine Körper auf den anderen eine Kraft aus. Die Kraft ist gerade die Impulsstromstärke: <b>F = Δp/Δt</b>, Einheit 1 N = 1 Hy/s.</p>
+    <p>Beispiel Federwaage: Über das Gravitationsfeld fließt ständig Impuls aus der Erde in das Massestück und über Feder und Aufhängung zurück in die Erde (Fließgleichgewicht). Die Federwaage zeigt die Stärke dieses Impulsstroms, also die Kraft der Feder auf die Masse, an. Im Kraftmodell greifen am Massestück die Gewichtskraft (Erde auf Masse) und die Federkraft (Feder auf Masse) an; sie sind gleich groß und entgegengesetzt – <b>Kräftegleichgewicht</b>.</p>
+    <p>Davon zu unterscheiden sind <b>Wechselwirkungspaare</b> (actio = reactio): Die Kraft der Erde auf die Masse und die Kraft der Masse auf die Erde greifen an verschiedenen Körpern an und heben sich daher nicht auf.</p>
+  </div></details>
+</section>
+
+<!-- ===================== j ===================== -->
+<section class="unit card" id="s-j" data-l="j">
+  <div class="crumbs"><span><a data-go="karte">Lernlandkarte</a> › Vom Impuls zur Kraft</span><a class="up" data-go="karte">↑ zur Lernlandkarte</a></div>
+  <div class="sechead"><div class="badge" style="background:var(--D)">j</div><div><h2>Die Grundgleichung – das 2. Newtonsche Axiom</h2><p class="lq">Leitfrage: Wie hängen Kraft, Zeit und Impulsänderung zusammen?</p></div></div>
+  <div class="cols">
+    <div>
+      <p>Aus F = Δp/Δt und p = m·v folgt bei konstanter Masse F = m·Δv/Δt und damit die verbindende Grundgleichung <b>F · Δt = m · Δv</b>. Je nachdem, wie man sie liest, erhält man drei wichtige Aussagen:</p>
+      <p>① Δp/Δt = F: Die Impulsstromstärke ist die Kraft. ② m·a = F: <b>Grundgleichung der Mechanik</b> – eine Kraft führt zu einer Beschleunigung (2. Newtonsches Axiom). ③ F·Δt = Δp: Der <b>Kraftstoß</b> – eine Krafteinwirkung über eine Zeit Δt bewirkt eine Geschwindigkeitsänderung.</p>
+    </div>
+    <div>
+      <div class="kern"><span class="formula">m · Δv = F · Δt</span><br><b>2. Newtonsches Axiom:</b> Wirkt eine Kraft auf einen Körper, so wird dieser in Richtung der Kraft beschleunigt: <span class="formula"><span class="vec">F</span> = m · <span class="vec">a</span></span></div>
+    </div>
+  </div>
+  <div class="lab" id="lab-j1"></div>
+  <div class="lab" id="lab-j2"></div>
+  <h3 style="margin:22px 0 6px">Überblick: Die Newtonschen Axiome in beiden Modellen</h3>
+  <table class="tbl">
+    <tr><th style="width:16%">Axiom</th><th>Im Impulsmodell</th><th>Im Kraftmodell</th></tr>
+    <tr><td><b>1.</b> Trägheitssatz</td><td>Ein Körper verharrt in Ruhe oder in gleichförmiger Bewegung, solange sich sein Impuls nicht ändert (kein Impuls zu- oder abfließt bzw. Zu- und Abfluss gleich sind).</td><td>Ein Körper verharrt in Ruhe oder in gleichförmiger Bewegung, solange keine (resultierende) Kraft auf ihn wirkt.</td></tr>
+    <tr><td><b>2.</b> Grundgleichung</td><td>Eine Impulsänderung führt zu einer Beschleunigung in Richtung des zugeflossenen Impulses: Δp/Δt = m·a.</td><td>Wirkt eine Kraft auf einen Körper, wird er in Richtung der Kraft beschleunigt: <span class="vec">F</span> = m·<span class="vec">a</span>.</td></tr>
+    <tr><td><b>3.</b> Wechselwirkung</td><td>Der Impulsstrom, der bei einer Wechselwirkung aus einem Körper herausfließt, fließt in den anderen hinein.</td><td>Zu jeder Kraft gibt es eine gleich große, entgegengesetzt wirkende Gegenkraft (actio = reactio).</td></tr>
+  </table>
+  <details class="muster"><summary>Musterantwort: Wie hängen Kraft, Zeit und Impulsänderung zusammen?</summary><div class="mbody">
+    <p>Die Kraft ist die Impulsstromstärke: F = Δp/Δt. Wirkt eine konstante Kraft F während der Zeit Δt auf einen Körper, so ändert sich sein Impuls um <b>Δp = F·Δt</b> (Kraftstoß). Bei konstanter Masse ist Δp = m·Δv, also <b>m·Δv = F·Δt</b>.</p>
+    <p>Teilt man durch Δt, erhält man mit a = Δv/Δt die <b>Grundgleichung der Mechanik F = m·a</b> (2. Newtonsches Axiom): Eine Kraft beschleunigt einen Körper in ihrer Richtung; bei gleicher Kraft ist die Beschleunigung umso kleiner, je größer die (träge) Masse ist.</p>
+    <p>Anwendung: Bei gleicher Impulsänderung (z. B. Abbremsen von 50 km/h auf 0) ist die Kraft umso kleiner, je länger die Bremszeit Δt ist. Darauf beruhen Airbag, Sicherheitsgurt und Knautschzone.</p>
+  </div></details>
+</section>
+
+<!-- ===================== Quiz ===================== -->
+<section class="unit card" id="s-quiz" data-l="quiz">
+  <div class="crumbs"><span><a data-go="karte">Lernlandkarte</a> › Abschlussquiz</span><a class="up" data-go="karte">↑ zur Lernlandkarte</a></div>
+  <div class="sechead"><div class="badge" style="background:var(--ok)">🏁</div><div><h2>Abschlussquiz</h2><p class="lq">Zehn Fragen quer durch die Einheit. Nach jeder Antwort erscheint eine Erklärung.</p></div></div>
+  <div id="quiz"></div>
+  <div class="score" id="score"></div>
+  <button class="btn" id="quizreset" style="margin-top:10px">Quiz neu starten</button>
+</section>
+
+<footer><a href="../">← Alle Lerneinheiten</a> · Lerneinheit für den Physik-Leistungskurs 11 · Inhalte nach den Hefteinträgen 1–15 und dem Übungsblatt „Impuls“ · Alle Abbildungen eigens gezeichnet · Simulationen sind vereinfachte Modelle zur Veranschaulichung.</footer>
+</div>
+<script>
+"use strict";
+/* ================= Hilfsfunktionen ================= */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const COL={A:'#2563eb',B:'#c2410c',C:'#7c3aed',D:'#0f766e',acc:'#0f766e',warn:'#b42318',ok:'#15803d',hint:'#b45309',text:'#1d2433',muted:'#5b6475',line:'#e5dfd2',soft:'#efebe2',card:'#fffdf8'};
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+const lerp=(a,b,k)=>a+(b-a)*k;
+const ease=k=>k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+function fmt(x,d=2){ if(!isFinite(x)) return '–'; const s=x.toLocaleString('de-DE',{minimumFractionDigits:d,maximumFractionDigits:d,useGrouping:Math.abs(x)>=10000}); return /^-0(,0*)?$/.test(s)?s.slice(1):s.replace('-','−'); }
+function fmtS(x,d=2){ return (x>0?'+':'')+fmt(x,d); }
+function store(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+function load(k,d){try{const s=localStorage.getItem(k);return s?JSON.parse(s):d;}catch(e){return d;}}
+/* SVG-String-Bausteine */
+function T(x,y,s,o={}){return `<text x="${x}" y="${y}" font-size="${o.s||13}" fill="${o.c||COL.text}" text-anchor="${o.a||'middle'}" font-weight="${o.w||400}" ${o.f?`font-family="${o.f}"`:''} ${o.x||''}>${s}</text>`;}
+function TB(x,y,s,o={}){ // Text mit hellem Hintergrund
+  const fs=o.s||12, w=(o.w0||s.replace(/<[^>]+>/g,'').length*fs*0.56)+10, a=o.a||'middle';
+  const x0=a==='middle'?x-w/2:(a==='end'?x-w+5:x-5);
+  return `<rect x="${x0}" y="${y-fs+1}" width="${w}" height="${fs+6}" rx="4" fill="${o.bg||'#fffdf8'}" stroke="${o.bc||'none'}" opacity="${o.op||.92}"/>`+T(x,y+2,s,o);
+}
+function AR(x1,y1,x2,y2,c,w=3,o={}){
+  const dx=x2-x1,dy=y2-y1,L=Math.hypot(dx,dy); if(L<0.8) return '';
+  const ux=dx/L,uy=dy/L,h=Math.min(7+w*2.2,L*.65),hw=h*.55,bx=x2-ux*h,by=y2-uy*h;
+  return `<g opacity="${o.op||1}"><line x1="${x1}" y1="${y1}" x2="${bx}" y2="${by}" stroke="${c}" stroke-width="${w}" ${o.dash?`stroke-dasharray="${o.dash}"`:''} stroke-linecap="round"/><polygon points="${x2},${y2} ${bx-uy*hw},${by+ux*hw} ${bx+uy*hw},${by-ux*hw}" fill="${c}"/></g>`;
+}
+function CART(x,y,w,c,label,o={}){ // x,y = links oben vom Wagenkasten, Räder darunter
+  const h=o.h||30;
+  return `<g><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="6" fill="${c}" fill-opacity="${o.op||.88}" stroke="${c}" stroke-width="1.5"/>`+
+  `<circle cx="${x+12}" cy="${y+h+7}" r="7" fill="#fff" stroke="${COL.text}" stroke-width="2"/><circle cx="${x+w-12}" cy="${y+h+7}" r="7" fill="#fff" stroke="${COL.text}" stroke-width="2"/>`+
+  (label?T(x+w/2,y+h/2+5,label,{c:'#fff',w:700,s:o.fs||13}):'')+'</g>';
+}
+function DOTS(x1,y1,x2,y2,phase,c,n=5,r=4){ // Impulsportionen entlang einer Strecke
+  let s=''; for(let i=0;i<n;i++){ const k=((i/n)+phase)%1; s+=`<circle cx="${lerp(x1,x2,k)}" cy="${lerp(y1,y2,k)}" r="${r}" fill="${c}" opacity="${(0.35+0.65*Math.sin(Math.PI*k)).toFixed(2)}"/>`; } return s;
+}
+function DOTSP(pts,phase,c,n=8,r=4){ // entlang Polylinie
+  const seg=[];let tot=0; for(let i=1;i<pts.length;i++){const L=Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]);seg.push(L);tot+=L;}
+  let s=''; for(let j=0;j<n;j++){ let d=(((j/n)+phase)%1)*tot,i=0; while(i<seg.length-1&&d>seg[i]){d-=seg[i];i++;} const k=seg[i]?d/seg[i]:0;
+    s+=`<circle cx="${lerp(pts[i][0],pts[i+1][0],k)}" cy="${lerp(pts[i][1],pts[i+1][1],k)}" r="${r}" fill="${c}" opacity=".85"/>`; } return s;
+}
+function GROUND(y,w,label='Erde',o={}){
+  let s=`<rect x="0" y="${y}" width="${w}" height="${o.h||40}" fill="${o.fill||'#e9e2d2'}"/><line x1="0" y1="${y}" x2="${w}" y2="${y}" stroke="#bfb39a" stroke-width="2"/>`;
+  for(let x=10;x<w;x+=22) s+=`<line x1="${x}" y1="${y+4}" x2="${x-8}" y2="${y+14}" stroke="#cdbf9f" stroke-width="1.2"/>`;
+  if(label) s+=T(w-10,y+(o.h||40)-8,label,{a:'end',s:11,c:'#8a7d62'});
+  return s;
+}
+function PERSON(x,y,c,o={}){ // x = Fußmitte, y = Fußhöhe, Höhe ca. 70
+  const lean=o.lean||0, s=o.sc||1;
+  return `<g transform="translate(${x},${y}) scale(${s}) rotate(${lean})"><circle cx="0" cy="-62" r="9" fill="${c}"/><line x1="0" y1="-53" x2="0" y2="-24" stroke="${c}" stroke-width="5" stroke-linecap="round"/>`+
+   `<line x1="0" y1="-24" x2="${o.legA||-8}" y2="0" stroke="${c}" stroke-width="5" stroke-linecap="round"/><line x1="0" y1="-24" x2="${o.legB||8}" y2="0" stroke="${c}" stroke-width="5" stroke-linecap="round"/>`+
+   `<line x1="0" y1="-46" x2="${o.armX!=null?o.armX:14}" y2="${o.armY!=null?o.armY:-36}" stroke="${c}" stroke-width="4.5" stroke-linecap="round"/>`+(o.arm2?`<line x1="0" y1="-46" x2="${o.arm2[0]}" y2="${o.arm2[1]}" stroke="${c}" stroke-width="4.5" stroke-linecap="round"/>`:'')+`</g>`;
+}
+function BAR(x,y,w,val,max,c,label,unit='Hy',d=2){ // horizontaler Balken um Nullpunkt x (w = halbe Breite)
+  const L=clamp(val/max,-1,1)*w;
+  return `<line x1="${x}" y1="${y-9}" x2="${x}" y2="${y+9}" stroke="${COL.muted}" stroke-width="1"/>`+
+   `<rect x="${Math.min(x,x+L)}" y="${y-6}" width="${Math.abs(L)}" height="12" rx="3" fill="${c}"/>`+
+   T(x-w-8,y+4,label,{a:'end',s:12,c:COL.muted})+T(x+w+8,y+4,fmtS(val,d)+' '+unit,{a:'start',s:12,f:'var(--mono)',w:600});
+}
+function svgPt(svg,e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse());}
+
+/* ================= Labor-Engine (Schritt für Schritt) ================= */
+const LABS=[];
+class Lab{
+  constructor(id,cfg){
+    this.el=document.getElementById(id); this.cfg=cfg; this.tempo=1; this.auto=false; this.si=0; this.vis=false; this.lastT=0;
+    this.doneSet=new Set(); LABS.push(this); this.build(); this.select(0);
+    if('IntersectionObserver' in window){ new IntersectionObserver(es=>{es.forEach(e=>{this.vis=e.isIntersecting;});},{threshold:0}).observe(this.el); } else this.vis=true;
+  }
+  build(){
+    const c=this.cfg, hs=!!c.schema, kinds={n:'Normalfall',s:'Sonderfall',e:'Fehlerfall zeigen'};
+    let ncount=0;
+    const sb=c.scen.map((s,i)=>{ const lab=s.k==='n'?`Normalfall ${++ncount}`:kinds[s.k]; return `<button data-i="${i}" class="${s.k==='s'?'sp':s.k==='e'?'err':''}"><span class="k">${s.k==='e'?'⚠ ':''}${lab}</span>${s.label}</button>`;}).join('');
+    const legend=(c.parts||[]).map(p=>`<span><i style="background:${p.c}"></i>${p.n}</span>`).join('');
+    this.el.innerHTML=`<div class="labhead"><h3>${c.title}</h3><span class="tag-model">⚠ Modell zur Veranschaulichung${c.note?' – '+c.note:''}</span></div>
+     <div class="scen">${sb}</div>
+     <div class="labgrid ${hs?'':'noschema'}">
+       <div><div class="stage"><svg viewBox="0 0 ${c.w} ${c.h}" aria-label="${c.title}"><g class="scene"></g></svg></div>
+         <div class="ctrl"><button class="btn primary nx">▶ Nächster Schritt</button><button class="btn au" aria-pressed="false">⏵ Automatisch</button>
+         <label class="tempo">Tempo <input type="range" min="0.5" max="2" step="0.25" value="1"><span>1×</span></label><button class="btn rs">↺ Neu starten</button></div>
+         ${c.params?`<div class="params">${c.params}</div>`:''}
+       </div>
+       <div><div class="explain"><div class="stepno"></div><h4></h4><p></p></div>
+         <div class="hint-next"></div>
+         <div class="hist"><div class="ht">Verlauf</div><ol></ol></div></div>
+       ${hs?`<div class="schema"><div class="st">${c.schemaTitle||'Ablaufschema'}</div><svg viewBox="0 0 ${c.sw||280} ${c.sh||520}">${c.schema}<g class="marks"></g></svg><div class="legend">${legend}</div></div>`:''}
+     </div>`;
+    this.svg=$('.stage svg',this.el); this.scene=$('.scene',this.svg);
+    this.bNext=$('.nx',this.el); this.bAuto=$('.au',this.el); this.bReset=$('.rs',this.el);
+    this.ex=$('.explain',this.el); this.ol=$('.hist ol',this.el); this.hint=$('.hint-next',this.el);
+    this.marks=hs?$('.schema .marks',this.el):null; this.ssvg=hs?$('.schema svg',this.el):null;
+    $$('.scen button',this.el).forEach(b=>b.onclick=()=>this.select(+b.dataset.i));
+    this.bNext.onclick=()=>this.next();
+    this.bAuto.onclick=()=>this.setAuto(!this.auto);
+    this.bReset.onclick=()=>this.reset();
+    const tr=$('.tempo input',this.el), ts=$('.tempo span',this.el);
+    tr.oninput=()=>{this.tempo=+tr.value; ts.textContent=String(this.tempo).replace('.',',')+'×';};
+    $$('.params [data-p]',this.el).forEach(inp=>{ inp.addEventListener('input',()=>{ this.showParams(); if(c.onParam) c.onParam(this,inp.dataset.p); }); });
+    this.showParams();
+    if(c.drag){ const sv=this.svg; let act=false;
+      sv.addEventListener('pointerdown',e=>{ const p=svgPt(sv,e); if(c.drag.down(this.S,p,this)){act=true; sv.setPointerCapture(e.pointerId); e.preventDefault(); this.draw();} });
+      sv.addEventListener('pointermove',e=>{ const p=svgPt(sv,e); if(act){c.drag.move(this.S,p,this); this.draw();} else if(c.drag.hover){ sv.style.cursor=c.drag.hover(this.S,p,this)?'grab':'default'; } });
+      const up=()=>{ if(act){act=false; if(c.drag.up) c.drag.up(this.S,this); this.draw();} };
+      sv.addEventListener('pointerup',up); sv.addEventListener('pointercancel',up);
+    }
+  }
+  pv(n){ const i=$(`.params [data-p="${n}"]`,this.el); return i? (i.type==='checkbox'?i.checked:(isNaN(+i.value)?i.value:+i.value)):undefined; }
+  showParams(){ $$('.params [data-p]',this.el).forEach(inp=>{ const o=$(`.params [data-o="${inp.dataset.p}"]`,this.el); if(o){ const f=this.cfg.fmtP&&this.cfg.fmtP[inp.dataset.p]; o.textContent=f?f(+inp.value,this):inp.value; } }); }
+  get sc(){return this.cfg.scen[this.si];}
+  select(i){ this.si=i; $$('.scen button',this.el).forEach((b,j)=>b.classList.toggle('act',j===i)); this.reset(); }
+  reset(){
+    clearTimeout(this.timer); this.anim=null; this.i=0;
+    this.S=this.sc.init(this); this.S.phase=0;
+    this.ol.innerHTML='';
+    const sc=this.sc; this.setExplain(`Ausgangslage · ${sc.steps.length} Schritte`, sc.title||sc.label, typeof sc.intro==='function'?sc.intro(this.S,this):sc.intro, sc.k==='e'?'err':sc.k==='s'?'sp':'');
+    this.mark((typeof sc.mark0==='function'?sc.mark0(this.S,this):sc.mark0)||{}, sc.hl0);
+    this.hint.textContent='';
+    this.draw(); this.updBtns();
+  }
+  setExplain(no,h,p,cls){ this.ex.className='explain'+(cls?' '+cls:''); $('.stepno',this.ex).textContent=no; $('h4',this.ex).innerHTML=h; $('p',this.ex).innerHTML=p; }
+  next(){
+    if(this.anim||this.i>=this.sc.steps.length) return;
+    clearTimeout(this.timer);
+    const st=this.sc.steps[this.i]; this.i++;
+    const a=st.run?st.run(this.S,this):null;
+    const txt=typeof st.x==='function'?st.x(this.S,this):st.x;
+    const cls=st.cls||(this.i===this.sc.steps.length?'fin':(this.sc.k==='e'?'err':''));
+    this.setExplain(`Schritt ${this.i} / ${this.sc.steps.length}`, st.t, txt, cls); this.curStep={st,cls};
+    $$('li',this.ol).forEach(li=>li.classList.remove('last'));
+    const li=document.createElement('li'); li.className='last'; li.innerHTML=st.t; this.ol.appendChild(li); this.ol.scrollTop=this.ol.scrollHeight;
+    if(st.mark||st.hl) this.mark((typeof st.mark==='function'?st.mark(this.S,this):st.mark)||this.lastMark||{}, st.hl);
+    if(a){ this.anim={...a,t0:performance.now(),dur:(a.dur||1000)/this.tempo}; }
+    else { this.draw(); this.afterStep(); }
+    this.updBtns();
+  }
+  afterStep(){
+    const n=this.sc.steps.length;
+    if(this.i>=n){ this.doneSet.add(this.si); $$('.scen button',this.el)[this.si].classList.add('done'); this.setAuto(false,true);
+      const nx=this.cfg.scen.findIndex((s,j)=>!this.doneSet.has(j));
+      this.hint.innerHTML=nx>=0?`Durchlauf beendet. Weiter mit <b>${this.cfg.scen[nx].label}</b> – oben auswählen.`:'Alle Fälle durchgespielt. 👍';
+    } else if(this.auto){ const len=($('p',this.ex).textContent||'').length; this.timer=setTimeout(()=>this.next(),(1600+len*38)/this.tempo); }
+    this.updBtns();
+  }
+  setAuto(on,silent){ this.auto=on; this.bAuto.classList.toggle('on',on); this.bAuto.setAttribute('aria-pressed',on); this.bAuto.textContent=on?'⏸ Automatisch':'⏵ Automatisch';
+    clearTimeout(this.timer); if(on&&!silent){ if(this.i>=this.sc.steps.length) this.reset(); if(!this.anim) this.next(); } this.updBtns(); }
+  updBtns(){ const fin=this.i>=this.sc.steps.length; this.bNext.disabled=fin||!!this.anim; this.bNext.classList.toggle('pulse',!fin&&!this.anim&&!this.auto); }
+  mark(m,hl){
+    this.lastMark=m; if(!this.marks) return; const N=this.cfg.nodes||{}; const cnt={};
+    if(!this.mEls) this.mEls={};
+    (this.cfg.parts||[]).forEach(p=>{ const id=m[p.k]; let g=this.mEls[p.k];
+      if(!g){ g=document.createElementNS('http://www.w3.org/2000/svg','g'); g.innerHTML=`<circle r="9.5" fill="${p.c}" stroke="#fff" stroke-width="2"/><text y="4" font-size="11" fill="#fff" text-anchor="middle" font-weight="700">${p.lab||p.k}</text>`;
+        g.style.opacity=0; this.marks.appendChild(g); this.mEls[p.k]=g; }
+      if(!id||!N[id]){ g.style.opacity=0; return; }
+      const nd=N[id], k=cnt[id]=(cnt[id]||0)+1, tf=`translate(${nd.x+(k-1)*21}px,${nd.y}px)`;
+      if(g.style.opacity==='0'&&!g.dataset.init){ g.style.transform=tf; g.getBoundingClientRect(); g.style.transition='transform .55s ease, opacity .3s'; g.dataset.init=1; }
+      g.style.opacity=1; g.style.transform=tf; });
+    $$('[data-n]',this.ssvg).forEach(e=>e.classList.toggle('hl',!!hl&&hl.includes(e.dataset.n)));
+  }
+  draw(){ this.scene.innerHTML=this.cfg.render(this.S,this); }
+  frame(now){
+    const dt=Math.min(0.05,(now-(this.lastT||now))/1000); this.lastT=now;
+    let need=false;
+    if(this.anim){ const a=this.anim, k=clamp((now-a.t0)/a.dur,0,1); a.up(this.S,k,this); need=true;
+      if(k>=1){ this.anim=null; if(a.end) a.end(this.S,this);
+        const cs=this.curStep; if(cs&&typeof cs.st.x==='function') $('p',this.ex).innerHTML=cs.st.x(this.S,this);
+        this.draw(); this.afterStep(); need=false; } }
+    if(this.vis&&this.cfg.tick){ if(this.cfg.tick(this.S,dt,this)) need=true; }
+    if(this.vis&&this.S&&this.S.flow){ this.S.phase=(this.S.phase+dt*0.6*this.tempo)%1; need=true; }
+    if(need) this.draw();
+  }
+}
+/* Live-Labor: frei bedienbare Visualisierung ohne Schrittfolge */
+class Live{
+  constructor(id,cfg){
+    this.el=document.getElementById(id); this.cfg=cfg; this.vis=false; this.lastT=0; LABS.push(this);
+    const c=cfg;
+    this.el.innerHTML=`<div class="labhead"><h3>${c.title}</h3><span class="tag-model">⚠ Modell zur Veranschaulichung${c.note?' – '+c.note:''}</span></div>
+     ${c.presets?`<div class="scen">${c.presets.map((p,i)=>`<button data-i="${i}">${p.label}</button>`).join('')}</div>`:''}
+     <div class="labgrid noschema"><div><div class="stage"><svg viewBox="0 0 ${c.w} ${c.h}" aria-label="${c.title}"><g class="scene"></g></svg></div>
+       ${c.params?`<div class="params">${c.params}</div>`:''}${c.buttons?`<div class="ctrl">${c.buttons}</div>`:''}</div>
+       <div><div class="explain"><div class="stepno">${c.exTitle||'Live-Auswertung'}</div><h4></h4><p></p></div>${c.side||''}</div></div>`;
+    this.svg=$('.stage svg',this.el); this.scene=$('.scene',this.svg); this.ex=$('.explain',this.el);
+    this.S=c.init(this);
+    $$('.scen button',this.el).forEach(b=>b.onclick=()=>{ $$('.scen button',this.el).forEach(x=>x.classList.toggle('act',x===b)); c.preset(this.S,+b.dataset.i,this); this.showParams(); this.draw(); });
+    $$('.params [data-p]',this.el).forEach(inp=>inp.addEventListener('input',()=>{ this.showParams(); if(c.onParam) c.onParam(this.S,inp.dataset.p,this); this.draw(); }));
+    if(c.bind) c.bind(this);
+    if(c.drag){ const sv=this.svg; let act=false;
+      sv.addEventListener('pointerdown',e=>{ const p=svgPt(sv,e); if(c.drag.down(this.S,p,this)){act=true; sv.setPointerCapture(e.pointerId); e.preventDefault(); this.draw();} });
+      sv.addEventListener('pointermove',e=>{ const p=svgPt(sv,e); if(act){c.drag.move(this.S,p,this); this.draw();} else if(c.drag.hover){ sv.style.cursor=c.drag.hover(this.S,p,this)?'grab':'default'; } });
+      const up=()=>{ if(act){act=false; if(c.drag.up) c.drag.up(this.S,this); this.draw();} };
+      sv.addEventListener('pointerup',up); sv.addEventListener('pointercancel',up); }
+    if('IntersectionObserver' in window){ new IntersectionObserver(es=>{es.forEach(e=>{this.vis=e.isIntersecting;});}).observe(this.el); } else this.vis=true;
+    if(c.presets){ const b=$('.scen button',this.el); b.classList.add('act'); c.preset(this.S,0,this); }
+    this.showParams(); this.draw();
+  }
+  pv(n){ const i=$(`.params [data-p="${n}"]`,this.el); return i?(i.type==='checkbox'?i.checked:(isNaN(+i.value)?i.value:+i.value)):undefined; }
+  setP(n,v){ const i=$(`.params [data-p="${n}"]`,this.el); if(i) i.value=v; }
+  showParams(){ $$('.params [data-p]',this.el).forEach(inp=>{ const o=$(`.params [data-o="${inp.dataset.p}"]`,this.el); if(o){ const f=this.cfg.fmtP&&this.cfg.fmtP[inp.dataset.p]; o.textContent=f?f(+inp.value,this):inp.value; } }); }
+  draw(){ this.scene.innerHTML=this.cfg.render(this.S,this); const e=this.cfg.explain(this.S,this); $('h4',this.ex).innerHTML=e[0]; $('p',this.ex).innerHTML=e[1]; this.ex.className='explain'+(e[2]?' '+e[2]:''); }
+  frame(now){ const dt=Math.min(0.05,(now-(this.lastT||now))/1000); this.lastT=now; if(this.vis&&this.cfg.tick&&this.cfg.tick(this.S,dt,this)) this.draw(); }
+}
+/* Ablaufschema (senkrecht) */
+function wrapT(s,n){ const w=s.split(' '),out=[];let l=''; w.forEach(x=>{ if((l+' '+x).trim().length>n){ if(l) out.push(l); l=x; } else l=(l+' '+x).trim(); }); if(l) out.push(l); return out; }
+function SCHEMA(items,o={}){
+  const sw=o.sw||280, tx=o.tx||58, gap=o.gap||22, n=o.chars||30; let y=o.y0||8, s='', nodes={};
+  items.forEach((it,i)=>{
+    const lines=wrapT(it.sub||'',n), h=26+lines.length*15+(it.sub?6:0), c=it.c||COL.acc;
+    s+=`<g data-n="${it.id}"><rect x="6" y="${y}" width="${sw-12}" height="${h}" rx="9" fill="#fffdf8" stroke="${c}" stroke-width="1.5"/>`+
+      `<rect x="6" y="${y}" width="6" height="${h}" rx="3" fill="${c}"/>`+
+      T(tx,y+18,it.t,{a:'start',s:13,w:700,c:c})+lines.map((l,j)=>T(tx,y+35+j*15,l.replace(/([pFv])_([A-Za-z→]+)/g,'$1<tspan baseline-shift="sub" font-size="8.5">$2</tspan>'),{a:'start',s:11.8,c:'#3a4356'})).join('')+`</g>`;
+    nodes[it.id]={x:24,y:y+h/2};
+    y+=h;
+    if(i<items.length-1){ s+=AR(sw/2,y+2,sw/2,y+gap-2,'#9aa3b2',1.6)+(it.arr?T(sw/2+8,y+gap/2+4,it.arr,{a:'start',s:10.5,c:COL.muted}):''); y+=gap; }
+  });
+  return {svg:s,nodes,sh:y+8};
+}
+function loop(now){ for(const L of LABS){ try{ L.frame(now); }catch(e){ console.error(e); } } requestAnimationFrame(loop); }
+</script>
+<script>
+/* ======================= a1: Rechenbeispiel ======================= */
+(function(){
+  const sch=SCHEMA([
+    {id:'geg',t:'1  Gegeben / gesucht',sub:'Größen mit Einheiten notieren; gesucht ist p.',arr:''},
+    {id:'umr',t:'2  In SI-Einheiten umrechnen',sub:'Masse in kg, Geschwindigkeit in m/s (km/h : 3,6).'},
+    {id:'for',t:'3  Formel aufschreiben',sub:'p = m · v'},
+    {id:'ein',t:'4  Einsetzen und rechnen',sub:'Zahlen mit Einheiten einsetzen.'},
+    {id:'erg',t:'5  Ergebnis prüfen',sub:'Einheit Hy = kg·m/s, sinnvoll gerundet. Ist das plausibel?'}
+  ],{chars:28});
+  function scen(kind){
+    const D=kind==='lkw'?{obj:'lkw',m:'40 t',mk:40000,mtxt:'40 t = 40 000 kg',v:80}:{obj:'ball',m:'58 g',mk:0.058,mtxt:'58 g = 58 : 1000 kg = 0,058 kg',v:263};
+    const vms=D.v/3.6, p=D.mk*vms;
+    return {D,vms,p};
+  }
+  function init(kind){ return ()=>{ const s=scen(kind); return {...s,kind,lines:[],x:60,showP:false,err:false}; }; }
+  const pStr=p=>p>1000?fmt(p,0).replace(/\s/g,' '):fmt(p,2);
+  const stepsOK=[
+    {t:'Gegeben und gesucht notieren',mark:{A:'geg'},hl:['geg'],run:S=>{S.lines.push([`geg.: m = ${S.D.m};  v = ${S.D.v} km/h;   ges.: p`,COL.text]);},
+     x:S=>`Wir schreiben zuerst auf, was bekannt ist: die Masse m = ${S.D.m} und die Geschwindigkeit v = ${S.D.v} km/h. Gesucht ist der Impuls p.`},
+    {t:'Masse in kg umrechnen',mark:{A:'umr'},hl:['umr'],run:S=>{S.lines.push([`m = ${S.D.mtxt}`,COL.text]);},
+     x:S=>S.kind==='lkw'?'Die Masse muss in Kilogramm angegeben werden: 1 t = 1000 kg, also sind 40 t genau 40 000 kg.':'Die Masse muss in Kilogramm angegeben werden. Da 1 kg = 1000 g ist, teilen wir durch 1000: 58 g = 0,058 kg.'},
+    {t:'Geschwindigkeit in m/s umrechnen',mark:{A:'umr'},hl:['umr'],run:S=>{S.lines.push([`v = ${S.D.v} km/h : 3,6 = ${fmt(S.vms,2)} m/s`,COL.text]);},
+     x:S=>`Eine Geschwindigkeit in km/h rechnet man in m/s um, indem man durch 3,6 teilt (1 km/h = 1000 m / 3600 s). Das ergibt v = ${fmt(S.vms,2)} m/s.`},
+    {t:'Formel aufschreiben',mark:{A:'for'},hl:['for'],run:S=>{S.lines.push(['p = m · v',COL.acc]);},x:'Der Impuls ist das Produkt aus Masse und Geschwindigkeit: p = m · v.'},
+    {t:'Einsetzen und ausrechnen',mark:{A:'ein'},hl:['ein'],run:S=>{S.lines.push([`p = ${S.kind==='lkw'?'40 000':'0,058'} kg · ${fmt(S.vms,2)} m/s = ${pStr(S.p)} kg·m/s`,COL.text]);},
+     x:S=>`Wir setzen beide Werte mit ihren Einheiten ein. Die Einheiten multiplizieren sich zu kg·m/s, die Zahlen ergeben ${pStr(S.p)}.`},
+    {t:'Ergebnis mit Einheit Hy',mark:{A:'erg'},hl:['erg'],run:S=>{S.showP=true;S.lines.push([`p ≈ ${S.kind==='lkw'?'8,9 · 10⁵':'4,2'} Hy`,COL.ok]);},
+     x:S=>S.kind==='lkw'?'Der LKW hat einen Impuls von etwa 890 000 Hy – rund 200 000-mal so viel wie der Tennisball. Das ist plausibel: Er ist zwar viel langsamer, aber fast 700 000-mal so schwer.':'Der Tennisball hat einen Impuls von etwa 4,2 Hy. Plausibel? Ein Medizinball (3 kg), den man mit gut 1,4 m/s wirft, hätte denselben Impuls – das passt zur Erfahrung, dass ein schneller Tennisball ordentlich „Wucht“ hat.'}
+  ];
+  const stepsErr=[
+    {t:'Gegeben und gesucht notieren',mark:{A:'geg'},hl:['geg'],run:S=>{S.lines.push([`geg.: m = 58 g;  v = 263 km/h;   ges.: p`,COL.text]);},x:'Wie im Normalfall notieren wir m = 58 g und v = 263 km/h.'},
+    {t:'Umrechnen übersprungen!',mark:{A:'for'},hl:['umr'],cls:'err',run:S=>{S.lines.push(['✗ Umrechnung in kg und m/s vergessen',COL.warn]);},x:'Hier wird der Fehler gemacht: Die Werte werden <b>nicht</b> in kg und m/s umgerechnet, sondern direkt in die Formel eingesetzt.'},
+    {t:'Falsch eingesetzt',mark:{A:'ein'},hl:['ein'],cls:'err',run:S=>{S.err=true;S.showP=true;S.lines.push(['p = 58 · 263 = 15 254  „Hy“  ✗',COL.warn]);},x:'Es ergibt sich die Zahl 15 254. Ihre Einheit wäre aber g·km/h – und nicht Hy. Das Ergebnis „15 254 Hy“ ist falsch.'},
+    {t:'Plausibilität prüfen',mark:{A:'erg'},hl:['erg'],cls:'err',run:S=>{S.lines.push(['15 254 Hy ≈ Auto (1000 kg) mit 15 m/s – unmöglich!',COL.warn]);},x:'Ein Impuls von 15 254 Hy entspräche einem 1000-kg-Auto mit über 15 m/s (55 km/h). Ein Tennisball kann unmöglich so viel Wucht haben – die Plausibilitätsprüfung entlarvt den Fehler.'},
+    {t:'Korrektur',mark:{A:'erg'},hl:['umr','erg'],cls:'fin',run:S=>{S.err=false;S.lines.push(['richtig: 0,058 kg · 73,06 m/s ≈ 4,2 Hy',COL.ok]);},x:'Richtig ist: erst umrechnen (0,058 kg; 73,06 m/s), dann einsetzen. Ergebnis p ≈ 4,2 Hy. Merke: <b>Vor dem Einsetzen immer in SI-Einheiten umrechnen.</b>'}
+  ];
+  new Lab('lab-a1',{
+    title:'Rechenlabor: Impuls berechnen',w:640,h:300,note:'Werte gerundet',
+    schema:sch.svg,nodes:sch.nodes,sh:sch.sh,schemaTitle:'Lösungsschema',parts:[{k:'A',lab:'✎',c:COL.A,n:'aktueller Rechenschritt'}],
+    scen:[
+      {k:'n',label:'Tennisball-Aufschlag',init:init('ball'),intro:'Ein Tennisball (58 g) wird beim Aufschlag mit 263 km/h geschlagen (Wert aus dem Unterricht). Wie groß ist sein Impuls? Klicke auf „Nächster Schritt“.',steps:stepsOK,mark0:{}},
+      {k:'n',label:'LKW auf der Autobahn',init:init('lkw'),intro:'Ein voll beladener LKW (40 t) fährt mit 80 km/h. Wie groß ist sein Impuls im Vergleich zum Tennisball?',steps:stepsOK},
+      {k:'e',label:'Einheiten vergessen',init:()=>({...scen('ball'),kind:'ball',lines:[],x:60,showP:false,err:false}),intro:'Ein typischer Fehler: Was passiert, wenn man nicht in SI-Einheiten umrechnet?',steps:stepsErr}
+    ],
+    tick:(S,dt)=>{ S.x+=dt*(S.kind==='lkw'?60:150); if(S.x>600) S.x=40; return true; },
+    render:(S)=>{
+      let s=`<rect x="0" y="0" width="640" height="130" fill="#f3f1ea"/><line x1="0" y1="118" x2="640" y2="118" stroke="#d8cfbb" stroke-width="2"/>`;
+      const x=S.x;
+      if(S.kind==='lkw'){ s+=`<g transform="translate(${x-60},62)"><rect x="0" y="0" width="86" height="42" rx="4" fill="#94a3b8"/><rect x="88" y="14" width="30" height="28" rx="4" fill="${COL.A}"/><rect x="100" y="18" width="14" height="10" fill="#dbeafe"/><circle cx="18" cy="48" r="8" fill="${COL.text}"/><circle cx="70" cy="48" r="8" fill="${COL.text}"/><circle cx="104" cy="48" r="8" fill="${COL.text}"/></g>`; }
+      else { s+=`<g transform="translate(${x},92)"><circle r="11" fill="#d9e84a" stroke="#9aa83a" stroke-width="1.5"/><path d="M-8,-7 Q0,0 -8,7 M8,-7 Q0,0 8,7" stroke="#fff" stroke-width="1.6" fill="none"/></g>`; }
+      const ax=S.kind==='lkw'?x+62:x+16;
+      s+=AR(ax,S.kind==='lkw'?52:70,ax+70,S.kind==='lkw'?52:70,COL.A,3)+T(ax+35,S.kind==='lkw'?44:62,'v',{c:COL.A,s:15,w:700,x:'font-style="italic"'});
+      if(S.showP) s+=AR(ax,S.kind==='lkw'?30:46,ax+(S.err?150:90),S.kind==='lkw'?30:46,S.err?COL.warn:COL.B,5)+T(ax+45,S.kind==='lkw'?22:38,'p',{c:S.err?COL.warn:COL.B,s:15,w:700,x:'font-style="italic"'});
+      s+=`<rect x="14" y="140" width="612" height="150" rx="10" fill="#fffdf8" stroke="${COL.line}"/>`+T(26,160,'Rechenzettel',{a:'start',s:11,c:COL.muted,f:'var(--mono)'});
+      S.lines.slice(-6).forEach((l,i,arr)=>{ s+=T(30,182+i*19,l[0],{a:'start',s:14.5,c:l[1],w:i===arr.length-1?700:400,f:'var(--mono)'}); });
+      return s;
+    }
+  });
+})();
+
+/* ======================= a2: Vergleich (live) ======================= */
+(function(){
+  const P=[
+    {label:'Medizinball vs. Volleyball',a:['Volleyball',0.27,10],b:['Medizinball',3,10]},
+    {label:'Auto vs. LKW',a:['Auto',1300,22.2],b:['LKW',40000,22.2]},
+    {label:'Zwei gleiche Autos',a:['Auto (50 km/h)',1300,13.9],b:['Auto (100 km/h)',1300,27.8]},
+    {label:'Golfball vs. Abrissbirne',a:['Golfball',0.046,70],b:['Abrissbirne',2000,2]}
+  ];
+  const lm=v=>Math.pow(10,v), fm=m=>m<1?fmt(m*1000,0)+' g':m<1000?fmt(m,m<10?2:0)+' kg':fmt(m/1000,1)+' t';
+  new Live('lab-a2',{
+    title:'Vergleichslabor: Wer hat mehr Impuls?',w:640,h:250,note:'typische, gerundete Beispielwerte',
+    presets:P,
+    params:`<label>m₁ <input type="range" data-p="m1" min="-2" max="4.7" step="0.01"><output data-o="m1"></output></label>
+            <label>v₁ <input type="range" data-p="v1" min="0" max="80" step="0.1"><output data-o="v1"></output></label>
+            <label>m₂ <input type="range" data-p="m2" min="-2" max="4.7" step="0.01"><output data-o="m2"></output></label>
+            <label>v₂ <input type="range" data-p="v2" min="0" max="80" step="0.1"><output data-o="v2"></output></label>`,
+    fmtP:{m1:v=>fm(lm(v)),m2:v=>fm(lm(v)),v1:v=>fmt(v,1)+' m/s',v2:v=>fmt(v,1)+' m/s'},
+    init:()=>({n1:'',n2:'',x1:40,x2:40}),
+    preset:(S,i,L)=>{ const p=P[i]; S.n1=p.a[0]; S.n2=p.b[0]; L.setP('m1',Math.log10(p.a[1])); L.setP('v1',p.a[2]); L.setP('m2',Math.log10(p.b[1])); L.setP('v2',p.b[2]); },
+    onParam:(S)=>{ S.n1='Körper 1'; S.n2='Körper 2'; },
+    tick:(S,dt,L)=>{ S.x1+=dt*L.pv('v1')*4; S.x2+=dt*L.pv('v2')*4; if(S.x1>300) S.x1=40; if(S.x2>300) S.x2=40; return true; },
+    render:(S,L)=>{
+      const m1=lm(L.pv('m1')),m2=lm(L.pv('m2')),v1=L.pv('v1'),v2=L.pv('v2'),p1=m1*v1,p2=m2*v2,mx=Math.max(p1,p2,1e-9);
+      let s=`<rect x="0" y="0" width="330" height="250" fill="#f3f1ea"/>`;
+      [[S.n1||'Körper 1',m1,S.x1,70,COL.A,p1],[S.n2||'Körper 2',m2,S.x2,180,COL.B,p2]].forEach(([n,m,x,y,c,p])=>{
+        const r=clamp(4+5*Math.cbrt(m),5,34);
+        s+=`<line x1="10" y1="${y+r+2}" x2="320" y2="${y+r+2}" stroke="#d8cfbb"/>`+`<circle cx="${x}" cy="${y}" r="${r}" fill="${c}" fill-opacity=".85"/>`+T(14,y-r-8>16?y-r-8:16,n,{a:'start',s:12.5,w:700,c});
+        const bw=260*p/mx;
+        s+=T(350,y-22,`p = ${fm(m)} · ${fmt(m===m?L.pv(c===COL.A?'v1':'v2'):0,1)} m/s`,{a:'start',s:12.5,c:COL.muted})+`<rect x="350" y="${y-12}" width="${Math.max(bw,1)}" height="22" rx="4" fill="${c}"/>`+T(352+Math.max(bw,1)+(bw>200?-8:6),y+4,(p>=100?fmt(p,0):fmt(p,2))+' Hy',{a:bw>200?'end':'start',s:13,w:700,c:bw>200?'#fff':COL.text});
+      });
+      return s+`<line x1="350" y1="30" x2="350" y2="215" stroke="${COL.muted}"/>`;
+    },
+    explain:(S,L)=>{ const p1=lm(L.pv('m1'))*L.pv('v1'),p2=lm(L.pv('m2'))*L.pv('v2');
+      if(p1<1e-9&&p2<1e-9) return ['Beide ruhen','Ohne Geschwindigkeit hat kein Körper Impuls – egal wie groß seine Masse ist.'];
+      const big=p2>=p1?2:1, f=big===2?p2/Math.max(p1,1e-9):p1/Math.max(p2,1e-9);
+      const nm=big===2?(S.n2||'Körper 2'):(S.n1||'Körper 1');
+      return [`${nm} hat ${f>1e4?'sehr viel':fmt(f,f<10?1:0)+'-mal so viel'} Impuls`,`p₁ = ${fmt(p1,2)} Hy, p₂ = ${fmt(p2,2)} Hy. Verdoppelt man die Masse <i>oder</i> die Geschwindigkeit, verdoppelt sich der Impuls (p ~ m und p ~ v). Probiere es mit den Reglern aus.`];
+    }
+  });
+})();
+
+/* ======================= b1: Impuls mit Vorzeichen ======================= */
+(function(){
+  // Schema: drei Zahlenstrahlen
+  const rows=[['A','p_A (Wagen A)',70],['B','p_B (Wagen B)',190],['S','Σp (Summe)',310]];
+  let sv=T(140,22,'Impuls in Hy (rechts = +)',{s:12,c:COL.muted}), nodes={};
+  rows.forEach(([k,l,y])=>{
+    sv+=T(14,y-26,l.replace('_A','<tspan baseline-shift="sub" font-size="9">A</tspan>').replace('_B','<tspan baseline-shift="sub" font-size="9">B</tspan>'),{a:'start',s:12.5,w:700,c:k==='S'?COL.text:COL[k]});
+    sv+=`<line x1="20" y1="${y}" x2="260" y2="${y}" stroke="#9aa3b2" stroke-width="1.5"/>`;
+    for(let i=-10;i<=10;i++){ const x=140+i*11.5; sv+=`<line x1="${x}" y1="${y-(i%5?3:7)}" x2="${x}" y2="${y+(i%5?3:7)}" stroke="#9aa3b2"/>`; if(i%5===0) sv+=T(x,y+22,fmt(i/10,1).replace(',0',''),{s:10.5,c:COL.muted}); nodes[k+i]={x,y:y-14}; }
+  });
+  sv+=`<g data-n="ok"><rect x="20" y="370" width="240" height="56" rx="9" fill="#fffdf8" stroke="${COL.ok}" stroke-width="1.5"/>`+T(140,393,'Impulserhaltung erfüllt?',{s:12.5,w:700,c:COL.ok})+T(140,412,'Σp vorher = Σp nachher',{s:12,c:'#3a4356'})+`</g>`;
+  const node=(k,p)=>k+Math.round(clamp(p,-1,1)*10);
+  const mk=S=>({A:node('A',S.pA),B:node('B',S.pB),S:node('S',S.err?Math.abs(S.pA)+Math.abs(S.pB):S.pA+S.pB)});
+  const P0=0.5;
+  function initSpring(L){ const mB=L.pv('mB'); return {mode:'spring',mA:1,mB,xA:250,xB:330,pA:0,pB:0,vA:0,vB:0,spring:1,showP:false,err:false,flow:false,fdir:1}; }
+  function initFront(L){ const mB=L.pv('mB'); return {mode:'front',mA:1,mB,xA:90,xB:470,pA:P0,pB:-P0,vA:P0,vB:-P0/mB,showP:true,err:false,flow:false,stuck:false}; }
+  const W=m=>48+16*m;
+  const sepAnim=S=>({dur:1600,up:(S,k)=>{ S.xA=250-k*130*Math.abs(S.vA)/0.5*0.9; S.xB=330+k*130*Math.abs(S.vB)/0.5*0.9; }});
+  const springSteps=(err)=>[
+    {t:'Feder wird ausgelöst',mark:mk,run:S=>{S.flow=true;S.fdir=1; return {dur:1400,up:(S,k)=>{S.spring=1+k*0.8; S.pA=-P0*k; S.pB=P0*k;}, end:S=>{S.flow=false;S.vA=-P0/S.mA;S.vB=P0/S.mB;}};},
+     x:'Die Feder entspannt sich und drückt die Wagen auseinander. Dabei pumpt sie Impuls aus Wagen A heraus und in Wagen B hinein (Punkte). A bekommt Linksimpuls, B Rechtsimpuls.'},
+    {t:'Wagen fahren auseinander',mark:mk,run:S=>{S.showP=true; return sepAnim(S);},
+     x:S=>`Beide Wagen rollen in entgegengesetzte Richtungen. Wagen A (1 kg) fährt mit ${fmt(Math.abs(S.vA),2)} m/s nach links, Wagen B (${fmt(S.mB,1)} kg) mit ${fmt(Math.abs(S.vB),2)} m/s nach rechts. Die Pfeile zeigen die Impulse: gleich lang, entgegengesetzt.`},
+    err?{t:'Beträge einfach addiert',mark:S=>{S.err=true;return mk(S);},cls:'err',x:'Fehler: Wir addieren nur die Beträge: 0,5 Hy + 0,5 Hy = 1,0 Hy. Der Summen-Marker springt auf +1,0 Hy.'}
+       :{t:'Vorzeichen festlegen',mark:mk,x:'Wir vereinbaren: Rechtsimpuls positiv, Linksimpuls negativ. Also ist p<sub>A</sub> = −0,5 Hy und p<sub>B</sub> = +0,5 Hy. Auf dem Zahlenstrahl liegen die Marker symmetrisch zur Null.'},
+    err?{t:'Widerspruch!',mark:mk,cls:'err',hl:['ok'],x:'Vorher war der Gesamtimpuls 0 Hy, nachher angeblich 1,0 Hy. Impuls wäre aus dem Nichts entstanden – das widerspricht dem Impulserhaltungssatz und allen Messungen. Die Rechnung ohne Vorzeichen ist falsch.'}
+       :{t:'Bilanz: Impuls bleibt erhalten',mark:mk,hl:['ok'],x:'Σp = p<sub>A</sub> + p<sub>B</sub> = −0,5 Hy + 0,5 Hy = 0 Hy. Vorher war der Gesamtimpuls ebenfalls 0 Hy. Mit Vorzeichen ist der Impulserhaltungssatz erfüllt.'},
+    ...(err?[{t:'Auflösung mit Vorzeichen',mark:S=>{S.err=false;return mk(S);},hl:['ok'],cls:'fin',x:'Mit Vorzeichen gilt: −0,5 Hy + 0,5 Hy = 0 Hy. Der Impuls ist eine gerichtete Größe (Vektor) – entgegengesetzte Richtungen heben sich in der Summe auf.'}]:[])
+  ];
+  new Lab('lab-b1',{
+    title:'Fahrbahn-Labor: Impulse mit Vorzeichen',w:640,h:300,note:'reibungsfrei, Werte vorgegeben',
+    schema:sv,nodes,sh:440,schemaTitle:'Impuls-Zahlenstrahl',parts:[{k:'A',c:COL.A,n:'Wagen A'},{k:'B',c:COL.B,n:'Wagen B'},{k:'S',lab:'Σ',c:COL.text,n:'Summe'}],
+    params:`<label>Masse Wagen B <input type="range" data-p="mB" min="0.5" max="3" step="0.5" value="1"><output data-o="mB"></output></label><span style="color:var(--muted)">Wagen A: 1 kg</span>`,
+    fmtP:{mB:v=>fmt(v,1)+' kg'},
+    onParam:L=>L.reset(),
+    scen:[
+      {k:'n',label:'Feder treibt Wagen auseinander',init:initSpring,mark0:mk,intro:'Zwei ruhende Wagen sind durch eine zusammengedrückte Feder verbunden. Beide haben den Impuls 0 Hy, der Gesamtimpuls ist 0 Hy.',steps:springSteps(false)},
+      {k:'n',label:'Frontalstoß mit Knete',init:initFront,mark0:mk,intro:S=>`Wagen A (1 kg) fährt mit 0,5 m/s nach rechts, Wagen B (${fmt(S.mB,1)} kg) mit ${fmt(Math.abs(S.vB),2)} m/s nach links. Beide haben Impuls 0,5 Hy – aber in entgegengesetzte Richtungen.`,
+        steps:[
+          {t:'Wagen fahren aufeinander zu',mark:mk,run:S=>({dur:1500,up:(S,k)=>{ const xm=(90+W(1)+470)/2; S.xA=lerp(90,xm-W(1)-3,k); S.xB=lerp(470,xm+3,k);} }),x:'Mit Vorzeichen: p<sub>A</sub> = +0,5 Hy, p<sub>B</sub> = −0,5 Hy. Der Gesamtimpuls ist schon vorher 0 Hy.'},
+          {t:'Zusammenstoß: Impulse gleichen sich aus',mark:mk,run:S=>{S.flow=true; return {dur:1200,up:(S,k)=>{S.pA=P0*(1-k);S.pB=-P0*(1-k);},end:S=>{S.flow=false;S.stuck=true;S.showP=false;}};},x:'Die Knete verbindet die Wagen. A gibt Rechtsimpuls an B ab, B gibt Linksimpuls an A ab. Positiver und negativer Impuls gleichen sich genau aus.'},
+          {t:'Nach dem Stoß',mark:mk,x:'Beide Wagen stehen. p<sub>A</sub> = p<sub>B</sub> = 0 Hy. Ohne Vorzeichen hätte es so ausgesehen, als sei 1 Hy Impuls verschwunden.'},
+          {t:'Bilanz',mark:mk,hl:['ok'],x:'Vorher: +0,5 Hy + (−0,5 Hy) = 0 Hy. Nachher: 0 Hy. Der Impulserhaltungssatz gilt – wenn man die Richtung berücksichtigt.'}
+        ]},
+      {k:'e',label:'Beträge ohne Vorzeichen addiert',init:initSpring,mark0:mk,intro:'Gleicher Versuch wie Normalfall 1 – aber diesmal rechnen wir ohne Vorzeichen. Achte auf den Summen-Marker Σ.',steps:springSteps(true)}
+    ],
+    render:(S)=>{
+      let s=GROUND(232,640,'',{h:68});
+      const wa=W(S.mA),wb=W(S.mB);
+      let xA=S.xA,xB=S.xB;
+      if(S.mode==='spring'){ xA=S.xA-wa; }
+      const yC=190;
+      if(S.mode==='spring'){ const x1=xA+wa,x2=xB, n=8; let d=`M${x1},${yC+14}`; for(let i=1;i<=n;i++){ d+=` L${lerp(x1,x2,(i-.5)/n)},${yC+14+(i%2?-8:8)}`; } d+=` L${x2},${yC+14}`;
+        if(S.spring<1.75) s+=`<path d="${d}" fill="none" stroke="${COL.muted}" stroke-width="2"/>`; }
+      s+=CART(xA,yC,wa,COL.A,`A · ${fmt(S.mA,0)} kg`)+CART(xB,yC,wb,COL.B,`B · ${fmt(S.mB,1)} kg`,{fs:12});
+      if(S.mode==='front'&&S.stuck) s+=`<rect x="${xA+wa-3}" y="${yC+8}" width="9" height="14" rx="3" fill="${COL.hint}"/>`;
+      if(S.flow){ s+=DOTS(xA+wa/2,yC+15,xB+wb/2,yC+15,S.phase,'#fff',4,3.5); }
+      const sc=200, show=S.showP||S.flow;
+      if(show){ const cA=xA+wa/2,cB=xB+wb/2;
+        if(Math.abs(S.pA)>0.01) s+=AR(cA,140,cA+S.pA*sc,140,COL.A,4)+T(cA+S.pA*sc/2,128,`p<tspan baseline-shift="sub" font-size="9">A</tspan> = ${fmtS(S.pA,2)} Hy`,{s:13,c:COL.A,w:700});
+        if(Math.abs(S.pB)>0.01) s+=AR(cB,100,cB+S.pB*sc,100,COL.B,4)+T(cB+S.pB*sc/2,88,`p<tspan baseline-shift="sub" font-size="9">B</tspan> = ${fmtS(S.pB,2)} Hy`,{s:13,c:COL.B,w:700});
+      }
+      s+=T(18,28,'+ Richtung →',{a:'start',s:12,c:COL.muted});
+      const sum=S.err?Math.abs(S.pA)+Math.abs(S.pB):S.pA+S.pB;
+      s+=`<rect x="440" y="12" width="188" height="34" rx="8" fill="${S.err&&sum>0.01?COL.warn:'#fffdf8'}" stroke="${S.err?COL.warn:COL.line}"/>`+T(534,34,`Σp = ${S.err?'|p_A|+|p_B| = ':''}${fmt(sum,2)} Hy`.replace('p_A','p<tspan baseline-shift="sub" font-size="9">A</tspan>').replace('p_B','p<tspan baseline-shift="sub" font-size="9">B</tspan>'),{s:13.5,w:700,c:S.err&&sum>0.01?'#fff':COL.text,f:'var(--mono)'});
+      return s;
+    }
+  });
+})();
+
+/* ======================= b2: Billard (live, ziehbar) ======================= */
+(function(){
+  const C2={x:255,y:165}, R=14, m=0.17, v=5, p0=m*v; // ca. Billardkugel
+  const dir=t=>({x:Math.cos(t),y:-Math.sin(t)});
+  function geo(S){ const n=dir(S.th); const imp={x:C2.x-2*R*n.x,y:C2.y-2*R*n.y}; const u1={x:Math.sin(S.th),y:Math.cos(S.th)}; return {n,imp,u1,c:Math.cos(S.th),s:Math.sin(S.th)}; }
+  const D=th=>th*180/Math.PI;
+  new Live('lab-b2',{
+    title:'Billard-Labor: Zweidimensionaler Stoß',w:640,h:330,note:'gleiche Massen, elastisch, ohne Drall und Reibung',
+    presets:[{label:'Zentraler Stoß (0°)',th:0},{label:'30°',th:30},{label:'45°',th:45},{label:'−60°',th:-60}],
+    buttons:`<button class="btn primary" data-act="play">▶ Stoß abspielen</button><span style="font-size:13px;color:var(--muted)">Ziehe am orangen Richtungspfeil der roten Kugel, um den Treffpunkt zu ändern.</span>`,
+    init:()=>({th:0,t:-1,drag:false}),
+    preset:(S,i)=>{ S.th=[0,30,45,-60][i]*Math.PI/180; S.t=-1; },
+    bind:L=>{ $('[data-act=play]',L.el).onclick=()=>{ L.S.t=0; }; },
+    tick:(S,dt)=>{ if(S.t<0) return false; S.t+=dt*0.8; if(S.t>2.2) S.t=-1; return true; },
+    drag:{
+      hover:(S,p)=>{ const n=dir(S.th); return Math.hypot(p.x-(C2.x+95*n.x),p.y-(C2.y+95*n.y))<22; },
+      down:(S,p)=>{ const n=dir(S.th); if(Math.hypot(p.x-(C2.x+95*n.x),p.y-(C2.y+95*n.y))<26){S.drag=true;S.t=-1;return true;} return false; },
+      move:(S,p,L)=>{ const a=Math.atan2(-(p.y-C2.y),p.x-C2.x); S.th=clamp(a,-75*Math.PI/180,75*Math.PI/180); $$('.scen button',L.el).forEach(b=>b.classList.remove('act')); },
+      up:S=>{S.drag=false;}
+    },
+    render:(S)=>{
+      const g=geo(S); let s=`<rect x="8" y="8" width="400" height="314" rx="14" fill="#e3efe6" stroke="#b9cdbf" stroke-width="2"/>`;
+      // Bahn vor dem Stoß
+      const start={x:40,y:g.imp.y};
+      let b1={...start},b2={...C2};
+      const L1=g.imp.x-start.x;
+      if(S.t>=0){ if(S.t<1){ b1.x=start.x+L1*S.t; } else { const k=(S.t-1)*130; b1={x:g.imp.x+g.u1.x*g.s*k,y:g.imp.y+g.u1.y*g.s*k}; b2={x:C2.x+g.n.x*g.c*k,y:C2.y+g.n.y*g.c*k}; } }
+      s+=`<line x1="${start.x}" y1="${start.y}" x2="${g.imp.x}" y2="${g.imp.y}" stroke="${COL.muted}" stroke-dasharray="5 5"/>`;
+      s+=`<circle cx="${g.imp.x}" cy="${g.imp.y}" r="${R}" fill="none" stroke="${COL.muted}" stroke-dasharray="3 3"/>`;
+      // Richtungen nach dem Stoß
+      s+=`<line x1="${g.imp.x}" y1="${g.imp.y}" x2="${g.imp.x+g.u1.x*120*Math.sign(g.s)}" y2="${g.imp.y+g.u1.y*120*Math.sign(g.s)}" stroke="${COL.A}" stroke-dasharray="4 5" opacity="${Math.abs(g.s)>.02?.7:0}"/>`;
+      s+=AR(C2.x,C2.y,C2.x+95*g.n.x,C2.y+95*g.n.y,COL.B,3)+`<circle cx="${C2.x+95*g.n.x}" cy="${C2.y+95*g.n.y}" r="9" fill="#fff" stroke="${COL.B}" stroke-width="2.5"/>`;
+      s+=T(C2.x+95*g.n.x+(g.n.y<0?0:0),C2.y+95*g.n.y+(g.n.y<0?-16:26),`${fmt(D(S.th),0)}°`,{s:12.5,w:700,c:COL.B});
+      s+=`<circle cx="${b2.x}" cy="${b2.y}" r="${R}" fill="#dc2626" stroke="#7f1d1d" stroke-width="1.5"/><circle cx="${b1.x}" cy="${b1.y}" r="${R}" fill="#fff" stroke="${COL.text}" stroke-width="1.5"/>`;
+      s+=T(b1.x,b1.y+4,'1',{s:11,w:700})+T(b2.x,b2.y+4,'2',{s:11,w:700,c:'#fff'});
+      // Vektordiagramm
+      const O={x:440,y:200},Lp=165;
+      s+=`<rect x="420" y="8" width="212" height="314" rx="12" fill="#fffdf8" stroke="${COL.line}"/>`+T(526,30,'Impulse (Vektoraddition)',{s:12.5,w:700});
+      s+=AR(O.x,O.y,O.x+Lp,O.y,COL.text,3.5)+T(O.x+Lp/2,O.y+20,'p₁ vorher',{s:12});
+      const t2={x:O.x+Lp*g.c*g.n.x,y:O.y+Lp*g.c*g.n.y};
+      s+=AR(O.x,O.y,t2.x,t2.y,COL.B,3.5)+AR(t2.x,t2.y,O.x+Lp,O.y,COL.A,3.5);
+      s+=TB((O.x+t2.x)/2-8,(O.y+t2.y)/2-6,'p₂′',{s:12,c:COL.B,w:700})+(Math.abs(g.s)>0.05?TB((t2.x+O.x+Lp)/2+14,(t2.y+O.y)/2-4,'p₁′',{s:12,c:COL.A,w:700}):'');
+      const P1x=p0*g.s*g.u1.x,P1y=-p0*g.s*g.u1.y,P2x=p0*g.c*g.n.x,P2y=-p0*g.c*g.n.y;
+      s+=T(430,262,`x: ${fmt(p0,2)} = ${fmt(P1x,2)} + ${fmt(P2x,2)}`,{a:'start',s:12,f:'var(--mono)'});
+      s+=T(430,282,`y: 0,00 = ${fmtS(P1y,2)} ${P2y<0?'−':'+'} ${fmt(Math.abs(P2y),2)}`,{a:'start',s:12,f:'var(--mono)'});
+      s+=T(430,306,'(Werte in Hy, p₁ ≈ 0,17 kg · 5 m/s)',{a:'start',s:10.5,c:COL.muted});
+      return s;
+    },
+    explain:(S)=>{ const c=Math.cos(S.th),sn=Math.sin(S.th),p2=p0*c,p1=p0*Math.abs(sn);
+      if(Math.abs(sn)<0.02) return ['Zentraler Stoß','Kugel 1 trifft Kugel 2 genau in der Mitte. Sie bleibt liegen und gibt ihren gesamten Impuls ab (wie beim elastischen Stoß gleich schwerer Wagen): p₂′ = p₁ = '+fmt(p0,2)+' Hy.'];
+      return [`Schräger Stoß unter ${fmt(D(S.th),0)}°`,`Kugel 2 läuft in Richtung der Verbindungslinie der Mittelpunkte weg (p₂′ = ${fmt(p2,2)} Hy), Kugel 1 senkrecht dazu (p₁′ = ${fmt(p1,2)} Hy). Die Beträge addieren sich <b>nicht</b> zu ${fmt(p0,2)} Hy (${fmt(p1+p2,2)} Hy), aber die <b>Pfeile</b> ergeben zusammen wieder <span class="vec">p</span>₁. In x- und y-Richtung gilt die Impulserhaltung jeweils einzeln.`]; }
+  });
+})();
+</script>
+<script>
+/* ======================= c: Stoß-Labor ======================= */
+(function(){
+  const sch=SCHEMA([
+    {id:'vor',t:'1  Vorher',sub:'Impulse bestimmen: p = m·v (mit Vorzeichen). Σp berechnen.'},
+    {id:'ww',t:'2  Wechselwirkung',sub:'Die Körper berühren sich: Impuls fließt vom einen in den anderen.'},
+    {id:'nach',t:'3  Nachher',sub:'Neue Geschwindigkeiten und Impulse bestimmen.'},
+    {id:'bil',t:'4  Bilanz (IES)',sub:'Σp vorher = Σp nachher? Impuls wurde nur übertragen.'}
+  ],{chars:28,gap:26});
+  const W=m=>40+18*Math.min(m,3);
+  function mk(m1,m2,v1,type,opt={}){ return ()=>{
+    const el=type==='el';
+    const v1n=el?(m1-m2)/(m1+m2)*v1:m1*v1/(m1+m2), v2n=el?2*m1/(m1+m2)*v1:m1*v1/(m1+m2);
+    return {m1,m2,v1,el,v1n,v2n,x1:24,x2:290,p1:m1*v1,p2:0,showP:true,flow:false,coupled:false,squeeze:0,three:!!opt.three,wrong:!!opt.wrong,mode:'coll'};
+  }; }
+  const names=S=>S.three?'die beiden gekoppelten Wagen B':'Wagen B';
+  function steps(){ return [
+    {t:'Wagen A rollt auf B zu',mark:{A:'vor',B:'vor'},hl:['vor'],run:S=>({dur:1500,up:(S,k)=>{S.x1=lerp(24,S.x2-W(S.m1),k);}}),
+     x:S=>`Wagen A (${fmt(S.m1,1)} kg) hat v = ${fmt(S.v1,2)} m/s, also p<sub>A</sub> = ${fmt(S.m1,1)} kg · ${fmt(S.v1,2)} m/s = ${fmt(S.m1*S.v1,2)} Hy. ${names(S)} (${fmt(S.m2,1)} kg) ruh${S.three?'en':'t'}: p<sub>B</sub> = 0. Gesamtimpuls Σp = ${fmt(S.m1*S.v1,2)} Hy.`},
+    {t:S=>S.el?'Stoß: die Feder wird gestaucht':'Stoß: die Wagen koppeln',t2:1,mark:{A:'ww',B:'ww'},hl:['ww'],run:S=>{S.flow=true; const p1=S.p1;
+      const t1=S.wrong?S.m1*S.v1:S.m1*S.v1n, t2=S.wrong?S.m2*S.v1:S.m2*S.v2n;
+      return {dur:1300,up:(S,k)=>{ S.squeeze=Math.sin(Math.PI*k); S.p1=lerp(p1,t1,k); S.p2=lerp(0,t2,k);},end:S=>{S.flow=false;S.squeeze=0;S.coupled=!S.el;}};},
+     x:S=>S.wrong?`Die Wagen koppeln. <b>Annahme (falsch):</b> Beide fahren mit der Geschwindigkeit von A weiter, also mit ${fmt(S.v1,2)} m/s.`:
+       (S.el?`Während der kurzen Berührung fließt über die Feder Impuls von A nach B (Punkte). A gibt ${S.m1===S.m2?'seinen gesamten Impuls':'einen Teil seines Impulses'} ab.`
+            :`Die Kupplung verbindet die Wagen. Impuls fließt von A nach B, bis beide gleich schnell sind. Der Impuls verteilt sich auf die Gesamtmasse ${fmt(S.m1+S.m2,1)} kg.`)},
+    {t:'Nach dem Stoß',mark:{A:'nach',B:'nach'},hl:['nach'],run:S=>{ const a=S.x1,b=S.x2, va=S.wrong?S.v1:S.v1n, vb=S.wrong?S.v1:S.v2n; return {dur:1700,up:(S,k)=>{S.x1=a+va*k*120; S.x2=b+vb*k*120;}}; },
+     x:S=>S.wrong?`Beide fahren mit ${fmt(S.v1,2)} m/s: p<sub>A</sub>′ = ${fmt(S.m1*S.v1,2)} Hy, p<sub>B</sub>′ = ${fmt(S.m2*S.v1,2)} Hy.`:
+       (S.el?`A fährt mit v<sub>A</sub>′ = ${fmt(S.v1n,2)} m/s${Math.abs(S.v1n)<1e-6?' – er bleibt stehen':''}, B mit v<sub>B</sub>′ = ${fmt(S.v2n,2)} m/s. Impulse: p<sub>A</sub>′ = ${fmt(S.m1*S.v1n,2)} Hy, p<sub>B</sub>′ = ${fmt(S.m2*S.v2n,2)} Hy.`
+            :`Beide fahren gemeinsam mit v′ = p / (m<sub>A</sub>+m<sub>B</sub>) = ${fmt(S.m1*S.v1,2)} Hy / ${fmt(S.m1+S.m2,1)} kg = ${fmt(S.v1n,2)} m/s. Impulse: p<sub>A</sub>′ = ${fmt(S.m1*S.v1n,2)} Hy, p<sub>B</sub>′ = ${fmt(S.m2*S.v2n,2)} Hy.`)},
+    S0=>null
+  ].slice(0,3).concat([
+    {t:S=>S.wrong?'Bilanz: Widerspruch!':'Bilanz: Impuls erhalten',mark:{A:'bil',B:'bil'},hl:['bil'],cls:undefined,
+     x:S=>{ const pb=S.m1*S.v1; if(S.wrong){ const pa=(S.m1+S.m2)*S.v1; return `Vorher Σp = ${fmt(pb,2)} Hy, nachher Σp = ${fmt(pa,2)} Hy. Es wäre ${fmt(pa-pb,2)} Hy Impuls <b>aus dem Nichts</b> entstanden. Das beobachtet man nie. Richtig: v′ = ${fmt(S.m1*S.v1/(S.m1+S.m2),2)} m/s – nicht die Geschwindigkeit, sondern der Impuls bleibt erhalten.`; }
+       const pa=S.m1*S.v1n+S.m2*S.v2n; return `Vorher: Σp = ${fmt(pb,2)} Hy. Nachher: ${fmt(S.m1*S.v1n,2)} Hy + ${fmt(S.m2*S.v2n,2)} Hy = ${fmt(pa,2)} Hy. Der Impuls wurde nur von A nach B übertragen – nichts ist verloren gegangen oder entstanden.`; }}
+  ]); }
+  function fixT(st){ return st.map(s=>({...s,t:typeof s.t==='function'?null:s.t,_t:s.t})); }
+  // Titel können von Szenario abhängen → beim Erzeugen auflösen
+  function stepsFor(el,wrong){ return steps().map(s=>({...s,t:typeof s.t==='function'?s.t({el,wrong}):s.t,cls:wrong&&s.hl&&s.hl[0]!=='vor'?'err':s.cls})); }
+  const fric={mode:'fric'};
+  const L=new Lab('lab-c',{
+    title:'Fahrbahn-Labor: Stöße und Impulserhaltung',w:640,h:300,note:'reibungsfreie Fahrbahn',
+    schema:sch.svg,nodes:sch.nodes,sh:sch.sh,schemaTitle:'Vorgehen bei Stößen',parts:[{k:'A',c:COL.A,n:'Wagen A'},{k:'B',c:COL.B,n:'Wagen B / Erde'}],
+    params:`<label>m<sub>A</sub> <input type="range" data-p="m1" min="0.5" max="3" step="0.5" value="2"><output data-o="m1"></output></label>
+      <label>m<sub>B</sub> <input type="range" data-p="m2" min="0.5" max="3" step="0.5" value="1"><output data-o="m2"></output></label>
+      <label>v<sub>A</sub> <input type="range" data-p="v1" min="0.25" max="1.5" step="0.25" value="1"><output data-o="v1"></output></label>
+      <label>Stoß <select data-p="ty"><option value="el">elastisch (Feder)</option><option value="in">unelastisch (koppeln)</option></select></label>
+      <span style="color:var(--muted)">Regler wirken im Fall „Eigenes Experiment“.</span>`,
+    fmtP:{m1:v=>fmt(v,1)+' kg',m2:v=>fmt(v,1)+' kg',v1:v=>fmt(v,2)+' m/s'},
+    onParam:(L)=>{ const i=L.cfg.scen.findIndex(s=>s.custom); L.select(i); },
+    scen:[
+      {k:'n',label:'elastisch, gleiche Massen',init:mk(1,1,1,'el'),intro:'Zwei gleich schwere Wagen (je 1 kg). Zwischen ihnen sitzt eine Feder: elastischer Stoß.',steps:stepsFor(true,false)},
+      {k:'n',label:'elastisch, schwer auf leicht',init:mk(2,1,1,'el'),intro:'Wagen A (2 kg) stößt elastisch auf den ruhenden, leichteren Wagen B (1 kg).',steps:stepsFor(true,false)},
+      {k:'n',label:'koppeln, gleiche Massen',init:mk(1,1,1,'in'),intro:'Zwei gleich schwere Wagen (je 1 kg) koppeln beim Stoß aneinander: unelastischer Stoß.',steps:stepsFor(false,false)},
+      {k:'n',label:'koppeln, schwer auf leicht',init:mk(2,1,1,'in'),intro:'Ein schwerer Wagen (2 kg) stößt auf einen ruhenden leichten (1 kg); beide koppeln.',steps:stepsFor(false,false)},
+      {k:'n',label:'auf zwei gekoppelte Wagen',init:mk(1,2,1,'in',{three:true}),intro:'Wagen A (1 kg) stößt auf zwei aneinandergekoppelte, ruhende Wagen (zusammen 2 kg). Alle drei fahren danach gemeinsam weiter.',steps:stepsFor(false,false)},
+      {k:'s',label:'Eigenes Experiment (Regler)',custom:true,init:(L)=>mk(L.pv('m1'),L.pv('m2'),L.pv('v1'),L.pv('ty'))(),intro:'Stelle unten Massen, Geschwindigkeit und Stoßart ein und sage vorher, was passiert.',
+        get steps(){ return stepsFor(L&&L.pv?L.pv('ty')==='el':true,false); }},
+      {k:'s',label:'mit Reibung: Auto rollt aus',init:()=>({mode:'fric',x1:40,v:1,p1:0.5,pE:0,showP:true,flow:false,m1:0.5}),intro:'Ein Spielzeugauto (0,5 kg) rollt mit 1 m/s über den Tisch und bleibt nach kurzer Zeit stehen. Wo bleibt sein Impuls?',
+        steps:[
+          {t:'Das Auto rollt',mark:{A:'vor'},hl:['vor'],run:S=>({dur:1000,up:(S,k)=>{S.x1=40+k*120;}}),x:'Das Auto hat p = 0,5 kg · 1 m/s = 0,5 Hy. Die Erde hat (in unserem Bezugssystem) zunächst den Impuls 0.'},
+          {t:'Reibung: Impuls fließt in die Erde',mark:{A:'ww',B:'ww'},hl:['ww'],run:S=>{S.flow=true; return {dur:2600,up:(S,k)=>{ S.x1=160+180*(1-(1-k)*(1-k)); S.p1=0.5*(1-k); S.pE=0.5*k; },end:S=>{S.flow=false;}};},x:'Über die Reibung zwischen Rädern, Tisch und Boden wechselwirkt das Auto mit der Erde. Sein Impuls fließt nach und nach in die Erde ab – das Auto wird langsamer.'},
+          {t:'Das Auto steht',mark:{A:'nach',B:'nach'},hl:['nach'],x:'Das Auto hat keinen Impuls mehr. Die Erde hat 0,5 Hy dazubekommen. Ihre Geschwindigkeitsänderung ist aber winzig: Δv = 0,5 Hy / (6·10²⁴ kg) ≈ 8·10⁻²⁶ m/s – völlig unmessbar.'},
+          {t:'Bilanz',mark:{A:'bil',B:'bil'},hl:['bil'],x:'Vorher: 0,5 Hy (Auto) + 0 (Erde). Nachher: 0 (Auto) + 0,5 Hy (Erde). Der Impuls ist nicht verschwunden, er ist nur in einen Körper geflossen, dem man es nicht ansieht.'}
+        ]},
+      {k:'e',label:'„Geschwindigkeit bleibt erhalten“',init:mk(1,1,1,'in',{wrong:true}),intro:'Fehlvorstellung: „Beim Koppeln behalten beide Wagen die Geschwindigkeit von A.“ Wir prüfen das mit der Impulsbilanz.',steps:stepsFor(false,true)}
+    ],
+    render:(S)=>{
+      let s=GROUND(244,640,S.mode==='fric'?'Tisch → Erde':'',{h:56});
+      if(S.mode==='fric'){
+        s+=`<g transform="translate(${S.x1},205)"><rect x="0" y="0" width="70" height="22" rx="8" fill="${COL.A}"/><rect x="14" y="-12" width="36" height="14" rx="5" fill="${COL.A}" opacity=".8"/><circle cx="14" cy="28" r="9" fill="#fff" stroke="${COL.text}" stroke-width="2"/><circle cx="56" cy="28" r="9" fill="#fff" stroke="${COL.text}" stroke-width="2"/></g>`;
+        if(S.flow){ s+=DOTS(S.x1+14,236,S.x1+14,292,S.phase,COL.A,4,3.5)+DOTS(S.x1+56,236,S.x1+56,292,(S.phase+.5)%1,COL.A,4,3.5); }
+        if(S.p1>0.005) s+=AR(S.x1+35,186,S.x1+35+S.p1*200,186,COL.A,4)+T(S.x1+35+S.p1*100,176,`p = ${fmt(S.p1,2)} Hy`,{s:12.5,w:700,c:COL.A});
+        s+=`<rect x="440" y="14" width="186" height="58" rx="9" fill="#fffdf8" stroke="${COL.line}"/>`+T(452,36,`Auto: ${fmt(S.p1,2)} Hy`,{a:'start',s:13,w:700,c:COL.A,f:'var(--mono)'})+T(452,58,`Erde: ${fmt(S.pE,2)} Hy`,{a:'start',s:13,w:700,c:COL.B,f:'var(--mono)'});
+        return s;
+      }
+      const w1=W(S.m1),w2=W(S.m2),y=200;
+      s+=CART(S.x1,y,w1,COL.A,`A · ${fmt(S.m1,1)} kg`,{fs:12});
+      if(S.three){ const wh=W(1); s+=CART(S.x2,y,wh,COL.B,'B₁ · 1 kg',{fs:11.5})+CART(S.x2+wh+8,y,wh,COL.B,'B₂ · 1 kg',{fs:11.5})+`<rect x="${S.x2+wh-2}" y="${y+12}" width="12" height="6" fill="${COL.text}"/>`; }
+      else s+=CART(S.x2,y,w2,COL.B,`B · ${fmt(S.m2,1)} kg`,{fs:12});
+      if(S.el&&!S.coupled){ const fx=S.x1+w1, L=10-6*S.squeeze; s+=`<path d="M${fx},${y+15} l${L/4},-6 l${L/4},12 l${L/4},-12 l${L/4},6" fill="none" stroke="${COL.text}" stroke-width="1.8"/>`; }
+      if(S.coupled) s+=`<rect x="${S.x1+w1-4}" y="${y+11}" width="${S.x2-S.x1-w1+8}" height="8" rx="2" fill="${COL.text}"/>`;
+      if(S.flow) s+=DOTS(S.x1+w1/2,y+15,S.x2+w2/2,y+15,S.phase,'#fff',4,3.5);
+      const sc=90;
+      if(S.p1>0.005) s+=AR(S.x1+w1/2,y-28,S.x1+w1/2+S.p1*sc,y-28,COL.A,4)+T(Math.min(600,S.x1+w1/2+S.p1*sc/2),y-38,`${fmt(S.p1,2)} Hy`,{s:12,w:700,c:COL.A});
+      const wB=S.three?2*W(1)+8:w2;
+      if(S.p2>0.005) s+=AR(S.x2+wB/2,y-62,S.x2+wB/2+S.p2*sc,y-62,COL.B,4)+T(Math.min(596,S.x2+wB/2+S.p2*sc/2),y-72,`${fmt(S.p2,2)} Hy`,{s:12,w:700,c:COL.B});
+      // Impulskonto
+      const sum=S.p1+S.p2, p0=S.m1*S.v1, bad=Math.abs(sum-p0)>0.01;
+      s+=`<rect x="14" y="12" width="300" height="80" rx="10" fill="#fffdf8" stroke="${bad?COL.warn:COL.line}"/>`+T(26,30,'Impulskonto',{a:'start',s:11,c:COL.muted,f:'var(--mono)'});
+      const bw=p0>0?110/Math.max(p0,sum):0;
+      [[S.p1,'A',COL.A,46],[S.p2,'B',COL.B,64],[sum,'Σ',bad?COL.warn:COL.text,82]].forEach(([v,l,c,yy])=>{ s+=T(36,yy+4,l,{s:12,w:700,c})+`<rect x="48" y="${yy-6}" width="${Math.max(0,v*bw)}" height="11" rx="3" fill="${c}"/>`+T(170,yy+4,fmt(v,2)+' Hy',{a:'start',s:12,w:600,f:'var(--mono)',c}); });
+      if(bad) s+=T(250,64,'✗',{s:28,w:700,c:COL.warn});
+      return s;
+    }
+  });
+})();
+
+/* ======================= d: Leiter / Isolatoren / Pumpen ======================= */
+(function(){
+  const sch=SCHEMA([
+    {id:'erd',t:'Erde',sub:'großes Impulsreservoir'},
+    {id:'fus',t:'Füße ↔ Boden',sub:'Haftreibung verbindet Person und Erde – auf Glatteis nicht!'},
+    {id:'mus',t:'Muskeln',sub:'Impulspumpe: pumpt Impuls von einer Seite zur anderen',c:COL.hint},
+    {id:'ver',t:'Verbindung',sub:'Stange, Seil, Feder oder Feld (Impulsleiter)',c:COL.B},
+    {id:'wag',t:'Wagen',sub:'gut gelagerte Rollen: Impuls bleibt im Wagen'}
+  ],{chars:27,gap:20});
+  const ICE='#cfe8f5';
+  function init(type,dir,ice){ return ()=>({type,dir,ice:!!ice,cx:330,px:110,p:0,flow:null,ok:true,lean:0,slack:false,xmark:null,pP:0}); }
+  const steps={
+    push:(name)=>[
+      {t:'Muskeln pumpen Impuls aus der Erde',mark:{P:'mus'},hl:['erd','fus','mus'],run:S=>{S.flow='body';S.lean=-8;return {dur:1400,up:()=>{}};},x:'Die Person stemmt die Füße auf den Boden. Ihre Muskeln pumpen Impuls aus der Erde über die Füße in den Körper (Punkte).'},
+      {t:`Impuls fließt durch ${name}`,mark:{P:'ver'},hl:['ver'],run:S=>{S.flow='conn';return {dur:1400,up:()=>{}};},x:S=>S.type==='mag'?'Die beiden Magnete berühren sich nicht. Trotzdem fließt Impuls – über das Magnetfeld zwischen ihnen. Das Feld ist ein Impulsleiter.':`Über die Hände fließt der Impuls weiter in ${name} und durch ${name==='die Stange'?'sie':'es'} zum Wagen.`},
+      {t:'Der Wagen nimmt Impuls auf',mark:{P:'wag'},hl:['wag'],run:S=>{S.flow=null;S.lean=0;return {dur:1500,up:(S,k)=>{S.cx=330+k*150;S.p=k;}};},x:'Der Wagen hat jetzt Rechtsimpuls und rollt nach rechts. Die gut gelagerten Rollen isolieren: Sein Impuls fließt kaum ab, er rollt weiter.'},
+      {t:'Fazit',mark:{P:'wag'},x:S=>S.type==='mag'?'Magnetfelder (ebenso elektrische Felder und das Gravitationsfeld) leiten Impuls. Deshalb ist eine Wechselwirkung auch ohne Berührung möglich.':'Die Stange ist ein Impulsleiter. Beim Schieben fließt Impuls von der Person in den Wagen.'}
+    ],
+    pull:(name)=>[
+      {t:`Die Person zieht an ${name==='das Seil'?'dem Seil':'der Stange'}`,mark:{P:'wag'},hl:['wag','ver'],run:S=>{S.flow='connR';S.lean=8;return {dur:1500,up:()=>{}};},x:`Beim Ziehen pumpen die Muskeln Impuls aus dem Wagen heraus: Rechtsimpuls fließt aus dem Wagen durch ${name} zur Person (Punkte nach links).`},
+      {t:'Weiter über die Füße in die Erde',mark:{P:'erd'},hl:['mus','fus','erd'],run:S=>{S.flow='bodyR';return {dur:1400,up:()=>{}};},x:'Der Impuls fließt durch den Körper und über die Füße in die Erde ab. Die Person selbst bleibt deshalb stehen.'},
+      {t:'Der Wagen rollt auf die Person zu',mark:{P:'erd'},run:S=>{S.flow=null;S.lean=0;return {dur:1500,up:(S,k)=>{S.cx=330-k*120;S.p=-k;}};},x:'Der Wagen hat Rechtsimpuls abgegeben, sein Impuls ist jetzt negativ (Linksimpuls). Er rollt nach links, auf die Person zu.'},
+      {t:'Fazit',x:S=>S.type==='rope'?'Mit dem Seil kann man ziehen: Beim Ziehen leitet es Impuls. Ob es auch beim Schieben leitet, zeigt der Fehlerfall.':'Auch beim Ziehen leitet die Stange. Sie ist ein Impulsleiter für beide Richtungen.'}
+    ]
+  };
+  new Lab('lab-d',{
+    title:'Leitungs-Labor: Wie kommt der Impuls in den Wagen?',w:640,h:300,note:'stark vereinfacht',
+    schema:sch.svg,nodes:sch.nodes,sh:sch.sh,schemaTitle:'Weg des Impulses',parts:[{k:'P',lab:'p',c:COL.B,n:'wo der Impuls gerade fließt'}],
+    scen:[
+      {k:'n',label:'Stange: schieben',init:init('rod','push'),intro:'Eine Person steht auf festem Boden und schiebt einen ruhenden Wagen mit einer Stange an.',steps:steps.push('die Stange')},
+      {k:'n',label:'Stange: ziehen',init:init('rod','pull'),intro:'Jetzt zieht die Person den Wagen mit der Stange zu sich heran.',steps:steps.pull('die Stange')},
+      {k:'n',label:'Seil: ziehen',init:init('rope','pull'),intro:'Die Person zieht den Wagen mit einem Seil zu sich heran.',steps:steps.pull('das Seil')},
+      {k:'s',label:'Magnetfeld',init:init('mag','push'),intro:'Auf dem Wagen sitzt ein Magnet. Die Person nähert einen zweiten Magneten so, dass sich gleichnamige Pole gegenüberstehen – ohne zu berühren.',steps:steps.push('das Magnetfeld')},
+      {k:'s',label:'Person auf Glatteis',init:init('rod','push',true),intro:'Die Person steht auf Glatteis und will den Wagen mit der Stange anschieben.',steps:[
+        {t:'Füße auf Glatteis',mark:{P:'fus'},hl:['fus'],run:S=>{S.xmark='feet';return null;},x:'Glatteis ist ein Impulsisolator: Zwischen Füßen und Erde kann kaum Impuls fließen. Die Muskeln können also keinen Impuls aus der Erde holen.'},
+        {t:'Die Person drückt trotzdem',mark:{P:'ver'},hl:['mus','ver'],run:S=>{S.flow='conn';return {dur:1400,up:()=>{}};},x:'Die Muskeln pumpen nun Impuls aus dem eigenen Körper durch die Stange in den Wagen.'},
+        {t:'Beide bewegen sich',mark:{P:'wag'},hl:['wag'],run:S=>{S.flow=null;return {dur:1600,up:(S,k)=>{S.cx=330+k*110;S.px=110-k*40;S.p=k;S.pP=-k;}};},x:'Der Wagen rollt nach rechts, die Person rutscht nach links. Die Person hat genau so viel Linksimpuls bekommen, wie der Wagen Rechtsimpuls: p<sub>Person</sub> = −p<sub>Wagen</sub>.'},
+        {t:'Fazit',x:'Auf Glatteis kann man nicht richtig anfahren oder bremsen: Es kann weder Impuls aus der Erde gepumpt werden noch in sie abfließen.'}]},
+      {k:'e',label:'Seil: schieben',init:init('rope','push'),intro:'Kann man einen Wagen mit einem Seil auch anschieben?',steps:[
+        {t:'Muskeln pumpen Impuls',mark:{P:'mus'},hl:['mus'],run:S=>{S.flow='body';S.lean=-8;return {dur:1300,up:()=>{}};},x:'Die Person stemmt sich gegen den Boden und will Impuls zum Wagen schicken.'},
+        {t:'Das Seil knickt ein',mark:{P:'ver'},hl:['ver'],cls:'err',run:S=>{S.flow=null;S.slack=true;S.xmark='rope';return {dur:900,up:()=>{}};},x:'Das Seil wird schlaff und knickt ein. Es kann beim Schieben keinen Impuls leiten.'},
+        {t:'Der Wagen bleibt stehen',mark:{P:'mus'},cls:'err',run:S=>{S.lean=0;return null;},x:'Es kommt kein Impuls im Wagen an. Er bleibt stehen.'},
+        {t:'Fazit',x:'Ein Seil ist ein Impulsleiter nur für <b>eine</b> Richtung: Man kann damit ziehen, aber nicht schieben.'}]}
+    ],
+    render:(S)=>{
+      let s=GROUND(244,640,'',{h:56});
+      if(S.ice) s+=`<rect x="0" y="244" width="260" height="10" fill="${ICE}"/>`+T(150,276,'Glatteis',{a:'start',s:12,c:'#3b82a6',w:700});
+      const hx=S.px+16, hy=196;
+      s+=PERSON(S.px,244,COL.text,{lean:S.lean,armX:16,armY:-48,legA:-14,legB:10});
+      if(S.flow==='body'||S.flow==='bodyR'){ let pts=[[S.px-8,290],[S.px-6,244],[S.px,220],[S.px,198],[hx,hy]]; if(S.flow==='bodyR') pts=pts.reverse(); if(!S.ice) s+=DOTSP(pts,S.phase,COL.B,6,4); }
+      if(S.xmark==='feet') s+=T(S.px,268,'✗',{s:24,w:700,c:COL.warn});
+      const cy=200, cw=86;
+      s+=CART(S.cx,cy,cw,COL.B,'Wagen',{h:30});
+      if(S.type==='rod'){ const x2=S.dir==='push'?S.cx:S.cx; const attached=S.dir==='pull'||S.cx<340; const ex=attached?S.cx:hx+(330-hx);
+        s+=`<line x1="${hx}" y1="${hy}" x2="${attached?S.cx:330}" y2="${cy+14}" stroke="#6b7280" stroke-width="6" stroke-linecap="round"/>`; if(S.flow==='conn'||S.flow==='connR'){ const a=[hx,hy],b=[S.cx,cy+14]; s+=S.flow==='conn'?DOTS(a[0],a[1],b[0],b[1],S.phase,COL.B,5,4):DOTS(b[0],b[1],a[0],a[1],S.phase,COL.B,5,4);} }
+      if(S.type==='rope'){ if(S.slack){ s+=`<path d="M${hx},${hy} Q${(hx+S.cx)/2-20},${cy+60} ${S.cx},${cy+14}" fill="none" stroke="#92400e" stroke-width="2.5"/>`; s+=T((hx+S.cx)/2,cy+40,'✗',{s:26,w:700,c:COL.warn}); }
+        else { s+=`<line x1="${hx}" y1="${hy}" x2="${S.cx}" y2="${cy+14}" stroke="#92400e" stroke-width="2.5"/>`; if(S.flow==='connR') s+=DOTS(S.cx,cy+14,hx,hy,S.phase,COL.B,5,4); } }
+      if(S.type==='mag'){ const mx=hx+4, gx=S.cx; s+=`<rect x="${mx-2}" y="${hy-10}" width="26" height="18" fill="#dc2626"/><rect x="${mx+12}" y="${hy-10}" width="12" height="18" fill="#16a34a"/>`;
+        s+=`<rect x="${gx-24}" y="${cy+4}" width="24" height="20" fill="#16a34a"/><rect x="${gx-24}" y="${cy+4}" width="12" height="20" fill="#16a34a"/><rect x="${gx-12}" y="${cy+4}" width="12" height="20" fill="#dc2626"/>`;
+        s+=T(mx+18,hy+3,'N',{s:10,c:'#fff',w:700})+T(gx-18,cy+18,'N',{s:10,c:'#fff',w:700});
+        const x1=mx+24, x2=gx-24; if(x2-x1>4) for(let i=-1;i<=1;i++) s+=`<path d="M${x1},${hy-1+i*6} C${(x1+x2)/2},${hy-1+i*22} ${(x1+x2)/2},${cy+14+i*22} ${x2},${cy+14+i*6}" fill="none" stroke="${COL.C}" stroke-width="1.3" stroke-dasharray="4 4" opacity=".75"/>`;
+        if(S.flow==='conn') s+=DOTS(x1,hy,x2,cy+14,S.phase,COL.C,4,4); }
+      if(Math.abs(S.p)>0.01) s+=AR(S.cx+cw/2,cy-24,S.cx+cw/2+S.p*70,cy-24,COL.B,4)+T(S.cx+cw/2+S.p*35,cy-34,'p (Wagen)',{s:12,w:700,c:COL.B});
+      if(Math.abs(S.pP)>0.01) s+=AR(S.px+10,120,S.px+10+S.pP*50,120,COL.text,4)+T(S.px+14,108,'p (Person)',{s:12,w:700,a:'start'});
+      return s;
+    }
+  });
+})();
+
+/* ======================= e: Fließgleichgewicht ======================= */
+(function(){
+  const sch=SCHEMA([
+    {id:'q',t:'Erde',sub:'Quelle und Ziel des Impulses'},
+    {id:'zu',t:'Zufluss',sub:'Auto: Motor pumpt über die Räder · Laterne: Gravitationsfeld',c:COL.ok},
+    {id:'k',t:'Körper',sub:'Auto bzw. Laterne: Impuls p = m·v',c:COL.B},
+    {id:'ab',t:'Abfluss',sub:'Auto: Luft- und Rollreibung, Bremse · Laterne: Arm und Körper',c:COL.warn}
+  ],{chars:27,gap:18});
+  // Bilanz-Kästen unter dem Kreislauf
+  let y=sch.sh+28; let sv=sch.svg+`<path d="M268,${sch.nodes.ab.y} h6 V${sch.nodes.q.y} h-6" fill="none" stroke="#9aa3b2" stroke-width="1.6" stroke-dasharray="4 3"/>`+T(140,y-8,'Impulsbilanz des Körpers',{s:12,w:700,c:COL.muted});
+  const bil=[['up','Zufluss > Abfluss','p steigt (schneller)',COL.ok],['eq','Zufluss = Abfluss','p konstant: Fließgleichgewicht',COL.acc],['down','Zufluss < Abfluss','p sinkt (langsamer)',COL.warn]];
+  const nodes={...sch.nodes};
+  bil.forEach((b,i)=>{ const yy=y+i*58; sv+=`<g data-n="${b[0]}"><rect x="6" y="${yy}" width="268" height="48" rx="9" fill="#fffdf8" stroke="${b[3]}" stroke-width="1.5"/>`+T(58,yy+20,b[1],{a:'start',s:13,w:700,c:b[3]})+T(58,yy+38,b[2],{a:'start',s:11.8,c:'#3a4356'})+'</g>'; nodes[b[0]]={x:24,y:yy+24}; });
+  const SH=y+3*58+6;
+  const M=1000, drag=v=>v>0.05?200+2.5*v*v:0;
+  function initCar(){ return {mode:'car',v:0,t:0,Fm:0,brake:0,hist:[[0,0]],roll:0,run:false,free:false}; }
+  function sim(S,dtSim){ const n=Math.ceil(dtSim/0.05),h=dtSim/n; for(let i=0;i<n;i++){ const out=drag(S.v)+(S.v>0.05?S.brake:0); S.out=out; S.v=Math.max(0,S.v+(S.Fm-out)/M*h); if(S.v<=0.05&&S.Fm<=200){ S.v=Math.max(0,S.v-0.5*h); } S.t+=h; S.roll+=S.v*h; if(!S.hist.length||S.t-S.hist[S.hist.length-1][0]>0.4) S.hist.push([S.t,S.v*M]); } }
+  const drive=(Fm,brake,sec)=>S=>{ S.Fm=Fm; S.brake=brake; let last=0; return {dur:sec*1000/6*1.0,up:(S,k)=>{ const tt=k*sec; sim(S,tt-last); last=tt; }}; };
+  const regime=S=>{ const out=drag(S.v)+(S.v>0.05?S.brake:0); return Math.abs(S.Fm-out)<120?'eq':S.Fm>out?'up':'down'; };
+  const vals=S=>`Zufluss ${fmt(S.Fm,0)} Hy/s, Abfluss ${fmt(drag(S.v)+(S.v>0.05?S.brake:0),0)} Hy/s, v = ${fmt(S.v*3.6,0)} km/h, p = ${fmt(S.v*M,0)} Hy.`;
+  const L=new Lab('lab-e',{
+    title:'Kreislauf-Labor: Auto auf der Landstraße',w:640,h:320,note:'Reibungsgesetz und Werte vereinfacht',
+    schema:sv,nodes,sh:SH,schemaTitle:'Impulskreislauf',parts:[{k:'I',lab:'p',c:COL.B,n:'Impulsportion'},{k:'K',lab:'🚗',c:COL.text,n:'Zustand des Körpers'}],
+    params:`<label>Motor (Zufluss) <input type="range" data-p="fm" min="0" max="3000" step="100" value="1800"><output data-o="fm"></output></label><label><input type="checkbox" data-p="br"> Bremse</label><span style="color:var(--muted)">wirkt im Fall „Selbst fahren“</span>`,
+    fmtP:{fm:v=>fmt(v,0)+' Hy/s'},
+    onParam:(L)=>{ if(L.S.free){ L.S.Fm=L.pv('fm'); L.S.brake=L.pv('br')?5000:0; } },
+    tick:(S,dt,L)=>{ if(S.mode==='car'&&S.free){ S.Fm=L.pv('fm'); S.brake=L.pv('br')?5000:0; sim(S,dt*6*L.tempo); const r=regime(S); if(r!==S.lastR){ S.lastR=r; L.mark({I:r==='down'?'ab':'zu',K:r},[r]); } return true; } if(S.mode==='lamp'&&S.fall!=null&&S.fall<1){ return false; } return false; },
+    scen:[
+      {k:'n',label:'Anfahren – Fahren – Bremsen',init:initCar,intro:'Ein Auto (1000 kg) steht an der Ampel. Verfolge Zufluss, Abfluss und den Impuls im p-t-Diagramm.',mark0:{K:'eq'},steps:[
+        {t:'Anfahren',mark:{I:'zu',K:'up'},hl:['zu','up'],run:drive(1800,0,10),x:S=>`Der Motor pumpt Impuls aus der Erde über die Räder ins Auto. Der Zufluss ist viel größer als der Abfluss – der Impuls steigt. ${vals(S)}`},
+        {t:'Schneller – der Abfluss wächst',mark:{I:'ab',K:'up'},hl:['ab','up'],run:drive(1800,0,14),x:S=>`Je schneller das Auto, desto mehr Impuls fließt über den Luftwiderstand ab. Der Impuls steigt deshalb immer langsamer (die Kurve wird flacher). ${vals(S)}`},
+        {t:'Fließgleichgewicht',mark:{I:'k',K:'eq'},hl:['k','eq'],run:drive(1800,0,24),x:S=>`Jetzt fließt genauso viel Impuls zu wie ab. Der Impuls des Autos bleibt konstant, obwohl ständig Impuls hindurchfließt: ein Impulskreislauf. ${vals(S)}`},
+        {t:'Gas weg: Ausrollen',mark:{I:'ab',K:'down'},hl:['ab','down'],run:drive(0,0,12),x:S=>`Ohne Motor gibt es keinen Zufluss mehr. Über die Reibung fließt weiter Impuls ab – das Auto wird langsamer. ${vals(S)}`},
+        {t:'Bremsen',mark:{I:'ab',K:'down'},hl:['ab','down'],run:drive(0,5000,8),x:S=>`Die Bremsen schaffen eine gute Verbindung zur Erde: Der Impuls fließt jetzt schnell über die Räder in die Straße ab. ${vals(S)}`},
+        {t:'Stillstand',mark:{I:'q',K:'eq'},hl:['q'],run:S=>{S.brake=0;return null;},x:'Das Auto steht, sein Impuls ist 0. Insgesamt ist der gesamte zugeflossene Impuls wieder in die Erde zurückgeflossen. Im p-t-Diagramm siehst du alle drei Fälle: Anstieg, waagerecht, Abfall.'}]},
+      {k:'s',label:'Laterne ruhig halten',init:()=>({mode:'lamp',fall:null,flow:false}),intro:'Eine Person hält eine Laterne ruhig in der Hand. Die Laterne bewegt sich nicht – fließt trotzdem Impuls?',mark0:{K:'eq'},steps:[
+        {t:'Impuls aus der Erde über das Gravitationsfeld',mark:{I:'zu',K:'eq'},hl:['zu'],run:S=>{S.flow=true;S.seg='g';return null;},x:'Über das Gravitationsfeld fließt ständig Impuls (nach unten gerichtet) aus der Erde in die Laterne.'},
+        {t:'Abfluss über Arm und Körper',mark:{I:'ab',K:'eq'},hl:['ab'],run:S=>{S.seg='arm';return null;},x:'Genau so viel Impuls fließt über den Griff, den Arm und den Körper der Person wieder in die Erde zurück.'},
+        {t:'Fließgleichgewicht in Ruhe',mark:{I:'k',K:'eq'},hl:['k','eq'],run:S=>{S.seg='all';return null;},x:'Zufluss = Abfluss: Der Impuls der Laterne bleibt 0, sie bleibt in Ruhe. Auch ein ruhender Körper kann sich im Fließgleichgewicht befinden – in einem Impulskreislauf Erde → Laterne → Person → Erde.'},
+        {t:'Loslassen',mark:{I:'zu',K:'up'},hl:['up'],run:S=>{S.seg='g';S.fall=0;return {dur:1400,up:(S,k)=>{S.fall=k;}};},x:'Lässt die Person los, ist der Abfluss unterbrochen. Der Zufluss über das Feld bleibt – der (Abwärts-)Impuls der Laterne wächst: Sie fällt immer schneller.'}]},
+      {k:'s',label:'Selbst fahren (Regler)',init:()=>({...initCar(),free:false}),intro:'Steuere den Zufluss mit dem Motor-Regler und die Bremse per Häkchen. Klicke auf „Nächster Schritt“, um zu starten.',mark0:{K:'eq'},steps:[
+        {t:'Selbst fahren',mark:{I:'zu',K:'up'},run:S=>{S.free=true;return null;},x:'Die Simulation läuft jetzt frei. Stelle den Motor so ein, dass das Auto genau 72 km/h fährt. Welcher Zufluss ist dafür nötig? (Tipp: Im Fließgleichgewicht ist Zufluss = Abfluss.)'}]}
+    ],
+    render:(S)=>{
+      let s='';
+      if(S.mode==='lamp'){
+        s+=GROUND(270,640,'Erde',{h:50});
+        s+=PERSON(260,270,COL.text,{armX:30,armY:-40,sc:1.5});
+        const lx=305, ly=S.fall!=null?205+S.fall*S.fall*60:205;
+        s+=`<line x1="${lx}" y1="${S.fall!=null?ly-22:210-22}" x2="${lx}" y2="${ly-10}" stroke="${COL.text}" stroke-width="2"/><rect x="${lx-14}" y="${ly-10}" width="28" height="34" rx="5" fill="#fde68a" stroke="${COL.hint}" stroke-width="2"/><circle cx="${lx}" cy="${ly+7}" r="6" fill="#f59e0b"/>`;
+        if(S.flow){ if(S.seg==='g'||S.seg==='all'){ for(let i=0;i<3;i++) s+=DOTS(lx-12+i*12,268,lx-12+i*12,ly+26,(S.phase+i*.3)%1,COL.ok,3,3.5); s+=T(lx+70,250,'Gravitationsfeld',{s:12,c:COL.ok,w:700}); }
+          if(S.fall==null&&(S.seg==='arm'||S.seg==='all')) s+=DOTSP([[lx,ly-12],[290,210],[262,208],[260,250],[255,270],[255,300]],S.phase,COL.warn,7,3.5)+T(170,200,'Arm & Körper',{s:12,c:COL.warn,w:700}); }
+        s+=`<rect x="420" y="20" width="200" height="70" rx="10" fill="#fffdf8" stroke="${COL.line}"/>`+T(432,44,`Zufluss: ${S.flow?'ja':'–'}`,{a:'start',s:13,c:COL.ok,w:700})+T(432,68,`Abfluss: ${S.fall!=null?'unterbrochen':S.seg==='arm'||S.seg==='all'?'ja':'–'}`,{a:'start',s:13,c:COL.warn,w:700});
+        return s;
+      }
+      // Straße
+      s+=`<rect x="0" y="0" width="640" height="150" fill="#f3f1ea"/>`+GROUND(130,640,'',{h:20});
+      for(let i=0;i<8;i++){ const x=((i*90-S.roll*8)%720+720)%720-40; s+=`<line x1="${x}" y1="100" x2="${x}" y2="130" stroke="#bfb39a" stroke-width="3"/><circle cx="${x}" cy="96" r="5" fill="#bfb39a"/>`; }
+      const cx=240; s+=`<g transform="translate(${cx},92)"><rect x="0" y="6" width="120" height="26" rx="8" fill="${COL.B}"/><path d="M22,6 l14,-18 h44 l16,18 z" fill="${COL.B}" opacity=".85"/><rect x="40" y="-8" width="16" height="11" fill="#fde7d6"/><rect x="62" y="-8" width="16" height="11" fill="#fde7d6"/><circle cx="26" cy="34" r="9" fill="#fff" stroke="${COL.text}" stroke-width="3"/><circle cx="94" cy="34" r="9" fill="#fff" stroke="${COL.text}" stroke-width="3"/></g>`;
+      const out=drag(S.v)+(S.v>0.05?S.brake:0), win=Math.max(2,S.Fm/400), wout=Math.max(out>0?2:0,out/400);
+      if(S.Fm>0) s+=AR(cx+26,150,cx+26,118,COL.ok,win)+AR(cx+94,150,cx+94,118,COL.ok,win)+TB(cx-46,146,'Zufluss',{s:12,c:COL.ok,w:700});
+      if(out>0){ s+=AR(cx+122,104,cx+182,96,COL.warn,Math.min(14,drag(S.v)/400+1.5))+TB(cx+214,86,'Luft',{s:12,c:COL.warn,w:700}); if(S.brake&&S.v>0.05) s+=AR(cx+60,128,cx+60,148,COL.warn,8)+TB(cx+60,166,'Bremse',{s:12,c:COL.warn,w:700}); }
+      s+=T(16,24,`v = ${fmt(S.v*3.6,0)} km/h`,{a:'start',s:15,w:700,f:'var(--mono)'})+T(16,46,`p = ${fmt(S.v*M,0)} Hy`,{a:'start',s:15,w:700,c:COL.B,f:'var(--mono)'});
+      s+=T(624,24,`Zufluss ${fmt(S.Fm,0)} Hy/s`,{a:'end',s:13,w:700,c:COL.ok,f:'var(--mono)'})+T(624,44,`Abfluss ${fmt(out,0)} Hy/s`,{a:'end',s:13,w:700,c:COL.warn,f:'var(--mono)'});
+      // p-t-Diagramm
+      const gx=60,gy=300,gw=560,gh=120,tmax=Math.max(80,S.t), pmax=30000;
+      s+=`<rect x="0" y="166" width="640" height="154" fill="#fbfaf6"/>`+`<line x1="${gx}" y1="${gy}" x2="${gx+gw}" y2="${gy}" stroke="${COL.text}"/><line x1="${gx}" y1="${gy}" x2="${gx}" y2="${gy-gh-8}" stroke="${COL.text}"/>`;
+      s+=T(gx-8,gy-gh,'p',{a:'end',s:13,w:700,x:'font-style="italic"'})+T(gx+gw,gy+16,'t',{a:'end',s:13,w:700,x:'font-style="italic"'})+T(gx-6,gy-gh*25000/pmax+4,'25 000',{a:'end',s:10,c:COL.muted})+`<line x1="${gx-3}" y1="${gy-gh*25000/pmax}" x2="${gx+gw}" y2="${gy-gh*25000/pmax}" stroke="${COL.line}" stroke-dasharray="3 3"/>`;
+      if(S.hist.length>1) s+=`<polyline points="${S.hist.map(([t,p])=>`${(gx+t/tmax*gw).toFixed(1)},${(gy-p/pmax*gh).toFixed(1)}`).join(' ')}" fill="none" stroke="${COL.B}" stroke-width="2.5"/>`;
+      s+=T(gx+8,182,'p-t-Diagramm (Zeitachse ohne Einheit, Simulation zeitgerafft)',{a:'start',s:11,c:COL.muted});
+      return s;
+    }
+  });
+})();
+
+/* ======================= f: Rückstoß ======================= */
+(function(){
+  const sch=SCHEMA([
+    {id:'vor',t:'1  Vorher',sub:'Objekt und Ausstoß ruhen: Σp = 0'},
+    {id:'pump',t:'2  Impulspumpe',sub:'Ballonhülle / Treibsatz / Muskeln pumpen Impuls aus dem Objekt in den Ausstoß',c:COL.hint},
+    {id:'nach',t:'3  Nachher',sub:'Ausstoß: Rückwärtsimpuls (negativ), Objekt: gleich viel Vorwärtsimpuls'},
+    {id:'bil',t:'4  Bilanz',sub:'p_Objekt + p_Ausstoß = 0  ⇒  p_Objekt = −p_Ausstoß'}
+  ],{chars:27,gap:24});
+  const DP=0.01;
+  function initCar(space){ return ()=>({mode:space?'space':'car',x:200,pA:0,pL:0,puffs:[],v:0,bal:1,flow:false}); }
+  function puff(S,n){ const x0=S.x; const pA0=S.pA; S.flow=true; return {dur:900*n,up:(S,k)=>{ const done=Math.floor(k*n+1e-9); const target=pA0+DP*k*n; S.pA=target; S.pL=-S.pA; S.bal=Math.max(0.15,1-(S.pA/(DP*4))*0.85); S.x=x0+(S.pA*S.pA)/(2*DP*0.04)*0 + k*n*18; while(S.puffs.length<Math.round(pA0/DP)+done) S.puffs.push({x:S.x-4,age:0}); },end:S=>{S.flow=false; while(S.puffs.length<Math.round(S.pA/DP)) S.puffs.push({x:S.x-4,age:0});}}; }
+  const tick=(S,dt)=>{ if(!S.puffs) return false; let ch=false; S.puffs.forEach(p=>{ if(p.age<1){p.age+=dt*0.7; p.x-=dt*50; ch=true;} }); if(S.coast){ S.x+=dt*40; if(S.x>560) S.x=560; ch=true; } return ch; };
+  const stepsCar=space=>[
+    {t:'Erste Luftportion strömt aus',mark:{A:'pump',B:'pump'},hl:['pump'],run:S=>puff(S,1),x:space?'Der Treibsatz drückt Gas nach hinten heraus. Dabei pumpt er Impuls aus der Rakete in das Gas: Das Gas bekommt Rückwärtsimpuls, die Rakete gleich viel Vorwärtsimpuls.':'Die gespannte Gummihaut drückt eine Portion Luft nach hinten heraus. Dabei pumpt sie Impuls aus dem Auto in die Luft: Die Luft bekommt Linksimpuls (−0,01 Hy), das Auto gleich viel Rechtsimpuls (+0,01 Hy).'},
+    {t:'Weitere Portionen',mark:{A:'nach',B:'nach'},hl:['nach'],run:S=>puff(S,3),x:S=>`Mit jeder Portion wächst der Rückwärtsimpuls des Ausstoßes – und genauso der Vorwärtsimpuls des ${space?'Raumschiffs':'Autos'}. Jetzt: p<sub>Objekt</sub> = +${fmt(S.pA,2)} Hy, p<sub>Ausstoß</sub> = −${fmt(S.pA,2)} Hy.`},
+    {t:space?'Triebwerk aus':'Ballon ist leer',mark:{A:'nach',B:'nach'},run:S=>{S.coast=true;return null;},x:space?'Ohne weiteren Ausstoß fließt kein Impuls mehr. Im Weltraum gibt es keine Reibung – die Rakete fliegt mit konstanter Geschwindigkeit weiter (1. Axiom).':'Kein Ausstoß mehr, kein Impulsfluss mehr. Ohne Reibung würde das Auto gleichförmig weiterrollen; in Wirklichkeit fließt sein Impuls langsam über die Räder in den Boden ab.'},
+    {t:'Bilanz',mark:{A:'bil',B:'bil'},hl:['bil'],x:S=>`p<sub>Objekt</sub> + p<sub>Ausstoß</sub> = ${fmt(S.pA,2)} Hy + (−${fmt(S.pA,2)} Hy) = 0 = Σp vorher. ${space?'Die Rakete braucht keine Luft, gegen die sie sich abstößt – sie „stößt sich“ an ihrem eigenen Abgas ab.':'Der Antrieb durch Rückstoß ist eine direkte Folge der Impulserhaltung.'}`}
+  ];
+  new Lab('lab-f',{
+    title:'Rückstoß-Labor: Ballonauto',w:640,h:300,note:'Impuls je Luftportion: 0,01 Hy',
+    schema:sch.svg,nodes:sch.nodes,sh:sch.sh,schemaTitle:'Rückstoßprinzip',parts:[{k:'A',c:COL.A,n:'Objekt'},{k:'B',c:COL.B,n:'Ausstoß'}],
+    tick,
+    scen:[
+      {k:'n',label:'Ballonauto',init:initCar(false),mark0:{A:'vor',B:'vor'},hl0:['vor'],intro:'Ein Spielzeugauto trägt einen aufgeblasenen Luftballon, dessen Öffnung nach hinten zeigt. Auto und Luft ruhen: Σp = 0.',steps:stepsCar(false)},
+      {k:'s',label:'Rakete im Weltraum',init:initCar(true),mark0:{A:'vor',B:'vor'},hl0:['vor'],intro:'Eine Rakete ruht im Weltraum – weit weg von allem, ohne Luft. Kann sie sich trotzdem antreiben?',steps:stepsCar(true)},
+      {k:'e',label:'Sprung aus dem Boot',init:()=>({mode:'boat',bx:250,jx:0,jy:0,pJ:0,pB:0,state:0}),mark0:{A:'vor',B:'vor'},hl0:['vor'],intro:'Ein Junge (50 kg) will aus einem kleinen, nicht festgebundenen Boot (100 kg) ans Ufer springen. Der Steg ist 1 m entfernt.',steps:[
+        {t:'Absprung',mark:{A:'pump',B:'pump'},hl:['pump'],run:S=>({dur:900,up:(S,k)=>{S.pJ=150*k;S.pB=-150*k;S.state=1;}}),x:'Beim Absprung pumpen die Beinmuskeln Impuls aus dem Boot in den Jungen. Er bekommt +150 Hy (3 m/s nach rechts), das Boot −150 Hy.'},
+        {t:'Das Boot weicht zurück',mark:{A:'nach',B:'nach'},hl:['nach'],cls:'err',run:S=>({dur:1500,up:(S,k)=>{S.bx=250-k*60;S.jx=k*130;S.jy=Math.sin(Math.PI*k)*50;}}),x:'Das Boot fährt mit v = −150 Hy / 100 kg = −1,5 m/s nach links. Der Abstand zum Steg wächst, während der Junge noch in der Luft ist.'},
+        {t:'Platsch!',mark:{A:'nach',B:'nach'},cls:'err',run:S=>({dur:900,up:(S,k)=>{S.jx=130+k*20;S.jy=-k*40;S.state=2;}}),x:'Der Junge erreicht den Steg nicht und landet im Wasser. Ein Teil seiner Sprungkraft ist ins Zurückstoßen des Bootes „geflossen“.'},
+        {t:'Erklärung',mark:{A:'bil',B:'bil'},hl:['bil'],x:'Σp vorher = 0 = 150 Hy + (−150 Hy). Am festen Ufer pumpt man beim Absprung Impuls aus der riesigen Erde – deren Rückstoß merkt man nicht. Ein loses Boot ist dagegen leicht und bekommt deutlich Geschwindigkeit. Abhilfe: Boot festbinden (Verbindung zur Erde).'}]}
+    ],
+    render:(S)=>{
+      let s='';
+      if(S.mode==='boat'){
+        s+=`<rect x="0" y="0" width="640" height="300" fill="#eef6fb"/><rect x="0" y="210" width="640" height="90" fill="#bfdbfe"/>`;
+        s+=`<rect x="470" y="180" width="170" height="30" fill="#a16207"/><rect x="480" y="210" width="10" height="90" fill="#78350f"/><rect x="600" y="210" width="10" height="90" fill="#78350f"/>`+T(555,172,'Steg',{s:12,c:COL.muted});
+        s+=`<path d="M${S.bx},200 h170 l-20,26 h-130 z" fill="${COL.A}"/>`+T(S.bx+85,218,'Boot 100 kg',{s:12,c:'#fff',w:700});
+        const jx=S.bx+140+S.jx+(S.state?60:0)*0, jy=200-S.jy;
+        s+=PERSON(S.state?370+S.jx:S.bx+140,S.state?200-S.jy:200,COL.B,{armX:12,armY:-58,arm2:[-12,-58]});
+        if(S.state===2) s+=`<ellipse cx="${370+S.jx}" cy="212" rx="30" ry="6" fill="#fff" opacity=".8"/>`;
+        if(S.pJ) s+=AR(S.state?370+S.jx:S.bx+140,80,(S.state?370+S.jx:S.bx+140)+S.pJ*0.4,80,COL.B,4)+T((S.state?370+S.jx:S.bx+140)+30,70,`+${fmt(S.pJ,0)} Hy`,{s:12,w:700,c:COL.B});
+        if(S.pB) s+=AR(S.bx+85,150,S.bx+85+S.pB*0.4,150,COL.A,4)+T(S.bx+60,140,`${fmt(S.pB,0)} Hy`,{s:12,w:700,c:COL.A});
+        return s;
+      }
+      const sp=S.mode==='space';
+      s+=sp?`<rect width="640" height="300" fill="#1e293b"/>`+[[40,40],[120,200],[300,60],[420,240],[560,90],[600,200],[200,130],[500,30]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="1.6" fill="#fff"/>`).join(''):GROUND(232,640,'',{h:68});
+      S.puffs.forEach(p=>{ if(p.age<1) s+=`<circle cx="${p.x-14}" cy="${sp?160:205}" r="${8+p.age*10}" fill="${sp?'#fbbf24':'#cbd5e1'}" opacity="${(1-p.age)*0.8}"/>`; });
+      if(sp){ s+=`<g transform="translate(${S.x},160)"><path d="M0,-14 h70 q26,0 40,14 q-14,14 -40,14 h-70 z" fill="#e2e8f0"/><path d="M0,-14 l-12,-10 v48 l12,-10" fill="${COL.A}"/><circle cx="72" cy="0" r="6" fill="${COL.A}"/></g>`; if(S.flow) s+=DOTS(S.x,160,S.x-60,160,S.phase,'#fbbf24',4,4); }
+      else { s+=`<g transform="translate(${S.x},196)"><rect x="0" y="0" width="90" height="20" rx="6" fill="${COL.A}"/><circle cx="16" cy="26" r="8" fill="#fff" stroke="${COL.text}" stroke-width="2"/><circle cx="74" cy="26" r="8" fill="#fff" stroke="${COL.text}" stroke-width="2"/><ellipse cx="${-2-18*S.bal}" cy="-6" rx="${8+22*S.bal}" ry="${8+18*S.bal}" fill="#f59e0b" opacity=".9"/><path d="M-2,-4 l10,4 l-10,4 z" fill="#d97706"/></g>`; if(S.flow) s+=DOTS(S.x-10,192,S.x-70,200,S.phase,COL.B,4,4); }
+      const c=sp?'#fff':COL.text, y0=sp?110:150;
+      if(S.pA>0.001){ s+=AR(S.x+45,y0,S.x+45+S.pA*2500,y0,sp?'#93c5fd':COL.A,4)+T(S.x+45+S.pA*1250,y0-10,`+${fmt(S.pA,2)} Hy`,{s:12,w:700,c:sp?'#93c5fd':COL.A});
+        s+=AR(S.x-20,y0+18,S.x-20-S.pA*2500,y0+18,sp?'#fdba74':COL.B,4)+T(S.x-20-S.pA*1250,y0+38,`−${fmt(S.pA,2)} Hy`,{s:12,w:700,c:sp?'#fdba74':COL.B}); }
+      s+=`<rect x="420" y="12" width="206" height="78" rx="10" fill="${sp?'#334155':'#fffdf8'}" stroke="${sp?'#475569':COL.line}"/>`+
+        T(432,34,`Objekt:  ${fmtS(S.pA,2)} Hy`,{a:'start',s:13,w:700,c:sp?'#93c5fd':COL.A,f:'var(--mono)'})+T(432,56,`Ausstoß: ${fmtS(S.pL,2)} Hy`,{a:'start',s:13,w:700,c:sp?'#fdba74':COL.B,f:'var(--mono)'})+T(432,78,`Summe:   ${fmt(S.pA+S.pL,2)} Hy`,{a:'start',s:13,w:700,c,f:'var(--mono)'});
+      return s;
+    }
+  });
+})();
+</script>
+<script>
+/* ======================= g1: Bus bremst ======================= */
+(function(){
+  const sch=SCHEMA([
+    {id:'fahrt',t:'Fahrt',sub:'Bus, Fahrgast und Tasche haben dieselbe Geschwindigkeit – alle haben Impuls.'},
+    {id:'busab',t:'Bus bremst',sub:'Sein Impuls fließt über Bremsen und Räder in die Straße – sehr gute Verbindung.',c:COL.C},
+    {id:'verb',t:'Gute Verbindung',sub:'Gurt, festes Halten: Impuls fließt schnell in den Bus ab → man bleibt (fast) am Platz.',c:COL.ok},
+    {id:'behalt',t:'Schwache Verbindung',sub:'Impuls bleibt im Körper → er bewegt sich weiter, der Bus wird darunter langsamer.',c:COL.warn},
+    {id:'erde',t:'Erde',sub:'Am Ende ist aller Impuls in die Erde geflossen.'}
+  ],{chars:26,gap:18,tx:80});
+  const conn={lose:{a:1.2,cap:2.2,n:'steht lose'},fest:{a:4.5,cap:0.5,n:'hält sich fest'},gurt:{a:6,cap:0,n:'ist angeschnallt'}};
+  const V0=10,AB=6,TB0=V0/AB;
+  function init(c,err){ return ()=>({c,err:!!err,t:0,phase0:0,brake:false,rel:0,relT:0,lean:0,tLean:0,road:0,v:V0,street:false,showP:true,hit:false,force:false}); }
+  function relOf(a,cap,t){ return Math.min(cap,0.5*Math.max(0,AB-a)*t*t); }
+  const run=(S,k)=>{ const t=k*TB0; S.v=V0-AB*t; S.rel=relOf(conn[S.c].a,conn[S.c].cap,t); S.relT=relOf(2.2,1.2,t); S.lean=S.c==='lose'?Math.min(55,S.rel*30):S.c==='fest'?Math.min(22,k*40):0; S.road+=0; };
+  function steps(c){ return [
+    {t:'Fahrt mit 36 km/h',mark:{P:'fahrt',T:'fahrt',B:'fahrt'},hl:['fahrt'],run:S=>({dur:1600,up:(S,k)=>{S.road=k*V0*1.6;}}),x:`Bus, Fahrgast (70 kg) und Tasche fahren mit 10 m/s. Der Fahrgast hat p = 70 kg · 10 m/s = 700 Hy, der Bus ein Vielfaches davon.`},
+    {t:'Der Bus bremst',mark:{P:'fahrt',T:'fahrt',B:'busab'},hl:['busab'],run:S=>{S.brake=true; return {dur:1800,up:(S,k)=>{run(S,k*0.5); S.road=V0*1.6+(V0*k*0.5*TB0-0.5*AB*(k*0.5*TB0)**2)*1.6;}};},x:'Die Bremsen verbinden die Räder fest mit der Straße. Der Impuls des Busses fließt schnell in die Erde ab – der Bus wird langsamer.'},
+    {t:c==='gurt'?'Der Gurt hält den Fahrgast':c==='fest'?'Festhalten hilft – teilweise':'Fahrgast und Tasche bewegen sich weiter',mark:{P:c==='lose'?'behalt':'verb',T:'behalt',B:'busab'},hl:[c==='lose'?'behalt':'verb'],run:S=>({dur:1800,up:(S,k)=>{run(S,0.5+k*0.5); const t=(0.5+k*0.5)*TB0; S.road=V0*1.6+(V0*t-0.5*AB*t*t)*1.6-(V0*0.5*TB0-0.5*AB*(0.5*TB0)**2)*1.6*0;},end:S=>{S.hit=S.c==='lose';}}),
+     x:c==='gurt'?'Der Gurt ist eine gute Verbindung zum Bus. Der Impuls des Fahrgastes fließt über den Gurt in den Bus und weiter in die Erde – er bleibt auf seinem Platz. Die Tasche dagegen rutscht nach vorne.'
+      :c==='fest'?'Über die Hand an der Stange kann ein Teil des Impulses abfließen. Der Fahrgast wird nach vorne gezogen und muss sich stark festhalten; die Tasche rutscht vom Sitz.'
+      :'Über die Füße allein kann der Impuls nicht schnell genug abfließen. Fahrgast und Tasche behalten fast ihre Geschwindigkeit. Der Bus wird unter ihnen langsamer – relativ zum Bus „fliegen“ sie nach vorne.'},
+    {t:'Fazit: Trägheit',mark:{P:'erde',T:'erde',B:'erde'},hl:['erde'],x:'Ein Körper ändert seinen Bewegungszustand nur, wenn Impuls zu- oder abfließt (1. Newtonsches Axiom). Je schwächer die Verbindung, je stärker die Bremsung und je größer die Masse, desto stärker der Effekt.'}
+  ]; }
+  new Lab('lab-g1',{
+    title:'Bus-Labor: Vollbremsung',w:640,h:300,note:'Bremsverzögerung 6 m/s², Verbindungen grob geschätzt',
+    schema:sch.svg,nodes:sch.nodes,sh:sch.sh,schemaTitle:'Wohin fließt der Impuls?',parts:[{k:'P',c:COL.A,n:'Fahrgast'},{k:'T',c:COL.B,n:'Tasche'},{k:'B',c:COL.C,n:'Bus'}],
+    scen:[
+      {k:'n',label:'Fahrgast steht lose',init:init('lose'),intro:'Ein Fahrgast steht frei im Bus, ohne sich festzuhalten. Auf dem Sitz liegt eine Tasche. Der Bus fährt mit 36 km/h.',mark0:{P:'fahrt',T:'fahrt',B:'fahrt'},steps:steps('lose')},
+      {k:'n',label:'Fahrgast hält sich fest',init:init('fest'),intro:'Diesmal hält sich der Fahrgast an einer Haltestange fest.',mark0:{P:'fahrt',T:'fahrt',B:'fahrt'},steps:steps('fest')},
+      {k:'s',label:'angeschnallt sitzen',init:init('gurt'),intro:'Der Fahrgast sitzt angeschnallt (z. B. im Reisebus).',mark0:{P:'fahrt',T:'fahrt',B:'fahrt'},steps:steps('gurt')},
+      {k:'e',label:'„Eine Kraft schleudert mich nach vorne“',init:init('lose',true),intro:'Viele sagen: „Beim Bremsen wirkt eine Kraft, die mich nach vorne schleudert.“ Wir prüfen das, indem wir die Szene einmal vom Straßenrand aus betrachten.',mark0:{P:'fahrt',T:'fahrt',B:'fahrt'},steps:[
+        {t:'Sicht aus dem Bus',mark:{P:'behalt',B:'busab'},cls:'err',run:S=>{S.brake=true;S.force=true; return {dur:2400,up:(S,k)=>run(S,k)};},x:'Aus Sicht des Busses sieht es so aus, als würde der Fahrgast nach vorne gestoßen (roter Pfeil). Aber: Wer oder was sollte diese Kraft ausüben? Es gibt keinen Partnerkörper.'},
+        {t:'Sicht vom Straßenrand',mark:{P:'behalt',B:'busab'},run:S=>{S.street=true;S.force=false;S.rel=0;S.lean=0;S.v=V0;S.hit=false; return {dur:2600,up:(S,k)=>{S.st=k;}};},x:'Vom Straßenrand aus sieht man: Der Fahrgast fährt einfach mit fast gleicher Geschwindigkeit weiter. Der Bus wird langsamer und „bleibt zurück“. Es gibt keinen Vorwärtsstoß.'},
+        {t:'Auflösung',mark:{P:'erde',B:'erde'},hl:['behalt'],cls:'fin',x:'Es gibt keine „Schleuderkraft“. Der Fahrgast behält seinen Impuls, weil er nicht schnell genug abfließen kann – das ist Trägheit. Trägheit ist eine Eigenschaft von Körpern (Maß: Masse), keine Kraft.'}]}
+    ],
+    render:(S)=>{
+      let s=`<rect width="640" height="300" fill="#f3f1ea"/>`;
+      const px=40; // m → px
+      if(S.street){ // feste Straße, Bus bleibt zurück
+        const k=S.st||0, t=k*TB0, xb=V0*t-0.5*AB*t*t, xp=V0*t-0.5*1.2*t*t;
+        s+=GROUND(250,640,'Straße',{h:50});
+        for(let i=0;i<10;i++) s+=`<rect x="${i*70}" y="262" width="34" height="5" fill="#fff"/>`;
+        const bx=40+xb*22; s+=`<rect x="${bx}" y="110" width="300" height="130" rx="14" fill="${COL.C}" opacity=".18" stroke="${COL.C}" stroke-width="2"/>`+T(bx+150,132,'Bus',{s:13,w:700,c:COL.C});
+        s+=PERSON(40+150+xp*22,236,COL.A,{});
+        s+=T(320,40,'Sicht vom Straßenrand (Kamera steht still)',{s:13,w:700,c:COL.muted});
+        s+=AR(190+xp*22,80,250+xp*22,80,COL.A,4)+T(220+xp*22,70,'Fahrgast: v fast gleich',{s:12,c:COL.A,w:700});
+        return s;
+      }
+      // Kamera fährt mit dem Bus
+      for(let i=0;i<12;i++){ const x=((i*80-S.road*20)%960+960)%960-80; s+=`<rect x="${x}" y="268" width="40" height="5" fill="#fff"/>`; }
+      s+=`<rect x="0" y="250" width="640" height="50" fill="#d6cfbf" opacity=".6"/>`;
+      const bx=60,bw=500; s+=`<rect x="${bx}" y="70" width="${bw}" height="170" rx="18" fill="#fffdf8" stroke="${COL.C}" stroke-width="3"/>`;
+      for(let i=0;i<5;i++) s+=`<rect x="${bx+20+i*96}" y="84" width="80" height="54" rx="6" fill="#e0e7ff" opacity=".7"/>`;
+      s+=`<circle cx="${bx+70}" cy="248" r="16" fill="${COL.text}"/><circle cx="${bx+bw-70}" cy="248" r="16" fill="${COL.text}"/>`;
+      s+=`<line x1="${bx+330}" y1="140" x2="${bx+330}" y2="230" stroke="#9aa3b2" stroke-width="5"/><line x1="${bx+bw-30}" y1="100" x2="${bx+bw-30}" y2="230" stroke="#9aa3b2" stroke-width="4"/>`;
+      // Sitz mit Tasche
+      s+=`<rect x="${bx+30}" y="190" width="70" height="14" rx="4" fill="#a8a29e"/><rect x="${bx+30}" y="150" width="12" height="50" rx="4" fill="#a8a29e"/>`;
+      const tx=bx+55+S.relT*px, ty=S.relT>0.9?226:176; s+=`<rect x="${tx}" y="${ty}" width="30" height="14" rx="4" fill="${COL.B}"/>`;
+      // Fahrgast
+      const pxp=bx+190+S.rel*px;
+      if(S.c==='gurt'){ s+=`<rect x="${bx+170}" y="190" width="60" height="14" rx="4" fill="#a8a29e"/><rect x="${bx+170}" y="150" width="12" height="50" rx="4" fill="#a8a29e"/>`; s+=`<g transform="translate(${bx+200},196)"><circle cx="0" cy="-42" r="9" fill="${COL.A}"/><line x1="0" y1="-33" x2="0" y2="-6" stroke="${COL.A}" stroke-width="5"/><line x1="0" y1="-6" x2="24" y2="-4" stroke="${COL.A}" stroke-width="5"/><line x1="24" y1="-4" x2="26" y2="30" stroke="${COL.A}" stroke-width="5"/><line x1="-8" y1="-34" x2="10" y2="-4" stroke="${COL.hint}" stroke-width="4"/></g>`; }
+      else s+=PERSON(pxp,232,COL.A,{lean:S.lean,armX:S.c==='fest'?Math.min(bx+330-pxp,40):14,armY:S.c==='fest'?-40:-30});
+      if(S.hit) s+=T(pxp+30,150,'💥',{s:22});
+      if(S.brake) s+=`<rect x="${bx+54}" y="262" width="32" height="6" fill="${COL.warn}"/><rect x="${bx+bw-86}" y="262" width="32" height="6" fill="${COL.warn}"/>`;
+      if(S.brake&&S.v>0.05&&!S.street) s+=DOTS(bx+70,262,bx+70,298,S.phase||0,COL.C,3,3.5)+DOTS(bx+bw-70,262,bx+bw-70,298,(S.phase||0)+.5,COL.C,3,3.5);
+      if(S.force) s+=AR(pxp-60,120,pxp+10,120,COL.warn,5)+T(pxp-25,108,'„Schleuderkraft“ ?',{s:13,w:700,c:COL.warn});
+      s+=T(16,24,`v (Bus) = ${fmt(Math.max(0,S.v)*3.6,0)} km/h`,{a:'start',s:14,w:700,f:'var(--mono)'})+T(16,46,`Fahrgast relativ zum Bus: ${fmt(S.rel,1)} m nach vorn`,{a:'start',s:12.5,c:COL.A,f:'var(--mono)'});
+      s+=T(624,24,'Kamera fährt mit dem Bus',{a:'end',s:11.5,c:COL.muted});
+      return s;
+    }
+  });
+})();
+
+/* ======================= g2: Faden-Experiment ======================= */
+(function(){
+  const G=9.81, LIM=15;
+  const init=()=>({fu:0,fo:G,y:0,brokenU:false,brokenO:false,pull:0,flowO:false});
+  new Lab('lab-g2',{
+    title:'Trägheits-Labor: Welcher Faden reißt?',w:640,h:300,note:'m = 1 kg, Reißgrenze beider Fäden 15 N angenommen',
+    scen:[
+      {k:'n',label:'langsam ziehen',init,intro:'Ein Massestück (1 kg) hängt an einem dünnen Faden. Unten ist ein gleicher Faden mit einem Ring befestigt. Wir ziehen langsam immer stärker am Ring.',steps:[
+        {t:'Langsam stärker ziehen',run:S=>({dur:2600,up:(S,k)=>{S.fu=k*(LIM-G+0.05);S.fo=G+S.fu;S.pull=k*8;}}),x:'Weil wir langsam ziehen, hat der Impuls genug Zeit, durch das Massestück zu fließen. Der obere Faden muss das Gewicht (9,8 N) <b>und</b> unseren Zug tragen: F<sub>oben</sub> = 9,8 N + F<sub>unten</sub>.'},
+        {t:'Der obere Faden reißt',cls:'fin',run:S=>{S.brokenO=true; return {dur:1000,up:(S,k)=>{S.y=k*k*90;}};},x:'Bei F<sub>unten</sub> ≈ 5 N erreicht der obere Faden seine Reißgrenze von 15 N und reißt zuerst. Das Massestück fällt.'},
+        {t:'Erklärung',x:'Beim langsamen Ziehen spielt die Trägheit keine Rolle. Der obere Faden ist stärker belastet, weil er zusätzlich die Gewichtskraft trägt.'}]},
+      {k:'s',label:'ruckartig ziehen',init,intro:'Gleicher Aufbau – aber jetzt ziehen wir ruckartig am Ring.',steps:[
+        {t:'Ruckartig ziehen',run:S=>({dur:500,up:(S,k)=>{S.fu=k*(LIM+0.1);S.fo=G+0.15*S.fu;S.pull=k*14;}}),x:'Der Impulsstrom im unteren Faden steigt sehr schnell an. Das träge Massestück kann in der kurzen Zeit kaum Impuls aufnehmen und sich nicht merklich bewegen – der Strom kommt im oberen Faden kaum an.'},
+        {t:'Der untere Faden reißt',cls:'fin',run:S=>{S.brokenU=true; return {dur:700,up:(S,k)=>{S.pull=14+k*30;S.fu=0;S.fo=G;}};},x:'Der untere Faden erreicht seine Reißgrenze, bevor die Belastung oben wesentlich steigt. Er reißt, das Massestück bleibt hängen.'},
+        {t:'Erklärung: Trägheit',x:'Die Masse ist ein Maß für die Trägheit. Je kürzer die Zeit, desto weniger Impuls kann in das Massestück fließen – der Faden davor wird überlastet. (Ähnlich: das Tischtuch, das man unter dem Geschirr wegzieht.)'}]}
+    ],
+    render:(S)=>{
+      let s=`<rect x="200" y="10" width="240" height="14" fill="#9aa3b2"/>`;
+      const cx=320, my=110+S.y;
+      if(!S.brokenO) s+=`<line x1="${cx}" y1="24" x2="${cx}" y2="${my}" stroke="${COL.text}" stroke-width="2"/>`; else s+=`<line x1="${cx}" y1="24" x2="${cx}" y2="60" stroke="${COL.text}" stroke-width="2"/>`+T(cx+16,64,'✂',{s:16,c:COL.warn});
+      s+=`<rect x="${cx-34}" y="${my}" width="68" height="50" rx="5" fill="${COL.C}"/>`+T(cx,my+30,'1 kg',{s:14,w:700,c:'#fff'});
+      const ry=230+S.pull; if(!S.brokenU){ s+=`<line x1="${cx}" y1="${my+50}" x2="${cx}" y2="${ry-12}" stroke="${COL.text}" stroke-width="2"/>`; }
+      else s+=`<line x1="${cx}" y1="${my+50}" x2="${cx}" y2="${my+80}" stroke="${COL.text}" stroke-width="2"/>`+T(cx+16,my+86,'✂',{s:16,c:COL.warn})+`<line x1="${cx}" y1="${ry-50}" x2="${cx}" y2="${ry-12}" stroke="${COL.text}" stroke-width="2"/>`;
+      s+=`<circle cx="${cx}" cy="${ry}" r="12" fill="none" stroke="${COL.hint}" stroke-width="4"/>`+`<path d="M${cx-14},${ry+16} q14,14 28,0 v18 h-28 z" fill="#e7c9a9"/>`;
+      // Kraftanzeigen
+      const bx=470,bw=140; s+=`<rect x="456" y="40" width="172" height="150" rx="10" fill="#fffdf8" stroke="${COL.line}"/>`+T(542,62,'Belastung der Fäden',{s:12.5,w:700});
+      [[S.fo,'oben',90,S.brokenO],[S.fu,'unten',140,S.brokenU]].forEach(([f,l,y,b])=>{ const w=clamp(f/18,0,1)*bw; s+=T(bx,y-8,`${l}: ${b?'gerissen':fmt(f,1)+' N'}`,{a:'start',s:12,w:600,c:b?COL.warn:COL.text})+`<rect x="${bx}" y="${y}" width="${bw}" height="12" rx="3" fill="${COL.soft}"/><rect x="${bx}" y="${y}" width="${b?0:w}" height="12" rx="3" fill="${f>=LIM-0.01?COL.warn:COL.acc}"/>`; });
+      const lx=bx+bw*LIM/18; s+=`<line x1="${lx}" y1="78" x2="${lx}" y2="160" stroke="${COL.warn}" stroke-dasharray="3 3"/>`+T(lx,174,'Reißgrenze',{s:10.5,c:COL.warn});
+      return s;
+    }
+  });
+})();
+
+/* ======================= h: Wechselwirkung am Seil ======================= */
+(function(){
+  const sch=SCHEMA([
+    {id:'vor',t:'Vorher',sub:'p_A = p_B = 0'},
+    {id:'imp',t:'Impulsmodell',sub:'A pumpt Rechtsimpuls aus B – gleichwertig: B pumpt Linksimpuls aus A. Derselbe Impulsstrom fließt durch das Seil.',c:COL.hint},
+    {id:'nach',t:'Nachher',sub:'p_A = −p_B, aber v = p/m: der Leichtere wird schneller.'},
+    {id:'kraft',t:'Kraftmodell',sub:'F_A→B = −F_B→A: gleich groß, entgegengesetzt, an verschiedenen Körpern (actio = reactio).',c:COL.C}
+  ],{chars:27,gap:20});
+  const F=60;
+  function init(mode){ return L=>({mode,mA:L.pv('mA'),mB:L.pv('mB'),xA:150,xB:470,pA:0,pB:0,flow:false,forces:false,wrong:false,both:mode==='both'}); }
+  const steps=(both)=>[
+    {t:both?'Beide ziehen am Seil':'A zieht, B hält nur fest',mark:{A:'imp',B:'imp'},hl:['imp'],run:S=>{S.flow=true; return {dur:1600,up:(S,k)=>{S.pA=F*k;S.pB=-F*k;},end:S=>{S.flow=false;}};},
+      x:both?'Beide ziehen. Trotzdem fließt nur <b>ein</b> Impulsstrom durch das Seil: Rechtsimpuls aus B in A (Punkte). Nach 1 s mit 60 N sind 60 Hy geflossen.':'A zieht am Seil und pumpt dabei Rechtsimpuls aus B heraus in sich hinein (Punkte von B nach A). B tut nichts, außer festzuhalten. Nach 1 s mit 60 N sind 60 Hy geflossen.'},
+    {t:'Beide rollen aufeinander zu',mark:{A:'nach',B:'nach'},hl:['nach'],run:S=>{ const a=S.xA,b=S.xB, vA=S.pA/S.mA, vB=S.pB/S.mB; return {dur:1700,up:(S,k)=>{S.xA=a+vA*k*55;S.xB=b+vB*k*55;}}; },
+      x:S=>`A hat jetzt p<sub>A</sub> = +60 Hy, B hat p<sub>B</sub> = −60 Hy. Geschwindigkeiten: v<sub>A</sub> = 60 Hy / ${fmt(S.mA,0)} kg = ${fmt(S.pA/S.mA,2)} m/s, v<sub>B</sub> = −60 Hy / ${fmt(S.mB,0)} kg = ${fmt(S.pB/S.mB,2)} m/s. ${S.mA!==S.mB?'Der Leichtere ist schneller.':''}`},
+    {t:'Bilanz',mark:{A:'nach',B:'nach'},x:'p<sub>A</sub> + p<sub>B</sub> = 60 Hy + (−60 Hy) = 0 = Gesamtimpuls vorher. Der Impuls, der aus B herausgeflossen ist, ist in A hineingeflossen.'},
+    {t:'Im Kraftmodell: actio = reactio',mark:{A:'kraft',B:'kraft'},hl:['kraft'],run:S=>{S.forces=true;return null;},x:'Das Seil übt auf A eine Kraft nach rechts aus und auf B eine gleich große Kraft nach links. Die Kräfte sind gleich groß (60 N), entgegengesetzt und greifen an verschiedenen Körpern an – egal, wer zieht.'}
+  ];
+  new Lab('lab-h',{
+    title:'Skateboard-Labor: Ziehen am Seil',w:640,h:300,note:'Zugkraft 60 N für 1 s, Rollreibung vernachlässigt',
+    schema:sch.svg,nodes:sch.nodes,sh:sch.sh,schemaTitle:'Wechselwirkung beschreiben',parts:[{k:'A',c:COL.A,n:'Person A'},{k:'B',c:COL.B,n:'Person B / Wand'}],
+    params:`<label>m<sub>A</sub> <input type="range" data-p="mA" min="30" max="90" step="5" value="50"><output data-o="mA"></output></label><label>m<sub>B</sub> <input type="range" data-p="mB" min="30" max="90" step="5" value="80"><output data-o="mB"></output></label>`,
+    fmtP:{mA:v=>v+' kg',mB:v=>v+' kg'},
+    onParam:L=>L.reset(),
+    scen:[
+      {k:'n',label:'A zieht, B hält fest',init:init('one'),mark0:{A:'vor',B:'vor'},hl0:['vor'],intro:S=>`Person A (${S.mA} kg) und Person B (${S.mB} kg) stehen auf Skateboards und halten ein Seil. Beide ruhen: p<sub>A</sub> = p<sub>B</sub> = 0.`,steps:steps(false)},
+      {k:'n',label:'beide ziehen',init:init('both'),mark0:{A:'vor',B:'vor'},hl0:['vor'],intro:'Jetzt ziehen beide gleichzeitig am Seil. Ändert sich etwas am Ergebnis?',steps:steps(true)},
+      {k:'s',label:'Abstoßen von der Wand',init:L=>({mode:'wall',mA:L.pv('mA'),xA:120,pA:0,flow:false,forces:false}),mark0:{A:'vor',B:'vor'},hl0:['vor'],intro:S=>`Person A (${S.mA} kg) steht auf dem Skateboard an einer Wand und stößt sich mit den Händen ab.`,steps:[
+        {t:'Abstoßen',mark:{A:'imp',B:'imp'},hl:['imp'],run:S=>{S.flow=true;return {dur:1400,up:(S,k)=>{S.pA=F*k;},end:S=>{S.flow=false;}};},x:'Die Armmuskeln pumpen Impuls aus der Wand – und damit aus der Erde – in die Person. Sie bekommt +60 Hy, die Erde −60 Hy.'},
+        {t:'Wegrollen',mark:{A:'nach',B:'nach'},run:S=>{ const a=S.xA,v=S.pA/S.mA; return {dur:1500,up:(S,k)=>{S.xA=a+v*k*90;}}; },x:S=>`Die Person rollt mit ${fmt(S.pA/S.mA,2)} m/s weg. Die Erde bekommt dieselbe Impulsmenge in Gegenrichtung – wegen ihrer riesigen Masse ändert sich ihre Geschwindigkeit nicht messbar.`},
+        {t:'Kraftmodell',mark:{A:'kraft',B:'kraft'},hl:['kraft'],run:S=>{S.forces=true;return null;},x:'Die Wand übt auf die Person eine Kraft nach rechts aus, die Person auf die Wand eine gleich große Kraft nach links.'}]},
+      {k:'e',label:'„Der Schwerere zieht stärker“',init:L=>({...init('one')(L),wrong:true}),mark0:{A:'vor',B:'vor'},hl0:['vor'],intro:'Behauptung: „B ist schwerer, also zieht B stärker an A als A an B.“ Prüfen wir das.',steps:[
+        {t:'Behauptung als Kräfte gezeichnet',mark:{A:'kraft',B:'kraft'},hl:['kraft'],cls:'err',run:S=>{S.forces=true;return null;},x:'Wäre die Behauptung richtig, müsste der Pfeil der Kraft auf A länger sein als der auf B (rot gezeichnet).'},
+        {t:'Prüfung mit der Impulsbilanz',mark:{A:'imp',B:'imp'},hl:['imp'],cls:'err',x:'Dann würde A pro Sekunde mehr Impuls bekommen, als aus B herausfließt. Der Gesamtimpuls wüchse von selbst – Impuls entstünde aus dem Nichts. Das widerspricht der Impulserhaltung.'},
+        {t:'Messung',mark:{A:'kraft',B:'kraft'},run:S=>{S.wrong=false;S.meters=true;return null;},x:'Baut man an beiden Enden des Seils einen Kraftmesser ein, zeigen beide immer denselben Wert – egal, wer wie schwer ist oder wer zieht.'},
+        {t:'Fazit',mark:{A:'kraft',B:'kraft'},hl:['kraft'],cls:'fin',x:'Die Kräfte sind immer gleich groß (3. Axiom). Die Masse wirkt sich nur auf die Geschwindigkeit aus: Bei gleichem Impuls wird der Leichtere schneller (v = p/m).'}]}
+    ],
+    render:(S)=>{
+      let s=GROUND(262,640,'',{h:38});
+      const board=(x,c)=>`<rect x="${x-26}" y="246" width="52" height="7" rx="3" fill="${c}"/><circle cx="${x-16}" cy="257" r="5" fill="${COL.text}"/><circle cx="${x+16}" cy="257" r="5" fill="${COL.text}"/>`;
+      if(S.mode==='wall'){
+        s+=`<rect x="0" y="40" width="40" height="222" fill="#cbd5e1"/>`+T(20,30,'Wand',{s:12,c:COL.muted});
+        s+=board(S.xA,COL.A)+PERSON(S.xA,246,COL.A,{armX:S.xA<130?40-S.xA+2:-14,armY:-46,sc:1.2});
+        if(S.flow) s+=DOTS(20,190,S.xA,190,S.phase,COL.A,4,4);
+        if(S.pA>0) s+=AR(S.xA,110,S.xA+S.pA*1.6,110,COL.A,4)+T(S.xA+S.pA*0.8,100,`p = +${fmt(S.pA,0)} Hy`,{s:12,w:700,c:COL.A});
+        if(S.forces) s+=AR(S.xA-20,170,S.xA+60,170,COL.C,4)+T(S.xA+30,160,'F Wand→A',{s:12,w:700,c:COL.C})+AR(40,210,0,210,COL.C,4)+T(60,228,'F A→Wand',{s:12,w:700,c:COL.C});
+        return s;
+      }
+      const hA=[S.xA+18,186], hB=[S.xB-18,186];
+      s+=board(S.xA,COL.A)+board(S.xB,COL.B);
+      s+=PERSON(S.xA,246,COL.A,{armX:18,armY:-60,lean:S.both||S.mode==='one'?-6:0,sc:1.2})+PERSON(S.xB,246,COL.B,{armX:-18,armY:-60,lean:S.both?6:0,sc:1.2});
+      s+=`<line x1="${hA[0]}" y1="${hA[1]}" x2="${hB[0]}" y2="${hB[1]}" stroke="#92400e" stroke-width="3"/>`;
+      if(S.meters){ const m1=hA[0]+30,m2=hB[0]-60; [m1,m2].forEach(x=>{ s+=`<rect x="${x}" y="${hA[1]-9}" width="30" height="18" rx="3" fill="#fff" stroke="${COL.text}"/>`+T(x+15,hA[1]+4,'60 N',{s:10,w:700}); }); }
+      if(S.flow) s+=DOTS(hB[0],hB[1],hA[0],hA[1],S.phase,COL.B,6,4);
+      s+=T(S.xA,272+12,`A · ${S.mA} kg`,{s:12,w:700,c:COL.A})+T(S.xB,284,`B · ${S.mB} kg`,{s:12,w:700,c:COL.B});
+      if(Math.abs(S.pA)>0.5){ s+=AR(S.xA,96,S.xA+S.pA*1.4,96,COL.A,4)+T(S.xA+S.pA*0.7,86,`p_A = +${fmt(S.pA,0)} Hy`.replace('p_A','p<tspan baseline-shift="sub" font-size="9">A</tspan>'),{s:12,w:700,c:COL.A});
+        s+=AR(S.xB,96,S.xB+S.pB*1.4,96,COL.B,4)+T(S.xB+S.pB*0.7,86,`p_B = ${fmt(S.pB,0)} Hy`.replace('p_B','p<tspan baseline-shift="sub" font-size="9">B</tspan>'),{s:12,w:700,c:COL.B}); }
+      if(S.forces){ const wr=S.wrong; const fA=wr?90:60, fB=wr?40:60, c=wr?COL.warn:COL.C;
+        s+=AR(hA[0],hA[1]-24,hA[0]+fA,hA[1]-24,c,4)+T(hA[0]+fA/2,hA[1]-38,`F B→A${wr?' (groß?)':' = 60 N'}`,{s:12,w:700,c});
+        s+=AR(hB[0],hB[1]-24,hB[0]-fB,hB[1]-24,c,4)+T(hB[0]-fB/2,hB[1]-38,`F A→B${wr?' (klein?)':' = 60 N'}`,{s:12,w:700,c}); }
+      const sum=(S.pA||0)+(S.pB||0); s+=`<rect x="440" y="12" width="186" height="32" rx="8" fill="#fffdf8" stroke="${COL.line}"/>`+T(533,33,`Σp = ${fmt(sum,0)} Hy`,{s:13.5,w:700,f:'var(--mono)'});
+      return s;
+    }
+  });
+})();
+
+/* ======================= i1: Impulsmodell und Kraftmodell ======================= */
+(function(){
+  const sch=SCHEMA([
+    {id:'r1',t:'Impuls fließt aus A in B',sub:'⇔  A übt eine Kraft auf B aus'},
+    {id:'r2',t:'Impulsstromstärke',sub:'⇔  Betrag der Kraft:  F = Δp/Δt'},
+    {id:'r3',t:'Fließgleichgewicht',sub:'⇔  Kräftegleichgewicht: Summe aller Kräfte an einem Körper ist 0'},
+    {id:'r4',t:'Was aus A abfließt, fließt in B',sub:'⇔  actio = reactio: F_A→B = −F_B→A (verschiedene Körper!)'}
+  ],{chars:27,gap:16});
+  const init=()=>({mode:'scale',g:false,arm:false,read:false,kraft:false,pairs:false,wrong:false,flow:false});
+  new Lab('lab-i1',{
+    title:'Modell-Labor: Federwaage in beiden Modellen',w:640,h:320,note:'m = 1 kg, g ≈ 9,81 N/kg',
+    schema:sch.svg,nodes:sch.nodes,sh:sch.sh,schemaTitle:'Übersetzung Impuls ⇔ Kraft',parts:[{k:'M',c:COL.D,n:'aktuelle Übersetzung'}],
+    scen:[
+      {k:'n',label:'Massestück an der Federwaage',init,intro:'Ein Massestück (1 kg) hängt ruhig an einer Federwaage. Links beschreiben wir die Situation im Impulsmodell, rechts im Kraftmodell.',steps:[
+        {t:'Zufluss über das Gravitationsfeld',mark:{M:'r1'},hl:['r1'],run:S=>{S.g=true;S.flow=true;return null;},x:'Über das Gravitationsfeld fließt ständig (Abwärts-)Impuls aus der Erde in das Massestück.'},
+        {t:'Abfluss über Feder und Stativ',mark:{M:'r3'},hl:['r3'],run:S=>{S.arm=true;return null;},x:'Genauso viel Impuls fließt über die Feder, die Aufhängung und das Stativ zurück in die Erde. Zufluss = Abfluss: Fließgleichgewicht – das Massestück bleibt in Ruhe.'},
+        {t:'Die Federwaage misst die Stromstärke',mark:{M:'r2'},hl:['r2'],run:S=>{S.read=true;return null;},x:'Die Federwaage zeigt an, wie viel Impuls pro Sekunde durch sie fließt: 9,8 Hy/s. Das ist genau die Kraft: 9,8 N.'},
+        {t:'Kraftmodell: Kräftegleichgewicht',mark:{M:'r3'},hl:['r3'],run:S=>{S.kraft=true;return null;},x:'Rechts: Am Massestück greifen zwei Kräfte an: die Gewichtskraft F<sub>Erde→Masse</sub> (nach unten) und die Federkraft F<sub>Feder→Masse</sub> (nach oben). Sie sind gleich groß und entgegengesetzt – Kräftegleichgewicht.'},
+        {t:'Wechselwirkungspaare',mark:{M:'r4'},hl:['r4'],run:S=>{S.pairs=true;return null;},x:'Zu jeder Kraft gehört eine Gegenkraft an einem <b>anderen</b> Körper: F<sub>Masse→Erde</sub> (rot, gleiche Farbe wie ihr Partner) und F<sub>Masse→Feder</sub> (blau). Rot bzw. Blau bilden jeweils ein Paar nach dem 3. Axiom.'}]},
+      {k:'s',label:'Karateschlag',init:()=>({mode:'karate',k:0,flow:false,forces:false}),intro:'Ein Karateschlag soll ein Brett zerbrechen. Wir schätzen grob ab: Hand und Unterarm ≈ 0,7 kg, v ≈ 10 m/s, Abbremsen in ≈ 5 ms (Schätzwerte, Größenordnung).',steps:[
+        {t:'Die Hand trifft das Brett',mark:{M:'r1'},hl:['r1'],run:S=>{S.flow=true;return {dur:900,up:(S,k)=>{S.k=k;}};},x:'Während der Berührung fließt Impuls aus der Hand ins Brett: Δp ≈ 0,7 kg · 10 m/s = 7 Hy.'},
+        {t:'Sehr großer Impulsstrom',mark:{M:'r2'},hl:['r2'],x:'Diese Impulsmenge fließt in nur etwa 0,005 s. Impulsstromstärke: F = Δp/Δt ≈ 7 Hy / 0,005 s = 1400 Hy/s = 1400 N. So viel hält das Brett nicht aus.'},
+        {t:'Kraftmodell',mark:{M:'r4'},hl:['r4'],run:S=>{S.forces=true;S.flow=false;return null;},x:'Die Hand übt auf das Brett eine Kraft F<sub>Hand→Brett</sub> aus, das Brett auf die Hand die gleich große Gegenkraft F<sub>Brett→Hand</sub>. Es gibt niemals eine Kraft allein.'}]},
+      {k:'e',label:'Gleichgewicht und Paar verwechselt',init:()=>({...init(),g:true,arm:true,read:true,wrong:true}),intro:'Behauptung: „Das Massestück ruht, weil sich F<sub>Erde→Masse</sub> und F<sub>Masse→Erde</sub> aufheben.“',steps:[
+        {t:'Die Behauptung',mark:{M:'r4'},hl:['r4'],cls:'err',x:'Die beiden roten Kräfte sind tatsächlich gleich groß und entgegengesetzt. Aber: Eine greift am Massestück an, die andere an der Erde.'},
+        {t:'Warum das nicht geht',mark:{M:'r3'},hl:['r3'],cls:'err',x:'Ob sich Kräfte aufheben, entscheidet man nur für Kräfte, die am <b>selben</b> Körper angreifen. Ein Wechselwirkungspaar greift immer an zwei verschiedenen Körpern an und kann sich deshalb nie aufheben.'},
+        {t:'Richtig',mark:{M:'r3'},hl:['r3'],cls:'fin',run:S=>{S.wrong=false;S.kraft=true;S.pairs=false;return null;},x:'Das Massestück ruht, weil die Federkraft F<sub>Feder→Masse</sub> die Gewichtskraft F<sub>Erde→Masse</sub> ausgleicht – beide greifen am Massestück an (Kräftegleichgewicht).'}]}
+    ],
+    render:(S)=>{
+      let s='';
+      if(S.mode==='karate'){
+        s+=`<rect x="200" y="200" width="60" height="70" fill="#9aa3b2"/><rect x="400" y="200" width="60" height="70" fill="#9aa3b2"/>`;
+        const br=S.k>0.8; s+=br?`<path d="M240,180 h88 l6,20 h-94 z" fill="#d97706"/><path d="M340,186 h80 v20 h-86 z" fill="#d97706" transform="rotate(8 380 196)"/>`:`<rect x="240" y="180" width="180" height="20" fill="#d97706"/>`;
+        const hy=60+S.k*100; s+=`<rect x="300" y="${hy-60}" width="60" height="70" rx="20" fill="#e7c9a9"/>`;
+        if(S.flow) s+=DOTS(330,hy,330,200,S.phase,COL.B,4,4);
+        if(S.forces){ s+=AR(330,150,330,215,COL.A,4)+T(390,190,'F Hand→Brett',{s:12,w:700,c:COL.A,a:'start'})+AR(330,165,330,105,COL.warn,4)+T(270,120,'F Brett→Hand',{s:12,w:700,c:COL.warn,a:'end'}); }
+        s+=`<rect x="440" y="18" width="186" height="56" rx="9" fill="#fffdf8" stroke="${COL.line}"/>`+T(452,40,'Δp ≈ 7 Hy, Δt ≈ 5 ms',{a:'start',s:12.5,f:'var(--mono)'})+T(452,62,'F ≈ 1400 N',{a:'start',s:13,w:700,f:'var(--mono)',c:COL.B});
+        return s;
+      }
+      const draw=(ox,title)=>{ let t=T(ox+150,24,title,{s:13.5,w:700,c:COL.muted});
+        t+=`<rect x="${ox+20}" y="290" width="260" height="22" fill="#e9e2d2"/>`+`<rect x="${ox+40}" y="50" width="8" height="240" fill="#9aa3b2"/><rect x="${ox+40}" y="50" width="130" height="8" fill="#9aa3b2"/>`;
+        t+=`<rect x="${ox+152}" y="58" width="36" height="76" rx="6" fill="#fffdf8" stroke="${COL.text}"/>`;
+        for(let i=0;i<5;i++) t+=`<line x1="${ox+158}" y1="${70+i*12}" x2="${ox+182}" y2="${76+i*12}" stroke="${COL.muted}"/>`;
+        t+=`<line x1="${ox+170}" y1="134" x2="${ox+170}" y2="162" stroke="${COL.text}" stroke-width="2"/><rect x="${ox+148}" y="162" width="44" height="40" rx="4" fill="${COL.D}"/>`+T(ox+170,187,'1 kg',{s:12,w:700,c:'#fff'});
+        return t; };
+      s+=draw(0,'Impulsmodell')+`<line x1="320" y1="40" x2="320" y2="300" stroke="${COL.line}" stroke-dasharray="4 4"/>`+draw(320,'Kraftmodell');
+      // Impulsmodell
+      if(S.g) for(let i=0;i<3;i++) s+=DOTS(158+i*12,290,158+i*12,204,(S.phase+i*.33)%1,COL.ok,3,3.2);
+      if(S.g) s+=T(250,250,'Gravitationsfeld',{s:11.5,c:COL.ok,w:700});
+      if(S.arm) s+=DOTSP([[170,162],[170,60],[44,54],[44,290]],S.phase,COL.warn,9,3.2)+T(96,46,'Feder, Stativ',{s:11.5,c:COL.warn,w:700});
+      if(S.read) s+=`<rect x="196" y="80" width="98" height="40" rx="6" fill="#fffdf8" stroke="${COL.acc}" stroke-width="2"/>`+T(245,97,'9,8 Hy/s',{s:12.5,w:700,f:'var(--mono)',c:COL.acc})+T(245,113,'= 9,8 N',{s:12,w:700,f:'var(--mono)'});
+      // Kraftmodell
+      const cx=490; const c1=S.wrong?COL.warn:COL.warn;
+      if(S.kraft||S.wrong){ s+=AR(cx,190,cx,250,COL.warn,4)+T(cx+8,244,'F Erde→Masse',{a:'start',s:11.5,w:700,c:COL.warn}); }
+      if(S.kraft){ s+=AR(cx,174,cx,118,COL.A,4)+T(cx+8,126,'F Feder→Masse',{a:'start',s:11.5,w:700,c:COL.A}); }
+      if(S.pairs||S.wrong){ s+=AR(410,300,410,262,COL.warn,4)+T(402,276,'F Masse→Erde',{a:'end',s:11.5,w:700,c:COL.warn}); }
+      if(S.pairs){ s+=AR(cx,140,cx-0.01,160,COL.A,3)+T(cx-10,154,'F Masse→Feder',{a:'end',s:11.5,w:700,c:COL.A}); }
+      if(S.wrong) s+=T(560,200,'heben sich auf?',{s:13,w:700,c:COL.warn})+T(560,220,'✗',{s:22,w:700,c:COL.warn});
+      return s;
+    }
+  });
+})();
+
+/* ======================= i2: Kräfte addieren und zerlegen (live) ======================= */
+(function(){
+  const O={x:220,y:170}, SC=6; // 1 N = 6 px
+  const GV={Erde:9.81,Mond:1.62,Mars:3.71,Jupiter:24.8};
+  new Live('lab-i2',{
+    title:'Vektor-Labor: Kräfte addieren, zerlegen, Gewichtskraft',w:640,h:330,note:'Pfeilspitzen sind ziehbar',
+    presets:[{label:'Kräfte addieren'},{label:'Kraft zerlegen'},{label:'Gewichtskraft'}],
+    params:`<label>Masse <input type="range" data-p="m" min="1" max="20" step="1" value="5"><output data-o="m"></output></label><label>Ort <select data-p="ort"><option>Erde</option><option>Mond</option><option>Mars</option><option>Jupiter</option></select></label><span style="color:var(--muted)">(nur für „Gewichtskraft“)</span>`,
+    fmtP:{m:v=>v+' kg'},
+    init:()=>({mode:0,F1:{x:20,y:-6},F2:{x:5,y:-14},F:{x:22,y:-14},drag:null}),
+    preset:(S,i)=>{S.mode=i;},
+    drag:{
+      hover:(S,p)=>{ if(S.mode===2) return false; const pts=S.mode===0?[S.F1,S.F2]:[S.F]; return pts.some(f=>Math.hypot(p.x-(O.x+f.x*SC),p.y-(O.y+f.y*SC))<16); },
+      down:(S,p)=>{ if(S.mode===2) return false; const c=S.mode===0?['F1','F2']:['F']; for(const k of c){ const f=S[k]; if(Math.hypot(p.x-(O.x+f.x*SC),p.y-(O.y+f.y*SC))<18){S.drag=k;return true;} } return false; },
+      move:(S,p)=>{ const f=S[S.drag]; f.x=clamp((p.x-O.x)/SC,-34,34); f.y=clamp((p.y-O.y)/SC,-26,24); f.x=Math.round(f.x*2)/2; f.y=Math.round(f.y*2)/2; },
+      up:S=>{S.drag=null;}
+    },
+    render:(S,L)=>{
+      let s=`<rect width="440" height="330" fill="#fbfaf6"/>`;
+      for(let x=O.x%30;x<440;x+=30) s+=`<line x1="${x}" y1="0" x2="${x}" y2="330" stroke="#eee8dc"/>`; for(let y=O.y%30;y<330;y+=30) s+=`<line x1="0" y1="${y}" x2="440" y2="${y}" stroke="#eee8dc"/>`;
+      const P=f=>[O.x+f.x*SC,O.y+f.y*SC], N=f=>Math.hypot(f.x,f.y);
+      const handle=(f,c)=>{ const [x,y]=P(f); return `<circle cx="${x}" cy="${y}" r="9" fill="#fff" stroke="${c}" stroke-width="2.5" style="cursor:grab"/>`; };
+      let info='';
+      if(S.mode===0){ const R={x:S.F1.x+S.F2.x,y:S.F1.y+S.F2.y}; const [x1,y1]=P(S.F1),[x2,y2]=P(S.F2),[xr,yr]=P(R);
+        s+=`<line x1="${x1}" y1="${y1}" x2="${xr}" y2="${yr}" stroke="${COL.B}" stroke-dasharray="5 4"/><line x1="${x2}" y1="${y2}" x2="${xr}" y2="${yr}" stroke="${COL.A}" stroke-dasharray="5 4"/>`;
+        s+=AR(O.x,O.y,xr,yr,COL.text,4.5)+AR(O.x,O.y,x1,y1,COL.A,3.5)+AR(O.x,O.y,x2,y2,COL.B,3.5)+handle(S.F1,COL.A)+handle(S.F2,COL.B);
+        s+=TB(x1+14,y1+18,'F₁',{s:13,w:700,c:COL.A})+TB(x2-14,y2-12,'F₂',{s:13,w:700,c:COL.B})+TB(xr+16,Math.max(16,yr-10),'Fᵣₑₛ',{s:13,w:700});
+        info=[[`F₁ = ${fmt(N(S.F1),1)} N`,COL.A],[`F₂ = ${fmt(N(S.F2),1)} N`,COL.B],[`|F₁|+|F₂| = ${fmt(N(S.F1)+N(S.F2),1)} N`,COL.muted],[`|Fᵣₑₛ| = ${fmt(N(R),1)} N`,COL.text]];
+      } else if(S.mode===1){ const [x,y]=P(S.F);
+        s+=AR(O.x,O.y,x,O.y,COL.A,3.5)+AR(x,O.y,x,y,COL.B,3.5)+`<line x1="${O.x}" y1="${y}" x2="${x}" y2="${y}" stroke="${COL.B}" stroke-dasharray="4 4"/>`+AR(O.x,O.y,x,y,COL.text,4.5)+handle(S.F,COL.text);
+        s+=TB((O.x+x)/2,O.y+(S.F.y<0?20:-12),'Fₓ',{s:13,w:700,c:COL.A})+TB(x+(S.F.x>=0?18:-18),(O.y+y)/2,'F_y'.replace('_y','ᵧ'),{s:13,w:700,c:COL.B})+TB(x+14,y-12,'F',{s:13,w:700});
+        info=[[`F = ${fmt(N(S.F),1)} N`,COL.text],[`Fₓ = ${fmt(S.F.x,1)} N`,COL.A],[`Fᵧ = ${fmt(-S.F.y,1)} N`,COL.B],[`Fₓ² + Fᵧ² = F²`,COL.muted]];
+      } else { const m=L.pv('m'),g=GV[L.pv('ort')],FG=m*g; const len=Math.min(140,FG*1.2);
+        s+=`<rect x="${O.x-30}" y="${O.y-60}" width="60" height="50" rx="5" fill="${COL.D}"/>`+T(O.x,O.y-30,m+' kg',{s:14,w:700,c:'#fff'})+`<rect x="40" y="${O.y-10}" width="360" height="12" fill="#e9e2d2"/>`;
+        s+=AR(O.x,O.y-35,O.x,O.y-35+len,COL.warn,5)+TB(O.x+50,O.y-35+len/2+10,'F_G'.replace('_G','ɢ'),{s:14,w:700,c:COL.warn});
+        info=[[`Ort: ${L.pv('ort')}`,COL.text],[`g ≈ ${fmt(g,2)} N/kg`,COL.muted],[`m = ${m} kg (überall gleich)`,COL.D],[`F_G = m·g ≈ ${fmt(FG,1)} N`,COL.warn]];
+      }
+      s+=`<rect x="452" y="16" width="176" height="150" rx="10" fill="#fffdf8" stroke="${COL.line}"/>`;
+      info.forEach(([t,c],i)=>{ s+=T(464,44+i*30,t,{a:'start',s:13,w:600,c,f:'var(--mono)'}); });
+      s+=T(452,190,'1 Kästchen = 5 N',{a:'start',s:11.5,c:COL.muted});
+      return s;
+    },
+    explain:(S,L)=>{
+      if(S.mode===0){ const R={x:S.F1.x+S.F2.x,y:S.F1.y+S.F2.y}; return ['Kräfte addieren wie Vektoren',`Die resultierende Kraft ist die Diagonale des Parallelogramms aus F₁ und F₂: |F<sub>res</sub>| = ${fmt(Math.hypot(R.x,R.y),1)} N. Die Beträge addieren sich nur, wenn beide Kräfte in dieselbe Richtung zeigen. Zeigen sie genau entgegengesetzt und sind gleich groß, ist F<sub>res</sub> = 0 (Kräftegleichgewicht). Ziehe die Pfeilspitzen!`]; }
+      if(S.mode===1) return ['Kraft in Komponenten zerlegen','Eine Kraft in beliebiger Richtung lässt sich in zwei senkrecht zueinander stehende Komponenten zerlegen, hier in x- und y-Richtung. Die Komponenten zusammen haben dieselbe Wirkung wie die ursprüngliche Kraft (Satz des Pythagoras für die Beträge).'];
+      return ['Gewichtskraft: F_G = m · g'.replace('F_G','F<sub>G</sub>'),'Die Masse ist ortsunabhängig – das Massestück ist auf dem Mond genauso träge wie auf der Erde. Der Ortsfaktor g ist ortsabhängig, deshalb ändert sich die Gewichtskraft. (g-Werte gerundet; für Jupiter bezogen auf die Wolkenobergrenze.)'];
+    }
+  });
+})();
+
+/* ======================= j1: Herleitung der Grundgleichung ======================= */
+(function(){
+  // Schema: Baum nach dem Hefteintrag, eigenständig gezeichnet
+  const box=(id,x,y,w,h,l1,l2,c)=>`<g data-n="${id}"><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="9" fill="#fffdf8" stroke="${c}" stroke-width="1.6"/>${T(x+w/2,y+20,l1,{s:12.5,w:700,c})}${l2?T(x+w/2,y+37,l2,{s:11,c:'#3a4356'}):''}</g>`;
+  let sv=box('s1',10,8,260,46,'F = Δp/Δt','Kraft = Impulsstromstärke',COL.D)+AR(140,56,140,74,'#9aa3b2',1.6)+
+    box('s2',10,76,260,46,'Δp = Δ(m·v) = m·Δv','bei konstanter Masse',COL.D)+AR(140,124,140,142,'#9aa3b2',1.6)+
+    box('s3',30,144,220,52,'m · Δv = F · Δt','verbindende Grundgleichung',COL.hint)+
+    `<path d="M80,198 L44,236 M140,198 L140,236 M200,198 L236,236" stroke="#9aa3b2" stroke-width="1.6" fill="none"/>`+
+    box('b1',6,238,86,112,'Δp/Δt = F','',COL.A)+T(49,292,'Impulsstrom-',{s:10.5,c:'#3a4356'})+T(49,306,'stärke ist',{s:10.5,c:'#3a4356'})+T(49,320,'die Kraft',{s:10.5,c:'#3a4356'})+
+    box('b2',97,238,86,112,'m·a = F','',COL.C)+T(140,292,'Grundgleichung',{s:10.5,c:'#3a4356'})+T(140,306,'der Mechanik',{s:10.5,c:'#3a4356'})+T(140,320,'(2. Axiom)',{s:10.5,c:'#3a4356'})+
+    box('b3',188,238,86,112,'F·Δt = Δp','',COL.B)+T(231,292,'Kraftstoß →',{s:10.5,c:'#3a4356'})+T(231,306,'Geschwindig-',{s:10.5,c:'#3a4356'})+T(231,320,'keitsänderung',{s:10.5,c:'#3a4356'});
+  const nodes={s1:{x:28,y:31},s2:{x:28,y:99},s3:{x:48,y:170},b1:{x:49,y:336},b2:{x:140,y:336},b3:{x:231,y:336}};
+  function init(F,dt,m){ return ()=>({F,dt,m,t:0,on:false,x:60,hi:null}); }
+  const push=S=>({dur:2200,up:(S,k)=>{S.on=k<1;S.t=k*S.dt;const a=S.F/S.m; S.x=60+0.5*a*S.t*S.t*40;},end:S=>{S.on=false;}});
+  const steps=[
+    {t:'Eine konstante Kraft wirkt',mark:{G:'s1'},hl:['s1'],run:S=>{S.hi='F';return push(S);},x:S=>`Eine Hand schiebt den Wagen (${fmt(S.m,0)} kg) für Δt = ${fmt(S.dt,0)} s mit F = ${fmt(S.F,0)} N. Die Kraft ist die Impulsstromstärke: Pro Sekunde fließen ${fmt(S.F,0)} Hy in den Wagen.`},
+    {t:'Impulsänderung = Masse · Geschwindigkeitsänderung',mark:{G:'s2'},hl:['s2'],run:S=>{S.hi='v';return null;},x:S=>`Weil sich die Masse nicht ändert, gilt Δp = m · Δv. Insgesamt ist Δp = ${fmt(S.F*S.dt,0)} Hy geflossen; also Δv = ${fmt(S.F*S.dt,0)} Hy / ${fmt(S.m,0)} kg = ${fmt(S.F*S.dt/S.m,1)} m/s.`},
+    {t:'Die verbindende Grundgleichung',mark:{G:'s3'},hl:['s3'],run:S=>{S.hi='both';return null;},x:S=>`Setzt man beides gleich, erhält man m · Δv = F · Δt. Probe: ${fmt(S.m,0)} kg · ${fmt(S.F*S.dt/S.m,1)} m/s = ${fmt(S.F,0)} N · ${fmt(S.dt,0)} s = ${fmt(S.F*S.dt,0)} Hy. Im F-t-Diagramm ist das die Rechteckfläche.`},
+    {t:'Lesart ①: Impulsstromstärke',mark:{G:'b1'},hl:['b1'],x:'Teilt man durch Δt: Δp/Δt = F. Die Kraft gibt an, wie viel Impuls pro Sekunde fließt.'},
+    {t:'Lesart ②: F = m · a',mark:{G:'b2'},hl:['b2'],run:S=>{S.hi='a';return null;},x:S=>`Mit a = Δv/Δt folgt F = m · a – die Grundgleichung der Mechanik (2. Newtonsches Axiom). Hier: a = ${fmt(S.F,0)} N / ${fmt(S.m,0)} kg = ${fmt(S.F/S.m,2)} m/s². Eine Kraft beschleunigt einen Körper in ihre Richtung.`},
+    {t:'Lesart ③: Kraftstoß',mark:{G:'b3'},hl:['b3'],run:S=>{S.hi='area';return null;},x:'F · Δt heißt Kraftstoß. Er ist gleich der Impulsänderung Δp. Es kommt also nicht nur darauf an, wie groß die Kraft ist, sondern auch, wie lange sie wirkt.'}
+  ];
+  new Lab('lab-j1',{
+    title:'Herleitungs-Labor: Von F = Δp/Δt zu F = m·a',w:640,h:310,note:'reibungsfrei',
+    schema:sv,nodes,sh:358,schemaTitle:'Die verbindende Grundgleichung',parts:[{k:'G',lab:'✎',c:COL.D,n:'aktueller Gedankenschritt'}],
+    scen:[
+      {k:'n',label:'F = 3 N, Δt = 2 s, m = 2 kg',init:init(3,2,2),intro:'Ein ruhender Wagen (2 kg) wird 2 s lang mit konstanter Kraft 3 N geschoben.',steps},
+      {k:'n',label:'doppelte Masse (4 kg)',init:init(3,2,4),intro:'Gleicher Kraftstoß, aber der Wagen ist doppelt so schwer (4 kg). Was ändert sich?',steps},
+      {k:'s',label:'doppelte Kraft, halbe Zeit',init:init(6,1,2),intro:'Diesmal: 6 N für nur 1 s (m = 2 kg). Vergleiche das Ergebnis mit Normalfall 1.',steps}
+    ],
+    render:(S)=>{
+      let s=GROUND(120,640,'',{h:16});
+      s+=CART(S.x,82,70,COL.D,`${fmt(S.m,0)} kg`);
+      if(S.on){ s+=AR(S.x-60,96,S.x-2,96,COL.warn,4+S.F)+T(S.x-34,76,`F = ${fmt(S.F,0)} N`,{s:12,w:700,c:COL.warn}); }
+      const v=Math.min(S.t,S.dt)*S.F/S.m; s+=T(624,24,`v = ${fmt(v,1)} m/s`,{a:'end',s:14,w:700,f:'var(--mono)'})+T(624,44,`p = ${fmt(v*S.m,0)} Hy`,{a:'end',s:14,w:700,f:'var(--mono)',c:COL.B});
+      // F-t und v-t
+      const dg=(ox,title,fn,ymax,col,lab)=>{ const gx=ox+40,gy=290,gw=230,gh=110; let t=`<line x1="${gx}" y1="${gy}" x2="${gx+gw}" y2="${gy}" stroke="${COL.text}"/><line x1="${gx}" y1="${gy}" x2="${gx}" y2="${gy-gh-6}" stroke="${COL.text}"/>`+T(gx-6,gy-gh,lab,{a:'end',s:12.5,w:700,x:'font-style="italic"'})+T(gx+gw,gy+16,'t in s',{a:'end',s:11,c:COL.muted,x:'font-style="italic"'})+T(gx+gw/2,gy-gh-14,title,{s:12,w:700,c:COL.muted});
+        for(let i=1;i<=2;i++) t+=`<line x1="${gx+i*gw/3}" y1="${gy}" x2="${gx+i*gw/3}" y2="${gy+4}" stroke="${COL.text}"/>`+T(gx+i*gw/3,gy+16,i,{s:10.5,c:COL.muted});
+        t+=fn(gx,gy,gw,gh); return t; };
+      s+=dg(0,'F-t-Diagramm',(gx,gy,gw,gh)=>{ const w=Math.min(S.t,S.dt)/3*gw, h=S.F/6*gh; let t=`<rect x="${gx}" y="${gy-h}" width="${w}" height="${h}" fill="${COL.B}" opacity="${S.hi==='area'||S.hi==='both'?.45:.22}"/>`+`<line x1="${gx}" y1="${gy-h}" x2="${gx+w}" y2="${gy-h}" stroke="${COL.warn}" stroke-width="2.5"/>`;
+        if(w>30) t+=T(gx+w/2,gy-h/2+4,`Δp = ${fmt(S.F*Math.min(S.t,S.dt),0)} Hy`,{s:11.5,w:700}); t+=T(gx-6,gy-h+4,fmt(S.F,0),{a:'end',s:10.5,c:COL.muted}); return t; },6,COL.warn,'F');
+      s+=dg(320,'v-t-Diagramm',(gx,gy,gw,gh)=>{ const pts=[]; for(let i=0;i<=30;i++){ const tt=i/30*Math.min(S.t,S.dt); pts.push(`${gx+tt/3*gw},${gy-tt*S.F/S.m/4.5*gh}`); }
+        let t=`<polyline points="${pts.join(' ')}" fill="none" stroke="${COL.D}" stroke-width="2.5"/>`; if(S.hi==='a'&&S.t>0) t+=T(gx+gw*0.45,gy-gh*0.75,`Steigung a = ${fmt(S.F/S.m,2)} m/s²`,{s:11.5,w:700,c:COL.C}); return t; },4.5,COL.D,'v');
+      return s;
+    }
+  });
+})();
+
+/* ======================= j2: Kraftstoß beim Aufprall (live) ======================= */
+(function(){
+  const m=75, v=50/3.6, dp=m*v;
+  new Live('lab-j2',{
+    title:'Sicherheits-Labor: Gleicher Kraftstoß, andere Kraft',w:640,h:300,note:'Insasse 75 kg, 50 km/h; Bremszeiten grob geschätzt',
+    presets:[{label:'harter Aufprall (≈ 0,01 s)',dt:0.01},{label:'mit Gurt (≈ 0,08 s)',dt:0.08},{label:'Gurt + Airbag + Knautschzone (≈ 0,12 s)',dt:0.12}],
+    params:`<label>Bremszeit Δt <input type="range" data-p="dt" min="0.005" max="0.2" step="0.005" value="0.08"><output data-o="dt"></output></label>`,
+    fmtP:{dt:v=>fmt(v,3).replace(/0$/,'')+' s'},
+    init:()=>({}),
+    preset:(S,i,L)=>{ L.setP('dt',[0.01,0.08,0.12][i]); },
+    render:(S,L)=>{
+      const dt=L.pv('dt'), F=dp/dt; let s='';
+      const gx=60,gy=250,gw=520,gh=180,tmax=0.2,Fmax=dp/0.005;
+      s+=`<line x1="${gx}" y1="${gy}" x2="${gx+gw}" y2="${gy}" stroke="${COL.text}"/><line x1="${gx}" y1="${gy}" x2="${gx}" y2="${gy-gh-10}" stroke="${COL.text}"/>`+T(gx-8,gy-gh-2,'F',{a:'end',s:13,w:700,x:'font-style="italic"'})+T(gx+gw,gy+36,'t in s',{a:'end',s:11.5,c:COL.muted});
+      [0.05,0.1,0.15,0.2].forEach(t=>{ s+=`<line x1="${gx+t/tmax*gw}" y1="${gy}" x2="${gx+t/tmax*gw}" y2="${gy+4}" stroke="${COL.text}"/>`+T(gx+t/tmax*gw,gy+18,fmt(t,2),{s:10.5,c:COL.muted}); });
+      // Skala logarithmisch wäre genauer; hier linear mit Kappung
+      const h=Math.min(gh,F/Fmax*gh*4), w=dt/tmax*gw, capped=F/Fmax*gh*4>gh;
+      s+=`<rect x="${gx}" y="${gy-h}" width="${w}" height="${h}" fill="${COL.B}" opacity=".3"/><line x1="${gx}" y1="${gy-h}" x2="${gx+w}" y2="${gy-h}" stroke="${COL.warn}" stroke-width="3"/>`;
+      if(capped) s+=T(gx+w+6,gy-gh+8,'↑ (größer als Achse)',{a:'start',s:11,c:COL.warn});
+      s+=T(gx+Math.max(w,120)/2+(w<120?w:0),gy-Math.min(h,gh)/2,`Fläche = Δp ≈ ${fmt(dp,0)} Hy`,{s:12,w:700,a:w<120?'start':'middle'});
+      s+=`<rect x="390" y="14" width="236" height="78" rx="10" fill="#fffdf8" stroke="${COL.line}"/>`+T(402,38,`F = Δp/Δt ≈ ${F>=10000?fmt(F/1000,0)+' kN':fmt(F,0)+' N'}`,{a:'start',s:14,w:700,f:'var(--mono)',c:COL.warn})+T(402,60,`≈ ${fmt(F/(m*9.81),0)}-fache Gewichtskraft`,{a:'start',s:12.5,f:'var(--mono)'})+T(402,80,`Δt = ${fmt(dt,3)} s`,{a:'start',s:12,c:COL.muted,f:'var(--mono)'});
+      return s;
+    },
+    explain:(S,L)=>{ const dt=L.pv('dt'),F=dp/dt; return [`Bremszeit ${fmt(dt,3)} s → mittlere Kraft ≈ ${F>=10000?fmt(F/1000,0)+' kN':fmt(F,0)+' N'}`,`Der Insasse muss in jedem Fall den Impuls Δp = 75 kg · 13,9 m/s ≈ 1042 Hy abgeben – der Kraftstoß F·Δt ist immer gleich (Fläche im Diagramm). Je länger die Bremszeit, desto kleiner die Kraft. Gurt, Airbag und Knautschzone verlängern Δt. (Die Zeiten sind grobe Schätzwerte; reale Kraftverläufe sind nicht rechteckig.)`]; }
+  });
+})();
+</script>
+<script>
+/* ======================= Lernlandkarte, Navigation, Fortschritt ======================= */
+const SECS=[
+  {l:'a',r:'A',t:'Was ist Impuls?',q:'Wovon hängt die „Wucht“ eines bewegten Körpers ab?',x:40,y:165,ill:'a'},
+  {l:'b',r:'A',t:'Impuls als Vektor',q:'Warum braucht der Impuls eine Richtung – und wie rechnet man damit?',x:40,y:345,ill:'b'},
+  {l:'c',r:'B',t:'Stöße & Erhaltung',q:'Was passiert mit dem Impuls, wenn Körper zusammenstoßen?',x:345,y:165,ill:'c'},
+  {l:'d',r:'B',t:'Leiter & Pumpen',q:'Auf welchen Wegen kann Impuls fließen – und was hält ihn auf?',x:645,y:165,ill:'d'},
+  {l:'e',r:'B',t:'Fließgleichgewicht',q:'Warum braucht ein Auto bei konstantem Tempo trotzdem den Motor?',x:645,y:345,ill:'e'},
+  {l:'f',r:'B',t:'Rückstoß',q:'Wie kann sich ein Körper selbst antreiben?',x:345,y:345,ill:'f'},
+  {l:'g',r:'C',t:'Trägheit (1. Axiom)',q:'Warum fliegt man im bremsenden Bus nach vorne?',x:935,y:165,ill:'g'},
+  {l:'h',r:'C',t:'Wechselwirkung (3.)',q:'Wer zieht stärker, wenn zwei sich an einem Seil zusammenziehen?',x:935,y:345,ill:'h'},
+  {l:'i',r:'D',t:'Kraft',q:'Was hat Kraft mit Impulsströmen zu tun?',x:345,y:595,ill:'i'},
+  {l:'j',r:'D',t:'Grundgleichung (2.)',q:'Wie hängen Kraft, Zeit und Impulsänderung zusammen?',x:645,y:595,ill:'j'}
+];
+const REG={A:{n:'① Impuls – eine Größe',x:15,y:118,w:290,h:388},B:{n:'② Impuls fließt',x:320,y:118,w:590,h:388},C:{n:'③ Axiome im Impulsmodell',x:920,y:118,w:265,h:388},D:{n:'④ Vom Impuls zur Kraft',x:320,y:548,w:590,h:200}};
+const CW=240,CH=132;
+const ILL={
+ a:`<line x1="0" y1="40" x2="64" y2="40" stroke="#d8cfbb"/><g class="an-slideR"><circle cx="12" cy="30" r="9" fill="${COL.A}"/></g><g class="an-grow"><line x1="4" y1="10" x2="40" y2="10" stroke="${COL.B}" stroke-width="3"/><polygon points="46,10 38,5 38,15" fill="${COL.B}"/></g>`,
+ b:`<g class="an-po"><line x1="32" y1="14" x2="60" y2="14" stroke="${COL.A}" stroke-width="3"/><polygon points="64,14 56,9 56,19" fill="${COL.A}"/></g><line x1="32" y1="32" x2="6" y2="32" stroke="${COL.B}" stroke-width="3"/><polygon points="2,32 10,27 10,37" fill="${COL.B}"/><text x="46" y="44" font-size="10" fill="${COL.muted}" text-anchor="middle">+ / −</text>`,
+ c:`<line x1="0" y1="44" x2="66" y2="44" stroke="#d8cfbb"/><g class="an-hitR"><rect x="2" y="24" width="22" height="14" rx="3" fill="${COL.A}"/></g><g class="an-slideR" style="animation-delay:-.2s"><rect x="30" y="24" width="22" height="14" rx="3" fill="${COL.B}"/></g>`,
+ d:`<rect x="0" y="22" width="10" height="20" fill="${COL.muted}"/><line x1="10" y1="30" x2="48" y2="30" stroke="#9aa3b2" stroke-width="5"/><line x1="10" y1="30" x2="48" y2="30" stroke="${COL.B}" stroke-width="3" class="an-flow"/><rect x="48" y="20" width="18" height="18" rx="3" fill="${COL.B}"/>`,
+ e:`<rect x="18" y="20" width="30" height="16" rx="4" fill="${COL.B}"/><circle cx="24" cy="38" r="4" fill="${COL.text}"/><circle cx="42" cy="38" r="4" fill="${COL.text}"/><line x1="0" y1="14" x2="16" y2="22" stroke="${COL.ok}" stroke-width="3" class="an-flow"/><line x1="50" y1="22" x2="66" y2="14" stroke="${COL.warn}" stroke-width="3" class="an-flow"/><text x="33" y="10" font-size="10" text-anchor="middle" fill="${COL.muted}">ein = aus</text>`,
+ f:`<rect x="26" y="26" width="34" height="12" rx="3" fill="${COL.B}"/><circle cx="18" cy="24" r="10" fill="#f59e0b" opacity=".85"/><g class="an-puff"><circle cx="6" cy="26" r="4" fill="#cbd5e1"/></g><g class="an-puff" style="animation-delay:-.6s"><circle cx="4" cy="22" r="3" fill="#cbd5e1"/></g>`,
+ g:`<rect x="2" y="12" width="60" height="28" rx="5" fill="none" stroke="${COL.C}" stroke-width="2"/><g class="an-lean"><circle cx="30" cy="18" r="4" fill="${COL.C}"/><line x1="30" y1="22" x2="30" y2="38" stroke="${COL.C}" stroke-width="3"/></g><circle cx="14" cy="42" r="4" fill="${COL.text}"/><circle cx="50" cy="42" r="4" fill="${COL.text}"/>`,
+ h:`<g class="an-slideR" style="animation-duration:3s"><circle cx="8" cy="16" r="5" fill="${COL.A}"/><line x1="8" y1="21" x2="8" y2="38" stroke="${COL.A}" stroke-width="3"/></g><g class="an-slideL" style="animation-duration:3s"><circle cx="58" cy="16" r="5" fill="${COL.B}"/><line x1="58" y1="21" x2="58" y2="38" stroke="${COL.B}" stroke-width="3"/></g><line x1="12" y1="26" x2="54" y2="26" stroke="${COL.muted}" stroke-width="1.5"/>`,
+ i:`<line x1="32" y1="0" x2="32" y2="6" stroke="${COL.text}" stroke-width="2"/><g class="an-bob"><path d="M32,6 l6,3 l-12,4 l12,4 l-12,4 l6,3" fill="none" stroke="${COL.muted}" stroke-width="1.6"/><rect x="24" y="24" width="16" height="16" rx="2" fill="${COL.D}"/></g><line x1="50" y1="14" x2="50" y2="40" stroke="${COL.warn}" stroke-width="2.4"/><polygon points="50,44 46,36 54,36" fill="${COL.warn}"/>`,
+ j:`<line x1="4" y1="44" x2="64" y2="44" stroke="${COL.text}"/><line x1="4" y1="44" x2="4" y2="4" stroke="${COL.text}"/><rect x="12" y="16" width="34" height="28" fill="${COL.D}" opacity=".35" class="an-po"/><text x="29" y="35" font-size="10" text-anchor="middle" fill="${COL.text}">Δp</text><text x="60" y="40" font-size="9" fill="${COL.muted}">t</text><text x="8" y="10" font-size="9" fill="${COL.muted}">F</text>`
+};
+function buildMap(){
+  const svg=$('#mapsvg'); let s=`<defs><marker id="mh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5b6475"/></marker></defs>`;
+  // Kernfrage
+  s+=`<rect x="290" y="12" width="620" height="78" rx="16" fill="${COL.text}"/>`+T(600,38,'KERNFRAGE',{s:11.5,c:'#9fb3c8',w:700,x:'letter-spacing="2"'})+T(600,68,'Wie und warum ändert ein Körper seinen Bewegungszustand?',{s:20,c:'#fff',w:700});
+  // Regionen
+  for(const k in REG){ const r=REG[k]; s+=`<rect x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" rx="22" fill="${COL[k]}" fill-opacity=".07" stroke="${COL[k]}" stroke-opacity=".45" stroke-width="1.5" stroke-dasharray="6 5"/>`+T(r.x+18,r.y+26,r.n,{a:'start',s:14,w:700,c:COL[k]}); }
+  // Lernpfad (gestrichelt, unter den Karten)
+  const cen=SECS.map(o=>[o.x+CW/2,o.y+CH/2]); cen.push([1062,672]);
+  s+=`<polyline points="${cen.map(p=>p.join(',')).join(' ')}" fill="none" stroke="${COL.hint}" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round" opacity=".55"/>`;
+  // Beziehungspfeile
+  const rel=[
+    [160,297,160,343,'Richtung?',[206,323]],
+    [280,231,343,231,'fließt',[312,221]],
+    [585,231,643,231,'Wege?',[614,221]],
+    [765,297,765,343,'Pumpe + Reibung',[818,323]],
+    [465,297,465,343,'Anwendung',[512,323]],
+    [885,246,933,246,'',[0,0]],
+    [1055,297,1055,343,'zwei Körper',[1108,323]],
+    [765,477,505,593,'Stromstärke = Kraft',[640,528]],
+    [585,661,643,661,'F·Δt = Δp',[614,645]],
+    [885,661,985,661,'Ziel',[935,651]]
+  ];
+  s+=`<path d="M290,51 H165 V114" fill="none" stroke="#5b6475" stroke-width="1.8" marker-end="url(#mh)"/>`+TB(228,55,'beschreiben mit p',{s:11.5,c:'#3a4356',w:600,bg:'#fffdf8',bc:'#e5dfd2',op:1});
+  s+=TB(910,214,'kein',{s:11.5,c:'#3a4356',w:600,bg:'#fffdf8',bc:'#e5dfd2',op:1})+TB(910,231,'Fluss',{s:11.5,c:'#3a4356',w:600,bg:'#fffdf8',bc:'#e5dfd2',op:1});
+  rel.forEach(r=>{ s+=`<line x1="${r[0]}" y1="${r[1]}" x2="${r[2]}" y2="${r[3]}" stroke="#5b6475" stroke-width="1.8" marker-end="url(#mh)"/>`; if(r[4]) s+=TB(r[5][0],r[5][1],r[4],{s:11.5,c:'#3a4356',w:600,bg:'#fffdf8',bc:'#e5dfd2',op:1}); });
+  // Karten
+  SECS.forEach((o,i)=>{ const c=COL[o.r]; const lines=wrapT(o.q,25);
+    s+=`<g class="mcard" data-go="s-${o.l}" data-l="${o.l}" tabindex="0" role="link" aria-label="Abschnitt ${o.l}: ${o.t}" transform="translate(${o.x},${o.y})">`+
+      `<rect class="mc-bg" width="${CW}" height="${CH}" rx="14" fill="#fffdf8" stroke="${c}" stroke-width="1.6"/>`+
+      `<circle cx="22" cy="23" r="14" fill="${c}"/>`+T(22,28.5,o.l,{s:15,w:700,c:'#fff'})+T(43,28,o.t,{a:'start',s:14,w:700})+
+      lines.map((l,j)=>T(12,54+j*15.5,l,{a:'start',s:11.8,c:'#3a4356'})).join('')+
+      `<g transform="translate(${CW-76},${CH-56})">${ILL[o.ill]}</g>`+
+      `<circle cx="16" cy="${CH-15}" r="9" fill="${COL.hint}" opacity=".9"/>`+T(16,CH-11,String(i+1),{s:10.5,w:700,c:'#fff'})+
+      `<g class="chk"><circle cx="${CW-4}" cy="4" r="12" fill="${COL.ok}" stroke="#fff" stroke-width="2"/><path d="M${CW-10},4 l4,4 l8,-8" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round"/></g></g>`; });
+  // Zielflagge
+  s+=`<g class="mcard" data-go="s-quiz" data-l="quiz" tabindex="0" role="link" aria-label="Abschlussquiz" transform="translate(990,600)">`+
+     `<rect class="mc-bg" x="-6" y="-8" width="170" height="140" rx="16" fill="#fffdf8" stroke="${COL.ok}" stroke-width="1.6"/>`+
+     `<line x1="56" y1="2" x2="56" y2="58" stroke="${COL.text}" stroke-width="3" stroke-linecap="round"/><g class="an-flag"><path d="M58,4 h50 l-9,12 l9,12 h-50 z" fill="${COL.ok}"/><path d="M64,7 h8 v7 h-8 z M80,7 h8 v7 h-8 z M72,14 h8 v7 h-8 z M88,14 h8 v7 h-8 z" fill="#fff" opacity=".85"/></g>`+
+     T(79,78,'Abschlussquiz',{s:15,w:700,c:COL.ok})+T(79,98,'10 Fragen mit Erklärung',{s:11.5,c:COL.muted})+
+     `<circle cx="16" cy="118" r="9" fill="${COL.hint}"/>`+T(16,122,'11',{s:10,w:700,c:'#fff'})+
+     `<g class="chk"><circle cx="160" cy="-4" r="12" fill="${COL.ok}" stroke="#fff" stroke-width="2"/><path d="M154,-4 l4,4 l8,-8" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round"/></g></g>`;
+  // Legende
+  s+=`<g transform="translate(22,560)"><rect width="282" height="186" rx="14" fill="#fffdf8" stroke="${COL.line}"/>`+T(16,26,'Legende',{a:'start',s:13,w:700})+
+     `<line x1="16" y1="50" x2="56" y2="50" stroke="#5b6475" stroke-width="1.8" marker-end="url(#mh)"/>`+T(66,54,'Beziehung zwischen Leitfragen',{a:'start',s:12})+
+     `<line x1="16" y1="78" x2="56" y2="78" stroke="${COL.hint}" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/>`+T(66,82,'empfohlener Lernpfad',{a:'start',s:12})+
+     `<circle cx="26" cy="106" r="9" fill="${COL.hint}"/>`+T(26,110,'1',{s:10.5,w:700,c:'#fff'})+T(66,110,'Reihenfolge im Lernpfad',{a:'start',s:12})+
+     `<circle cx="26" cy="134" r="10" fill="${COL.ok}"/><path d="M20,134 l4,4 l8,-8" stroke="#fff" stroke-width="2.4" fill="none"/>`+T(66,138,'schon angeschaut',{a:'start',s:12})+
+     T(16,168,'Karte anklicken → zum Abschnitt',{a:'start',s:12,c:COL.muted})+`</g>`;
+  svg.innerHTML=s;
+  // Liste für schmale Bildschirme
+  let h=''; ['A','B','C','D'].forEach(k=>{ h+=`<li class="reg">${REG[k].n}</li>`; SECS.filter(o=>o.r===k).forEach(o=>{ h+=`<li data-go="s-${o.l}" data-l="${o.l}" style="border-left-color:${COL[k]}"><div class="t">${o.l}) ${o.t}</div><div class="mq">${o.q}</div></li>`; }); });
+  h+=`<li class="reg">Ziel</li><li data-go="s-quiz" data-l="quiz" style="border-left-color:${COL.ok}"><div class="t">🏁 Abschlussquiz</div><div class="mq">10 Fragen mit Erklärung</div></li>`;
+  $('#maplist').innerHTML=h;
+}
+function go(id){ const el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); }
+const ALL=SECS.map(o=>o.l).concat(['quiz']);
+let SEEN=new Set(load('impuls-lk11-seen',[]));
+function markSeen(l){ if(SEEN.has(l)) return; SEEN.add(l); store('impuls-lk11-seen',[...SEEN]); updProg(); }
+function updProg(){
+  const n=ALL.filter(l=>SEEN.has(l)).length, pc=Math.round(n/ALL.length*100);
+  $('#navprogtxt').textContent=`${n} / ${ALL.length}`; $('#navprogbar').style.width=pc+'%';
+  $('#mapprogtxt').textContent=`Fortschritt: ${n} von ${ALL.length} Stationen angeschaut`; $('#mapprogbar').style.width=pc+'%';
+  $$('[data-l]').forEach(e=>{ if(e.matches('.mcard,.maplist li,.chip')) e.classList.toggle('seen',SEEN.has(e.dataset.l)); });
+}
+function initNav(){
+  const inner=$('#navinner'), prog=$('.navprog',inner);
+  ALL.forEach(l=>{ const b=document.createElement('button'); b.className='chip'; b.dataset.l=l; b.dataset.go='s-'+l; b.textContent=l==='quiz'?'🏁 Quiz':l; b.title=l==='quiz'?'Abschlussquiz':SECS.find(o=>o.l===l).t; inner.insertBefore(b,prog); });
+  document.addEventListener('click',e=>{ const t=e.target.closest('[data-go]'); if(t){ e.preventDefault(); go(t.dataset.go); } });
+  document.addEventListener('keydown',e=>{ if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('.mcard')){ e.preventDefault(); go(e.target.dataset.go); } });
+  // aktueller Abschnitt + „angeschaut“ (mind. 1,5 s sichtbar)
+  const secs=ALL.map(l=>document.getElementById('s-'+l));
+  let timers={};
+  function onScroll(){
+    const mid=window.innerHeight*0.35; let cur=null;
+    secs.forEach(s=>{ const r=s.getBoundingClientRect(); if(r.top<mid&&r.bottom>mid) cur=s.dataset.l; });
+    $$('.chip').forEach(c=>c.classList.toggle('cur',c.dataset.l===cur));
+    if(cur){ const c=$(`.chip[data-l="${cur}"]`); if(c&&c.scrollIntoView&&inner.scrollWidth>inner.clientWidth){ const cr=c.getBoundingClientRect(); if(cr.left<0||cr.right>window.innerWidth) inner.scrollLeft+=cr.left-60; } }
+    secs.forEach(s=>{ const l=s.dataset.l, r=s.getBoundingClientRect(); const visible=r.top<window.innerHeight*0.6&&r.bottom>window.innerHeight*0.3;
+      if(visible&&!timers[l]&&!SEEN.has(l)) timers[l]=setTimeout(()=>markSeen(l),1500);
+      if(!visible&&timers[l]){ clearTimeout(timers[l]); delete timers[l]; } });
+  }
+  let tk=false; window.addEventListener('scroll',()=>{ if(!tk){tk=true;requestAnimationFrame(()=>{tk=false;onScroll();});} },{passive:true});
+  window.addEventListener('resize',onScroll); onScroll();
+  $('#resetprog').onclick=()=>{ SEEN=new Set(); store('impuls-lk11-seen',[]); store('impuls-lk11-quiz',{}); updProg(); buildQuiz(); };
+}
+
+/* ======================= Sortier-Check ======================= */
+function buildSorter(){
+  const items=[['Stange','L','Leitet Impuls in beide Richtungen – man kann schieben und ziehen.'],['Seil','L','Leitet Impuls, aber nur in einer Richtung: Man kann damit nur ziehen.'],['Feder (Metall)','L','Federn leiten Impuls.'],['Magnetfeld','L','Felder leiten Impuls – auch ohne Berührung.'],['Gravitationsfeld','L','Über das Gravitationsfeld fließt Impuls aus der Erde z. B. in einen fallenden Ball.'],['Glatteis','I','Fast reibungsfrei – kaum Impuls kann fließen.'],['Luftkissen','I','Luftkissenbahn, Airhockey: nahezu reibungsfrei.'],['gut gelagerte Rollen','I','Skateboardrollen isolieren ziemlich gut.'],['Automotor','P','Pumpt Impuls aus der Erde über die Räder ins Auto.'],['Muskeln','P','Unsere Muskeln sind physikalische Impulspumpen.']];
+  const N={L:'Leiter',I:'Isolator',P:'Pumpe'};
+  $('#sorter').innerHTML=items.map((it,i)=>`<div class="it" data-i="${i}"><div class="nm">${it[0]}</div><div class="bt">${['L','I','P'].map(k=>`<button data-k="${k}">${N[k]}</button>`).join('')}</div><div class="fb"></div></div>`).join('');
+  $$('#sorter .it').forEach(d=>{ const it=items[+d.dataset.i]; $$('button',d).forEach(b=>b.onclick=()=>{ const ok=b.dataset.k===it[1]; d.className='it '+(ok?'r':'w'); $('.fb',d).innerHTML=(ok?'✓ Richtig. ':`✗ Nicht ganz – richtig ist: Impuls${{L:'leiter',I:'isolator',P:'pumpe'}[it[1]]}. `)+it[2]; }); });
+}
+
+/* ======================= Quiz ======================= */
+const QUIZ=[
+ {q:'Ein Tennisball (58 g) fliegt mit 263 km/h. Wie groß ist sein Impuls ungefähr?',o:['15 254 Hy','4,2 Hy','0,42 Hy','15,3 Hy'],a:1,e:'Erst umrechnen: m = 0,058 kg, v = 263 : 3,6 m/s ≈ 73,1 m/s. Dann p = m·v ≈ 0,058 kg · 73,1 m/s ≈ 4,2 Hy. 15 254 entsteht, wenn man g und km/h direkt multipliziert.'},
+ {q:'Ein Skateboardfahrer (65 kg) springt mit 5 m/s auf sein ruhendes Board (3 kg). Wie schnell rollen beide danach (ohne Reibung)?',o:['5,00 m/s','4,78 m/s','2,50 m/s','0,23 m/s'],a:1,e:'Impulserhaltung (unelastisch): 65 kg · 5 m/s = (65 kg + 3 kg) · v′ ⇒ v′ = 325 Hy / 68 kg ≈ 4,78 m/s. (Übungsblatt, Aufgabe 2)'},
+ {q:'Wagen 1 (3 kg, 1 m/s) stößt auf den ruhenden Wagen 2 (2 kg); beide koppeln. Was gilt nach dem Stoß?',o:['v′ = 0,6 m/s; p₁′ = 1,8 Hy; p₂′ = 1,2 Hy','v′ = 0,6 m/s; p₁′ = p₂′ = 3 Hy','v′ = 1 m/s; p₁′ = 3 Hy; p₂′ = 2 Hy','v′ = 0,5 m/s; p₁′ = p₂′ = 1,5 Hy'],a:0,e:'p_ges = 3 kg · 1 m/s = 3 Hy. v′ = 3 Hy / 5 kg = 0,6 m/s. Danach: p₁′ = 3 kg · 0,6 m/s = 1,8 Hy, p₂′ = 2 kg · 0,6 m/s = 1,2 Hy – zusammen wieder 3 Hy. Nur die Summe ist 3 Hy, nicht jeder Einzelimpuls.'},
+ {q:'Zwei ruhende Wagen werden von einer Feder auseinandergetrieben. Danach hat Wagen A 0,5 Hy nach links, Wagen B 0,5 Hy nach rechts. Wie groß ist der Gesamtimpuls?',o:['1,0 Hy','0,5 Hy','0 Hy','Er lässt sich ohne Massen nicht angeben.'],a:2,e:'Mit Vorzeichen: p_A = −0,5 Hy, p_B = +0,5 Hy ⇒ Σp = 0 Hy – wie vorher. Der Impuls ist ein Vektor; entgegengesetzte Impulse heben sich in der Summe auf.'},
+ {q:'Ein Auto fährt mit konstanter Geschwindigkeit, obwohl Luftwiderstand und Rollreibung wirken. Welche Beschreibung ist richtig?',o:['Es fließt kein Impuls, weil sich der Impuls nicht ändert.','Der Motor pumpt genauso viel Impuls ins Auto, wie durch Reibung abfließt (Fließgleichgewicht).','Der Motor pumpt mehr Impuls hinein, als abfließt.','Ein bewegter Körper kann nie im Fließgleichgewicht sein.'],a:1,e:'Konstanter Impuls heißt nicht „kein Fluss“, sondern Zufluss = Abfluss. Das gilt auch für bewegte Körper (Übungsblatt, Aufgabe 5).'},
+ {q:'Warum funktioniert ein Raketentriebwerk auch im luftleeren Weltraum?',o:['Die Rakete stößt sich am Weltraum ab.','Das Triebwerk pumpt Impuls aus der Rakete in das ausgestoßene Gas; die Rakete erhält gleich viel Impuls in Gegenrichtung.','Im Weltraum gibt es keine Trägheit.','Es funktioniert dort nicht; Raketen gleiten nur.'],a:1,e:'Rückstoß braucht keine Luft. Vorher Σp = 0; nachher p_Rakete = −p_Gas. Die Rakete „stößt sich“ an ihrem eigenen Abgas ab.'},
+ {q:'Warum „fliegt“ ein stehender Fahrgast beim scharfen Bremsen des Busses nach vorne?',o:['Der Bus drückt ihn nach vorne.','Sein Impuls kann über die schwache Verbindung nicht schnell genug abfließen; er behält fast seine Geschwindigkeit, der Bus wird unter ihm langsamer.','Beim Bremsen fließt zusätzlicher Impuls aus der Straße in den Fahrgast.','Die Trägheit ist eine Kraft, die nach vorne wirkt.'],a:1,e:'Trägheit (1. Axiom): Ohne ausreichenden Impulsabfluss behält ein Körper seinen Bewegungszustand. Relativ zum Bus scheint er nach vorne zu fliegen. Trägheit ist keine Kraft, sondern eine Eigenschaft (Maß: Masse).'},
+ {q:'Ein Massestück hängt an einem Faden; unten hängt ein zweiter Faden mit Ring. Was passiert, wenn man ruckartig am Ring zieht?',o:['Der obere Faden reißt.','Der untere Faden reißt.','Beide reißen gleichzeitig.','Keiner reißt, die Masse fällt.'],a:1,e:'Beim ruckartigen Ziehen kann der Impuls nicht schnell genug in das träge Massestück fließen und es in Bewegung setzen. Der Impulsstrom im unteren Faden wird zu groß, er reißt. Beim langsamen Ziehen reißt dagegen der obere, weil er zusätzlich das Gewicht trägt.'},
+ {q:'Ein LKW und ein Motorrad stoßen frontal zusammen. Welche Aussage ist richtig?',o:['Der LKW übt die größere Kraft aus, weil er schwerer ist.','Beide üben gleich große Kräfte aufeinander aus; das Motorrad erfährt wegen seiner kleineren Masse die viel größere Beschleunigung.','Beide erfahren dieselbe Beschleunigung, weil Δt gleich ist.','Das Motorrad übt keine Kraft auf den LKW aus.'],a:1,e:'3. Axiom: F_LKW→M = −F_M→LKW (derselbe Impulsstrom). Nach F = m·a ist dann die Beschleunigung umgekehrt proportional zur Masse. „Gleiche Beschleunigung, weil Δt gleich“ ist genau der Fehlschluss aus dem Hefteintrag („FALSCH!“).'},
+ {q:'Warum verringert ein Airbag die Verletzungsgefahr?',o:['Er verringert die Impulsänderung des Kopfes.','Er verlängert die Zeit Δt, in der der Impuls abfließt; bei gleichem Δp ist die Kraft F = Δp/Δt kleiner.','Er erhöht die Masse des Kopfes.','Er erzeugt eine Gegenkraft, die den Impuls vernichtet.'],a:1,e:'Die Impulsänderung (z. B. von 50 km/h auf 0) ist gleich. Der Kraftstoß F·Δt = Δp bleibt gleich, aber mit längerem Δt wird F kleiner.'}
+];
+let QST=load('impuls-lk11-quiz',{});
+function buildQuiz(){
+  QST=load('impuls-lk11-quiz',{});
+  const ROT=[0,2,0,0,2,0,3,1,2,3];
+  $('#quiz').innerHTML=QUIZ.map((q,i)=>{ const n=q.o.length, ord=q.o.map((_,k)=>(k+ROT[i%ROT.length])%n); return `<div class="q" data-i="${i}"><div class="qt"><span class="n">${i+1}.</span>${q.q}</div><div class="opts">${ord.map((j,pos)=>`<button data-j="${j}">${String.fromCharCode(65+pos)})&nbsp; ${q.o[j]}</button>`).join('')}</div><div class="ex"></div></div>`; }).join('');
+  $$('#quiz .q').forEach(d=>{ const i=+d.dataset.i; $$('button',d).forEach(b=>b.onclick=()=>answer(d,i,+b.dataset.j,true)); if(QST[i]!=null) answer(d,i,QST[i],false); });
+  score();
+}
+function answer(d,i,j,save){ const q=QUIZ[i]; if(d.classList.contains('answered')) return; d.classList.add('answered');
+  $$('button',d).forEach(b=>{ const k=+b.dataset.j; b.disabled=true; if(k===q.a) b.classList.add('right'); else if(k===j) b.classList.add('wrong'); });
+  const ex=$('.ex',d); ex.classList.toggle('bad',j!==q.a); ex.innerHTML=(j===q.a?'<b>Richtig!</b> ':'<b>Leider falsch.</b> ')+q.e;
+  if(save){ QST[i]=j; store('impuls-lk11-quiz',QST); if(Object.keys(QST).length>=QUIZ.length) markSeen('quiz'); }
+  score(); }
+function score(){ const n=Object.keys(QST).length, r=Object.entries(QST).filter(([i,j])=>QUIZ[i].a===j).length;
+  $('#score').textContent=n?`Ergebnis: ${r} von ${n} beantworteten Fragen richtig${n===QUIZ.length?(r>=8?' – stark! 🎉':r>=5?' – solide, schau dir die Erklärungen noch einmal an.':' – lies die Abschnitte noch einmal und versuche es erneut.'):''}`:''; }
+$('#quizreset').onclick=()=>{ store('impuls-lk11-quiz',{}); buildQuiz(); };
+
+buildMap(); initNav(); buildSorter(); buildQuiz(); updProg();
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
