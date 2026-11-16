@@ -191,6 +191,25 @@ details.muster .mbody p{margin:.6em 0}
 .q.answered .ex{display:block}
 .score{font-weight:600;font-size:17px;margin-top:12px}
 footer{color:var(--muted);font-size:13.5px;padding:10px 0 40px}
+/* ---------- Auf-/Zuklappen ---------- */
+.lab.coll .labhead{cursor:pointer;margin-bottom:0;user-select:none}
+.lab.coll .labhead:hover h3{color:var(--acc)}
+.lab.coll:not(.closed) .labhead{margin-bottom:8px}
+.lab .tog{flex:none;width:26px;height:26px;border-radius:8px;border:1px solid var(--line);background:var(--card);display:inline-flex;align-items:center;justify-content:center;font-size:13px;color:var(--acc);transition:transform .2s}
+.lab:not(.closed) .tog{transform:rotate(90deg)}
+.lab .lhint{font-size:12.5px;color:var(--muted)}
+.lab:not(.closed) .lhint{display:none}
+.lab.closed{padding-bottom:14px;background:var(--card)}
+.lab.closed .labbody{display:none}
+.lab.closed:hover{border-color:var(--acc)}
+details.erkl>summary{cursor:pointer;list-style:none;font-weight:600;color:var(--acc);font-size:14.5px;padding:2px 0 4px;margin-top:10px}
+details.erkl>summary::-webkit-details-marker{display:none}
+details.erkl>summary::before{content:"▸ ";display:inline-block;transition:transform .2s}
+details.erkl[open]>summary::before{transform:rotate(90deg)}
+details.erkl:not([open])>summary::after{content:" – aufklappen";font-weight:400;color:var(--muted)}
+.secbar{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 0}
+.secbar button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:3px 11px;font-size:12.5px;font-family:inherit;cursor:pointer;color:var(--muted)}
+.secbar button:hover{border-color:var(--acc);color:var(--acc)}
 /* ---------- Responsiv ---------- */
 @media (max-width:1180px){
   .labgrid{grid-template-columns:minmax(0,1.6fr) minmax(240px,1fr)}
@@ -1742,7 +1761,28 @@ function score(){ const n=Object.keys(QST).length, r=Object.entries(QST).filter(
   $('#score').textContent=n?`Ergebnis: ${r} von ${n} beantworteten Fragen richtig${n===QUIZ.length?(r>=8?' – stark! 🎉':r>=5?' – solide, schau dir die Erklärungen noch einmal an.':' – lies die Abschnitte noch einmal und versuche es erneut.'):''}`:''; }
 $('#quizreset').onclick=()=>{ store('impuls-lk11-quiz',{}); buildQuiz(); };
 
-buildMap(); initNav(); buildSorter(); buildQuiz(); updProg();
+/* ======================= Auf-/Zuklappen ======================= */
+function setLab(lab,open){ lab.classList.toggle('closed',!open); const h=$('.labhead',lab); if(h) h.setAttribute('aria-expanded',open); if(open) setTimeout(()=>window.dispatchEvent(new Event('resize')),0); }
+function initCollapse(){
+  $$('.lab').forEach(lab=>{ const head=$('.labhead',lab); if(!head) return;
+    const body=document.createElement('div'); body.className='labbody';
+    while(head.nextSibling) body.appendChild(head.nextSibling); lab.appendChild(body);
+    const tog=document.createElement('span'); tog.className='tog'; tog.textContent='▶'; head.insertBefore(tog,head.firstChild);
+    const hint=document.createElement('span'); hint.className='lhint'; hint.textContent='– zum Öffnen klicken'; head.insertBefore(hint,$('.tag-model',head));
+    lab.classList.add('coll'); head.setAttribute('role','button'); head.tabIndex=0;
+    head.addEventListener('click',()=>setLab(lab,lab.classList.contains('closed')));
+    head.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); setLab(lab,lab.classList.contains('closed')); } });
+    setLab(lab,false); });
+  $$('section.unit').forEach(sec=>{
+    const cols=$('.cols',sec); if(cols){ const txt=cols.firstElementChild; const d=document.createElement('details'); d.className='erkl'; d.open=true; d.innerHTML='<summary>Erklärung</summary>'; while(txt.firstChild) d.appendChild(txt.firstChild); txt.appendChild(d); }
+    const n=$$('.lab',sec).length; if(!n) return;
+    const bar=document.createElement('div'); bar.className='secbar';
+    bar.innerHTML=`<button data-a="1">▾ Alles aufklappen</button><button data-a="0">▸ Alles zuklappen</button><span style="font-size:12.5px;color:var(--muted);align-self:center">${n} ${n>1?'Labore':'Labor'} in diesem Abschnitt</span>`;
+    bar.addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; const o=b.dataset.a==='1';
+      $$('.lab',sec).forEach(l=>setLab(l,o)); $$('details.erkl,details.muster',sec).forEach(d=>d.open=o); });
+    $('.sechead',sec).insertAdjacentElement('afterend',bar); });
+}
+buildMap(); initNav(); initCollapse(); buildSorter(); buildQuiz(); updProg();
 requestAnimationFrame(loop);
 </script>
 </body>
