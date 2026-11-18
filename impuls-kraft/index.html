@@ -1811,13 +1811,13 @@ function loop(now){ for(const L of LABS){ try{ L.frame(now); }catch(e){ console.
       s+=`<line x1="${gx}" y1="${gy}" x2="${gx+gw+10}" y2="${gy}" stroke="${COL.text}"/><line x1="${gx}" y1="${gy}" x2="${gx}" y2="${gy-gh-10}" stroke="${COL.text}"/>`+T(gx-34,gy-gh+4,'v',{a:'end',s:13,w:700,x:'font-style="italic"'})+T(gx+gw+10,gy+18,'t',{a:'end',s:13,w:700,x:'font-style="italic"'})+T(gx+gw/2,32,'v-t-Diagramm beim Abbremsen',{s:12,w:700,c:COL.muted});
       s+=`<polygon points="${gx},${gy-gh} ${gx+gw*0.85},${gy} ${gx},${gy}" fill="${COL.D}" opacity=".25"/><line x1="${gx}" y1="${gy-gh}" x2="${gx+gw*0.85}" y2="${gy}" stroke="${COL.D}" stroke-width="3"/>`;
       s+=T(gx+gw*0.22,gy-gh*0.3,'Fläche = s',{s:12,w:700,c:COL.D})+T(gx-6,gy-gh+4,fmt(v,1),{a:'end',s:10.5,c:COL.muted})+T(gx+gw*0.85,gy+16,'Δt',{s:12,w:700});
-      s+=T(gx+gw*0.45,gy-gh*0.62,'v̄ = v/2',{s:12,c:COL.muted});
+      s+=T(gx+gw*0.5,gy-gh*0.85,'v̄ = v/2',{s:12.5,w:700,c:COL.text,a:'start'})+T(gx+gw*0.5,gy-gh*0.85+16,'(mittlere Geschwindigkeit,',{s:11,c:COL.muted,a:'start'})+T(gx+gw*0.5,gy-gh*0.85+30,'gesprochen „v quer“)',{s:11,c:COL.muted,a:'start'});
       const rows=[[`Δt = 2s / v = ${dt<0.01?fmt(dt*1000,2)+' ms':fmt(dt,3)+' s'}`,COL.text],[`Δp = m·v = ${fmt(m*v,m*v<10?2:0)} Hy`,COL.B],[`F = Δp/Δt ≈ ${F>=10000?fmt(F/1000,1)+' kN':fmt(F,0)+' N'}`,COL.warn],[`a = v²/(2s) ≈ ${fmt(v*v/(2*sw),0)} m/s²`,COL.muted],[`≈ ${fmt(F/(m*9.81),0)}-fache Gewichtskraft`,COL.text]];
       s+=`<rect x="400" y="40" width="226" height="${rows.length*30+20}" rx="10" fill="#fffdf8" stroke="${COL.line}"/>`;
       rows.forEach(([t,c],i)=>{ s+=T(412,66+i*30,t,{a:'start',s:13,w:600,c,f:'var(--mono)'}); });
       return s;
     },
-    explain:(S,L)=>{ const v=L.pv('v'),sw=lm(L.pv('s')); return ['Vom Bremsweg zur Bremszeit',`Für F = Δp/Δt braucht man die Bremszeit. Ist nur der Bremsweg bekannt, hilft eine Annahme: Bei <b>gleichmäßiger Verzögerung</b> ist die mittlere Geschwindigkeit v/2, also gilt s = (v/2)·Δt und damit Δt = 2s/v. Hier: Δt = 2 · ${fmt(sw,3)} m / ${fmt(v,1)} m/s. Im v-t-Diagramm ist der Bremsweg die Dreiecksfläche. <i>Ergänzung aus der Kinematik; reale Bremsvorgänge sind nicht genau gleichmäßig.</i>`]; }
+    explain:(S,L)=>{ const v=L.pv('v'),sw=lm(L.pv('s')); return ['Vom Bremsweg zur Bremszeit',`Für F = Δp/Δt braucht man die Bremszeit. Ist nur der Bremsweg bekannt, hilft eine Annahme: Bei <b>gleichmäßiger Verzögerung</b> ist die mittlere Geschwindigkeit v̄ = v/2 (gesprochen „v quer“; der Strich steht für einen Mittelwert), also gilt s = v̄·Δt = (v/2)·Δt und damit Δt = 2s/v. Hier: Δt = 2 · ${fmt(sw,3)} m / ${fmt(v,1)} m/s. Im v-t-Diagramm ist der Bremsweg die Dreiecksfläche. <i>Ergänzung aus der Kinematik; reale Bremsvorgänge sind nicht genau gleichmäßig.</i>`]; }
   });
 })();
 
