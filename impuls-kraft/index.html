@@ -211,6 +211,28 @@ details.erkl:not([open])>summary::after{content:" – aufklappen";font-weight:40
 .secbar{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 0}
 .secbar button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:3px 11px;font-size:12.5px;font-family:inherit;cursor:pointer;color:var(--muted)}
 .secbar button:hover{border-color:var(--acc);color:var(--acc)}
+/* ---------- NEU / Übungsblatt ---------- */
+.neu{display:inline-block;background:var(--hint);color:#fff;font-weight:700;font-size:10.5px;line-height:1;letter-spacing:.06em;padding:3px 7px;border-radius:999px;vertical-align:2px}
+.scen button .neu{padding:2px 6px;font-size:9.5px;margin-right:2px}
+.neubox{border:1px solid #f1d9b5;background:var(--hint-soft);border-radius:14px;padding:12px 16px;margin:14px 0 4px;max-width:900px}
+.neubox h3{margin:0 0 6px;font-size:16px;color:var(--hint)}
+.neubox ul{margin:0;padding-left:20px;font-size:14.5px}
+.neubox li{margin:3px 0}
+.neubox a{cursor:pointer}
+.lab.aufg > .labhead h3::before{content:"✎ ";color:var(--hint)}
+.aufgrid{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:18px;align-items:start}
+.aufgrid .fig{border:1px solid var(--line);border-radius:12px;background:#fbfaf6}
+.aufgrid .fig svg{display:block;width:100%;height:auto}
+.aufg ol.teil{margin:6px 0 0;padding-left:22px}
+.aufg ol.teil li{margin:4px 0}
+.hints{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 6px}
+.hintbox{display:none;border-left:4px solid var(--hint);background:var(--hint-soft);border-radius:0 10px 10px 0;padding:8px 12px;margin:6px 0;font-size:14.8px}
+.hintbox.sol{border-left-color:var(--ok);background:var(--ok-soft)}
+.hintbox.show{display:block}
+.hintbox p{margin:.35em 0}
+.links{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;align-items:center;font-size:13px;color:var(--muted)}
+.qhead .neu{margin-left:6px}
+@media (max-width:760px){.aufgrid{grid-template-columns:1fr}}
 /* ---------- Responsiv ---------- */
 @media (max-width:1180px){
   .labgrid{grid-template-columns:minmax(0,1.6fr) minmax(240px,1fr)}
@@ -247,13 +269,20 @@ details.erkl:not([open])>summary::after{content:" – aufklappen";font-weight:40
   <h1>Impuls und Kraft</h1>
   <p class="lead">Wie und warum ändert ein Körper seinen Bewegungszustand? In dieser Einheit beschreiben wir Bewegung mit dem <b>Impuls</b> – einer Größe, die fließen kann, aber nie verloren geht. Am Ende übersetzen wir alles in die Sprache der <b>Kräfte</b> und kommen bei den drei Newtonschen Axiomen und der Grundgleichung der Mechanik an.</p>
   <div class="meta">
-    <span>10 Leitfragen in 4 Teilbereichen</span><span>11 interaktive Labore</span><span>Abschlussquiz mit 20 Fragen</span><span>Grundlage: Hefteinträge 1–15 und Übungsblatt „Impuls“</span>
+    <span>11 Leitfragen in 5 Teilbereichen</span><span>18 interaktive Labore</span><span>Abschlussquiz mit 25 Fragen</span><span>Grundlage: Hefteinträge 1–15 und Übungsblätter „Impuls“</span>
   </div>
+  <div class="neubox" id="neubox"><h3><span class="neu">NEU</span> Was ist neu? (18.11.2026)</h3><ul>
+    <li><a data-go="s-k">Neuer Abschnitt k „Anwenden: Übungsblatt“</a> – Aufgaben 4–8 mit gestuften Tipps, Lösungsweg und Mini-Labor</li>
+    <li><a data-golab="lab-f" data-sc="2">Rückstoß-Labor (f): Gewehr frei gehalten und an die Schulter gepresst</a></li>
+    <li><a data-golab="lab-g3">Fall-Labor (g): Findling und Kieselstein</a></li>
+    <li><a data-golab="lab-j3">Bremsweg-Labor (j): Kraft aus dem Bremsweg</a> · Musterantwort zum Airbag ergänzt</li>
+    <li><a data-go="s-quiz">Abschlussquiz Teil 3: fünf Aufgaben wie auf dem Übungsblatt</a> (mit Zufallszahlen)</li>
+  </ul></div>
 </header>
 
 <section class="card" id="karte" aria-labelledby="karte-h">
   <div class="sechead"><div class="badge" style="background:var(--text)">🗺</div><div><h2 id="karte-h">Lernlandkarte</h2><p class="lq">Klicke eine Karte an, um zum Abschnitt zu springen. Ein grüner Haken zeigt, was du schon angeschaut hast.</p></div></div>
-  <svg class="mapsvg" id="mapsvg" viewBox="0 0 1200 760" role="img" aria-label="Lernlandkarte zur Einheit Impuls und Kraft"></svg>
+  <svg class="mapsvg" id="mapsvg" viewBox="0 0 1200 925" role="img" aria-label="Lernlandkarte zur Einheit Impuls und Kraft"></svg>
   <ul class="maplist" id="maplist"></ul>
   <div class="mapfoot"><span id="mapprogtxt">Fortschritt: 0 von 11 Stationen</span><div class="bar"><i id="mapprogbar"></i></div><button class="btn" id="resetprog" title="Haken und Quiz zurücksetzen">Fortschritt zurücksetzen</button></div>
 </section>
@@ -413,6 +442,7 @@ details.erkl:not([open])>summary::after{content:" – aufklappen";font-weight:40
   </div>
   <div class="lab" id="lab-g1"></div>
   <div class="lab" id="lab-g2"></div>
+  <div class="lab" id="lab-g3"></div>
   <details class="muster"><summary>Musterantwort: Warum fliegt man im bremsenden Bus nach vorne?</summary><div class="mbody">
     <p>Während der Fahrt haben Bus und Fahrgast dieselbe Geschwindigkeit und damit jeweils Impuls in Fahrtrichtung. Beim Bremsen fließt der Impuls des Busses über die Räder in die Straße bzw. die Erde ab. Der Fahrgast ist nur schwach mit dem Bus verbunden (Füße auf dem Boden, evtl. Hand an der Stange). Sein Impuls kann deshalb nicht so schnell in den Bus und die Erde abfließen.</p>
     <p>Nach dem 1. Newtonschen Axiom (Trägheitssatz) behält ein Körper seinen Bewegungszustand bei, solange kein Impuls zu- oder abfließt. Der Fahrgast bewegt sich daher zunächst mit fast unveränderter Geschwindigkeit weiter, während der Bus langsamer wird. Relativ zum Bus scheint er nach vorne geschleudert zu werden – tatsächlich wird der Bus unter ihm langsamer.</p>
@@ -481,6 +511,7 @@ details.erkl:not([open])>summary::after{content:" – aufklappen";font-weight:40
   </div>
   <div class="lab" id="lab-j1"></div>
   <div class="lab" id="lab-j2"></div>
+  <div class="lab" id="lab-j3"></div>
   <h3 style="margin:22px 0 6px">Überblick: Die Newtonschen Axiome in beiden Modellen</h3>
   <table class="tbl">
     <tr><th style="width:16%">Axiom</th><th>Im Impulsmodell</th><th>Im Kraftmodell</th></tr>
@@ -492,13 +523,93 @@ details.erkl:not([open])>summary::after{content:" – aufklappen";font-weight:40
     <p>Die Kraft ist die Impulsstromstärke: F = Δp/Δt. Wirkt eine konstante Kraft F während der Zeit Δt auf einen Körper, so ändert sich sein Impuls um <b>Δp = F·Δt</b> (Kraftstoß). Bei konstanter Masse ist Δp = m·Δv, also <b>m·Δv = F·Δt</b>.</p>
     <p>Teilt man durch Δt, erhält man mit a = Δv/Δt die <b>Grundgleichung der Mechanik F = m·a</b> (2. Newtonsches Axiom): Eine Kraft beschleunigt einen Körper in ihrer Richtung; bei gleicher Kraft ist die Beschleunigung umso kleiner, je größer die (träge) Masse ist.</p>
     <p>Anwendung: Bei gleicher Impulsänderung (z. B. Abbremsen von 50 km/h auf 0) ist die Kraft umso kleiner, je länger die Bremszeit Δt ist. Darauf beruhen Airbag, Sicherheitsgurt und Knautschzone.</p>
+    <p><span class="neu">NEU</span> <b>Airbag zusätzlich:</b> Er verteilt die Kraft auf eine große Fläche von Kopf und Oberkörper. Bei gleicher Kraft ist der Druck auf den Körper (Kraft pro Fläche) dann viel kleiner als beim Aufprall auf den schmalen Lenkradkranz. Außerdem verhindert er, dass Kopf und Brust ungebremst auf harte Teile schlagen.</p>
+    <p><span class="neu">NEU</span> <b>Nur der Bremsweg ist bekannt?</b> Bei gleichmäßiger Verzögerung ist die mittlere Geschwindigkeit v/2, also Δt = 2s/v. Dann F = m·v/Δt = m·v²/(2s) (siehe Bremsweg-Labor).</p>
+  </div></details>
+</section>
+
+<!-- ===================== k (NEU) ===================== -->
+<section class="unit card" id="s-k" data-l="k">
+  <div class="crumbs"><span><a data-go="karte">Lernlandkarte</a> › Anwenden und üben</span><a class="up" data-go="karte">↑ zur Lernlandkarte</a></div>
+  <div class="sechead"><div class="badge" style="background:var(--hint)">k</div><div><h2>Anwenden: Übungsblatt <span class="neu">NEU</span></h2><p class="lq">Leitfrage: Kann ich mit Impuls und Kraft echte Aufgaben lösen?</p></div></div>
+  <div class="cols">
+    <div>
+      <p>Hier sind die Aufgaben 4–8 des Übungsblatts zusammengestellt (sinngemäß, Abbildungen neu gezeichnet). Versuche jede Aufgabe zuerst selbst. Wenn du nicht weiterkommst, hole dir die Tipps <b>nacheinander</b> – erst danach den Lösungsweg.</p>
+      <p>Zu jeder Aufgabe gibt es ein passendes Labor. Die Schaltflächen „↗ Labor“ öffnen es direkt mit dem richtigen Fall.</p>
+    </div>
+    <div>
+      <div class="kern">Vorgehen: Gegebenes in SI-Einheiten notieren → passende Gleichung wählen (p = m·v, F = Δp/Δt, F·Δt = m·Δv, Σp = konst.) → einsetzen → Ergebnis auf Plausibilität prüfen.</div>
+    </div>
+  </div>
+
+  <div class="lab aufg" id="auf-4"><div class="labhead"><h3>Aufgabe 4: Der Bus fährt an</h3><span class="tag-model">Impulsstrom · Kraftstoß · Fließgleichgewicht</span></div>
+    <div class="aufgrid"><div>
+      <p>Ein Bus (3 t) steht an einer Haltestelle auf ebener Strecke. Beim Anfahren pumpt der Motor 3 s lang einen Impulsstrom von 14 kN in den Bus.</p>
+      <ol class="teil" type="a"><li>Wie viel Impuls wurde insgesamt in den Bus gepumpt? <b>Berechne.</b></li><li>Nach 3 s fährt der Bus 50 km/h. Ist das möglich? <b>Nimm Stellung und begründe.</b></li><li><b>Bestimme</b> die Beschleunigung während der 3 s.</li><li>Später fährt der Bus mit konstanter Geschwindigkeit, der Motor läuft weiter. Was lässt sich über die Impulsströme sagen? <b>Erläutere.</b></li></ol>
+    </div><div class="fig"><svg viewBox="0 0 230 140"><rect width="230" height="140" fill="#fbfaf6"/><line x1="0" y1="118" x2="230" y2="118" stroke="#d8cfbb" stroke-width="2"/><rect x="30" y="44" width="150" height="60" rx="12" fill="#0f766e"/><rect x="42" y="54" width="28" height="22" rx="3" fill="#ccfbf1"/><rect x="78" y="54" width="28" height="22" rx="3" fill="#ccfbf1"/><rect x="114" y="54" width="28" height="22" rx="3" fill="#ccfbf1"/><rect x="150" y="54" width="22" height="22" rx="3" fill="#ccfbf1"/><circle cx="60" cy="108" r="11" fill="#1d2433"/><circle cx="150" cy="108" r="11" fill="#1d2433"/><line x1="186" y1="74" x2="218" y2="74" stroke="#c2410c" stroke-width="4"/><polygon points="224,74 214,68 214,80" fill="#c2410c"/><text x="105" y="30" font-size="13" text-anchor="middle" fill="#1d2433" font-weight="700">m = 3 t</text></svg></div></div>
+    <div class="hints" data-h></div>
+    <div class="hintbox">💡 <b>Tipp 1:</b> Ein Impulsstrom von 14 kN bedeutet: Pro Sekunde fließen 14 000 Hy in den Bus.</div>
+    <div class="hintbox">💡 <b>Tipp 2:</b> Δp = F · Δt. Aus dem Impuls folgt die Geschwindigkeit mit v = p/m. Zum Vergleich mit 50 km/h in km/h umrechnen (· 3,6).</div>
+    <div class="hintbox sol"><p><b>a)</b> Δp = F·Δt = 14 000 N · 3 s = 42 000 Hy.</p><p><b>b)</b> v = Δp/m = 42 000 Hy / 3000 kg = 14 m/s = 50,4 km/h. Ohne Reibung erreicht der Bus also gut 50 km/h – die Angabe ist möglich. Mit Reibung fließt ein Teil des Impulses gleich wieder ab; dann wäre der Bus etwas langsamer, 50 km/h sind also eine obere Grenze.</p><p><b>c)</b> a = Δv/Δt = 14 m/s / 3 s ≈ 4,7 m/s² (ebenso a = F/m = 14 000 N / 3000 kg).</p><p><b>d)</b> Fließgleichgewicht: Der Motor pumpt weiterhin Impuls in den Bus, aber genauso viel fließt über Luftwiderstand und Rollreibung ab. Zufluss = Abfluss, der Impuls des Busses bleibt konstant.</p></div>
+    <div class="lab" id="lab-k4"></div>
+    <div class="links">Dazu passt: <button class="btn" data-golab="lab-j1">↗ Labor j: Kraftstoß</button><button class="btn" data-golab="lab-e">↗ Labor e: Fließgleichgewicht</button></div>
+  </div>
+
+  <div class="lab aufg" id="auf-5"><div class="labhead"><h3>Aufgabe 5: Golfball am Kopf</h3><span class="tag-model">Kraftstoß · Bremsweg</span></div>
+    <div class="aufgrid"><div>
+      <p>Ein Golfball (Masse laut Hefteintrag 45,93 g) fliegt mit 50 m/s und wird am Kopf eines Mitspielers auf einer Strecke von 3,0 cm bis zum Stillstand abgebremst. Welche Bremskraft wirkt auf den Ball?</p>
+    </div><div class="fig"><svg viewBox="0 0 230 140"><rect width="230" height="140" fill="#fbfaf6"/><circle cx="40" cy="70" r="9" fill="#fff" stroke="#1d2433" stroke-width="1.5"/><line x1="54" y1="70" x2="110" y2="70" stroke="#2563eb" stroke-width="3"/><polygon points="116,70 106,64 106,76" fill="#2563eb"/><text x="82" y="60" font-size="12" text-anchor="middle" fill="#2563eb" font-weight="700">50 m/s</text><circle cx="180" cy="62" r="26" fill="#e7c9a9"/><path d="M154,56 q26,-36 52,0" fill="#7c3aed"/><line x1="150" y1="98" x2="168" y2="98" stroke="#b45309" stroke-width="2"/><text x="160" y="116" font-size="11" text-anchor="middle" fill="#b45309">3 cm</text></svg></div></div>
+    <div class="hints" data-h></div>
+    <div class="hintbox">💡 <b>Tipp 1:</b> Für F = Δp/Δt fehlt die Bremszeit Δt. Gegeben ist aber der Bremsweg.</div>
+    <div class="hintbox">💡 <b>Tipp 2:</b> Nimm an, dass der Ball gleichmäßig abgebremst wird. Dann ist seine mittlere Geschwindigkeit v/2 = 25 m/s, und es gilt s = (v/2)·Δt.</div>
+    <div class="hintbox sol"><p>Bremszeit: Δt = 2s/v = 2 · 0,030 m / 50 m/s = 0,0012 s.</p><p>Impulsänderung: Δp = m·v = 0,04593 kg · 50 m/s ≈ 2,30 Hy.</p><p>Bremskraft: F = Δp/Δt = 2,30 Hy / 0,0012 s ≈ 1900 N ≈ 1,9 kN (gleiches Ergebnis über a = v²/(2s) ≈ 41 700 m/s² und F = m·a).</p><p>Das entspricht etwa der Gewichtskraft einer Masse von 190 kg – auf eine sehr kleine Fläche. (Die gleichmäßige Verzögerung ist eine Modellannahme.)</p></div>
+    <div class="links">Dazu passt: <button class="btn" data-golab="lab-j3" data-pre="0">↗ Bremsweg-Labor: Golfball</button></div>
+  </div>
+
+  <div class="lab aufg" id="auf-6"><div class="labhead"><h3>Aufgabe 6: Rückstoß eines Gewehrs</h3><span class="tag-model">Rückstoß · Kraftstoß · Trägheit</span></div>
+    <div class="aufgrid"><div>
+      <p>Ein Gewehr (10 kg) feuert eine Kugel (10 g) mit 400 m/s ab.</p>
+      <ol class="teil" type="a"><li>Welche Geschwindigkeit hätte das Gewehr nach dem Schuss, wenn der Schütze es nicht abbremsen würde?</li><li>Welche mittlere Kraft wirkt auf den Schützen, wenn er den Rückstoß in 0,1 s abfängt?</li><li>Schützen pressen das Gewehr fest gegen die Schulter, um Verletzungen zu vermeiden. <b>Begründe</b> physikalisch.</li></ol>
+    </div><div class="fig"><svg viewBox="0 0 230 140"><rect width="230" height="140" fill="#fbfaf6"/><path d="M30,70 h30 l8,5 h110 v8 h-110 l-18,12 h-20 z" fill="#78350f"/><rect x="68" y="70" width="110" height="5" fill="#475569"/><ellipse cx="205" cy="73" rx="8" ry="3" fill="#c2410c"/><line x1="40" y1="110" x2="10" y2="110" stroke="#2563eb" stroke-width="3"/><polygon points="4,110 14,104 14,116" fill="#2563eb"/><text x="50" y="125" font-size="11" fill="#2563eb">Rückstoß?</text><text x="200" y="55" font-size="11" text-anchor="middle" fill="#c2410c">400 m/s</text></svg></div></div>
+    <div class="hints" data-h></div>
+    <div class="hintbox">💡 <b>Tipp 1:</b> Vor dem Schuss ruhen Gewehr und Kugel: Σp = 0. Das muss auch nachher gelten.</div>
+    <div class="hintbox">💡 <b>Tipp 2:</b> Masse der Kugel in kg umrechnen! Für b): Der Impuls des Gewehrs muss in 0,1 s abfließen, F = Δp/Δt.</div>
+    <div class="hintbox sol"><p><b>a)</b> p<sub>Kugel</sub> = 0,010 kg · 400 m/s = 4 Hy ⇒ p<sub>Gewehr</sub> = −4 Hy ⇒ v<sub>Gewehr</sub> = −4 Hy / 10 kg = −0,4 m/s (entgegen der Schussrichtung).</p><p><b>b)</b> F = Δp/Δt = 4 Hy / 0,1 s = 40 N.</p><p><b>c)</b> Liegt das Gewehr fest an, bilden Gewehr und Schütze praktisch einen Körper mit viel größerer Masse (z. B. 80 kg): Die Rückstoßgeschwindigkeit ist nur etwa 0,05 m/s. Der Impuls fließt von Anfang an gleichmäßig über Schulter und Körper in die Erde ab – über eine vergleichsweise lange Zeit, also mit kleiner Kraft. Hält man das Gewehr locker, nimmt es Anlauf und schlägt mit 0,4 m/s gegen die Schulter; der Impuls muss dann in sehr kurzer Zeit abfließen – große Kraft, Verletzungsgefahr.</p></div>
+    <div class="links">Dazu passt: <button class="btn" data-golab="lab-f" data-sc="2">↗ Labor f: Gewehr frei</button><button class="btn" data-golab="lab-f" data-sc="3">↗ Labor f: Gewehr angepresst</button></div>
+  </div>
+
+  <div class="lab aufg" id="auf-7"><div class="labhead"><h3>Aufgabe 7: Aufprall gegen eine Mauer</h3><span class="tag-model">Kraftstoß · Gewichtskraft · Airbag</span></div>
+    <div class="aufgrid"><div>
+      <p>Ein Auto prallt ungebremst mit 50 km/h gegen eine große Mauer und steht nach 0,05 s.</p>
+      <ol class="teil" type="a"><li>Welche Kraft müsste eine Fahrerin (60 kg) aufbringen, um sich nur mit den Händen am Lenkrad abzustützen? Das Wievielfache ihrer Gewichtskraft wäre das?</li><li><b>Erkläre</b> ausführlich die physikalischen Vorteile eines Airbags.</li></ol>
+    </div><div class="fig"><svg viewBox="0 0 230 140"><rect width="230" height="140" fill="#fbfaf6"/><line x1="0" y1="112" x2="230" y2="112" stroke="#d8cfbb" stroke-width="2"/><rect x="180" y="20" width="30" height="92" fill="#9aa3b2"/><path d="M60,96 v-22 l20,-18 h50 l20,18 h26 v22 z" fill="#c2410c"/><circle cx="86" cy="100" r="11" fill="#1d2433"/><circle cx="150" cy="100" r="11" fill="#1d2433"/><text x="100" y="40" font-size="12" text-anchor="middle" fill="#1d2433" font-weight="700">50 km/h</text></svg></div></div>
+    <div class="hints" data-h></div>
+    <div class="hintbox">💡 <b>Tipp 1:</b> Die Fahrerin muss mit dem Auto in 0,05 s von 50 km/h auf 0 abgebremst werden. Welchen Impuls muss sie abgeben?</div>
+    <div class="hintbox">💡 <b>Tipp 2:</b> F = Δp/Δt. Gewichtskraft F<sub>G</sub> = m·g mit g ≈ 9,81 N/kg. Für b): Was ändert der Airbag an Δt – und an der Fläche, auf die die Kraft wirkt?</div>
+    <div class="hintbox sol"><p><b>a)</b> v = 50 km/h : 3,6 ≈ 13,9 m/s. Δp = 60 kg · 13,9 m/s ≈ 833 Hy. F = Δp/Δt = 833 Hy / 0,05 s ≈ 16 700 N. Gewichtskraft: F<sub>G</sub> = 60 kg · 9,81 N/kg ≈ 589 N. Die Fahrerin müsste also etwa das <b>28-Fache</b> ihrer Gewichtskraft halten – unmöglich.</p><p><b>b)</b> Der Impuls (833 Hy) muss in jedem Fall abfließen. Der Airbag verlängert die Zeit, in der das geschieht, deshalb ist die Kraft F = Δp/Δt kleiner. Er verteilt diese Kraft außerdem auf eine große Fläche von Kopf und Oberkörper: Der Druck ist kleiner als beim Aufprall auf das schmale Lenkrad. Und er verhindert, dass Kopf und Brust ungebremst auf harte Teile schlagen.</p></div>
+    <div class="links">Dazu passt: <button class="btn" data-golab="lab-j2">↗ Sicherheits-Labor (j)</button><button class="btn" data-golab="lab-j3" data-pre="1">↗ Bremsweg-Labor: Knautschzone</button></div>
+  </div>
+
+  <div class="lab aufg" id="auf-8"><div class="labhead"><h3>Aufgabe 8: Findling und Kieselstein</h3><span class="tag-model">Gewichtskraft · Trägheit · Äquivalenzprinzip</span></div>
+    <div class="aufgrid"><div>
+      <p>Ein Findling ist um ein Vielfaches schwerer als ein Kieselstein – die Gewichtskraft auf ihn ist viel größer. Lässt man beide gleichzeitig fallen, fallen sie trotzdem gleich schnell (ohne Luftwiderstand). <b>Begründe</b> dieses Verhalten.</p>
+    </div><div class="fig"><svg viewBox="0 0 230 140"><rect width="230" height="140" fill="#fbfaf6"/><rect x="40" y="14" width="150" height="10" rx="3" fill="#9aa3b2"/><path d="M60,74 q-4,-26 22,-30 q30,-4 38,20 q4,22 -22,26 q-34,4 -38,-16 z" fill="#7c3aed" opacity=".85"/><ellipse cx="160" cy="58" rx="7" ry="5" fill="#c2410c"/><line x1="90" y1="96" x2="90" y2="126" stroke="#7c3aed" stroke-width="3" stroke-dasharray="4 3"/><line x1="160" y1="72" x2="160" y2="126" stroke="#c2410c" stroke-width="3" stroke-dasharray="4 3"/><text x="125" y="134" font-size="11" text-anchor="middle" fill="#5b6475">gleichzeitig unten?</text></svg></div></div>
+    <div class="hints" data-h></div>
+    <div class="hintbox">💡 <b>Tipp 1:</b> Die Beschleunigung hängt nicht nur von der Kraft ab, sondern auch von der Masse: a = F/m.</div>
+    <div class="hintbox">💡 <b>Tipp 2:</b> Die Gewichtskraft ist F<sub>G</sub> = m·g. Setze das in a = F/m ein. Welche Rolle spielt das Äquivalenzprinzip?</div>
+    <div class="hintbox sol"><p>Auf den Findling wirkt zwar eine viel größere Gewichtskraft, er ist aber im selben Verhältnis träger. Die Gewichtskraft hängt von der schweren Masse ab (F<sub>G</sub> = m<sub>schwer</sub>·g), die Beschleunigung von der trägen Masse (a = F/m<sub>träge</sub>).</p><p>Also a = m<sub>schwer</sub>·g / m<sub>träge</sub>. Nach dem Äquivalenzprinzip sind schwere und träge Masse gleich, die Masse kürzt sich heraus: <b>a = g ≈ 9,81 m/s² für alle Körper</b>. Beide fallen gleich schnell.</p><p>Im Impulsmodell: In den Findling fließt über das Gravitationsfeld pro Sekunde viel mehr Impuls, er braucht aber auch entsprechend mehr Impuls für dieselbe Geschwindigkeit.</p></div>
+    <div class="links">Dazu passt: <button class="btn" data-golab="lab-g3">↗ Fall-Labor (g)</button></div>
+  </div>
+
+  <details class="muster"><summary>Musterantwort: Wie geht man an solche Aufgaben heran?</summary><div class="mbody">
+    <p>1. Alle Angaben in SI-Einheiten umrechnen (g → kg, km/h → m/s, cm → m, kN → N). 2. Klären, ob es um eine <b>Wechselwirkung zwischen Körpern</b> (Impulserhaltung, Σp = konstant) oder um einen <b>Impulsstrom über eine Zeit</b> (F·Δt = Δp) geht. 3. Fehlende Größen über Zusatzannahmen bestimmen (z. B. gleichmäßige Verzögerung: Δt = 2s/v). 4. Ergebnis mit Einheit angeben und auf Plausibilität prüfen (Vergleich mit der Gewichtskraft, Alltagserfahrung).</p>
   </div></details>
 </section>
 
 <!-- ===================== Quiz ===================== -->
 <section class="unit card" id="s-quiz" data-l="quiz">
   <div class="crumbs"><span><a data-go="karte">Lernlandkarte</a> › Abschlussquiz</span><a class="up" data-go="karte">↑ zur Lernlandkarte</a></div>
-  <div class="sechead"><div class="badge" style="background:var(--ok)">🏁</div><div><h2>Abschlussquiz</h2><p class="lq">20 Fragen quer durch die Einheit: zehn Grundlagen- und zehn Vertiefungsaufgaben. Bei jedem neuen Quiz werden die Zahlen in den Rechenaufgaben neu gewürfelt und die Antworten neu gemischt. Nach jeder Antwort erscheint eine Erklärung.</p></div></div>
+  <div class="sechead"><div class="badge" style="background:var(--ok)">🏁</div><div><h2>Abschlussquiz</h2><p class="lq">25 Fragen quer durch die Einheit: zehn Grundlagen-, zehn Vertiefungsaufgaben und fünf Aufgaben wie auf dem Übungsblatt. Bei jedem neuen Quiz werden die Zahlen in den Rechenaufgaben neu gewürfelt und die Antworten neu gemischt. Nach jeder Antwort erscheint eine Erklärung.</p></div></div>
   <div id="quiz"></div>
   <div class="score" id="score"></div>
   <button class="btn" id="quizreset" style="margin-top:10px">🎲 Neues Quiz (neue Zahlen, neu gemischt)</button>
@@ -575,9 +686,9 @@ class Lab{
   build(){
     const c=this.cfg, hs=!!c.schema, kinds={n:'Normalfall',s:'Sonderfall',e:'Fehlerfall zeigen'};
     let ncount=0;
-    const sb=c.scen.map((s,i)=>{ const lab=s.k==='n'?`Normalfall ${++ncount}`:kinds[s.k]; return `<button data-i="${i}" class="${s.k==='s'?'sp':s.k==='e'?'err':''}"><span class="k">${s.k==='e'?'⚠ ':''}${lab}</span>${s.label}</button>`;}).join('');
+    const sb=c.scen.map((s,i)=>{ const lab=s.k==='n'?`Normalfall ${++ncount}`:kinds[s.k]; return `<button data-i="${i}" class="${s.k==='s'?'sp':s.k==='e'?'err':''}">${s.neu?'<span class="neu">NEU</span> ':''}<span class="k">${s.k==='e'?'⚠ ':''}${lab}</span>${s.label}</button>`;}).join('');
     const legend=(c.parts||[]).map(p=>`<span><i style="background:${p.c}"></i>${p.n}</span>`).join('');
-    this.el.innerHTML=`<div class="labhead"><h3>${c.title}</h3><span class="tag-model">⚠ Modell zur Veranschaulichung${c.note?' – '+c.note:''}</span></div>
+    this.el.innerHTML=`<div class="labhead"><h3>${c.title}</h3>${c.neu?'<span class="neu">NEU</span>':''}<span class="tag-model">⚠ Modell zur Veranschaulichung${c.note?' – '+c.note:''}</span></div>
      <div class="scen">${sb}</div>
      <div class="labgrid ${hs?'':'noschema'}">
        <div><div class="stage"><svg viewBox="0 0 ${c.w} ${c.h}" aria-label="${c.title}"><g class="scene"></g></svg></div>
@@ -679,7 +790,7 @@ class Live{
   constructor(id,cfg){
     this.el=document.getElementById(id); this.cfg=cfg; this.vis=false; this.lastT=0; LABS.push(this);
     const c=cfg;
-    this.el.innerHTML=`<div class="labhead"><h3>${c.title}</h3><span class="tag-model">⚠ Modell zur Veranschaulichung${c.note?' – '+c.note:''}</span></div>
+    this.el.innerHTML=`<div class="labhead"><h3>${c.title}</h3>${c.neu?'<span class="neu">NEU</span>':''}<span class="tag-model">⚠ Modell zur Veranschaulichung${c.note?' – '+c.note:''}</span></div>
      ${c.presets?`<div class="scen">${c.presets.map((p,i)=>`<button data-i="${i}">${p.label}</button>`).join('')}</div>`:''}
      <div class="labgrid noschema"><div><div class="stage"><svg viewBox="0 0 ${c.w} ${c.h}" aria-label="${c.title}"><g class="scene"></g></svg></div>
        ${c.params?`<div class="params">${c.params}</div>`:''}${c.buttons?`<div class="ctrl">${c.buttons}</div>`:''}</div>
@@ -712,7 +823,7 @@ function SCHEMA(items,o={}){
     const lines=wrapT(it.sub||'',n), h=26+lines.length*15+(it.sub?6:0), c=it.c||COL.acc;
     s+=`<g data-n="${it.id}"><rect x="6" y="${y}" width="${sw-12}" height="${h}" rx="9" fill="#fffdf8" stroke="${c}" stroke-width="1.5"/>`+
       `<rect x="6" y="${y}" width="6" height="${h}" rx="3" fill="${c}"/>`+
-      T(tx,y+18,it.t,{a:'start',s:13,w:700,c:c})+lines.map((l,j)=>T(tx,y+35+j*15,l.replace(/([pFv])_([A-Za-z→]+)/g,'$1<tspan baseline-shift="sub" font-size="8.5">$2</tspan>'),{a:'start',s:11.8,c:'#3a4356'})).join('')+`</g>`;
+      T(tx,y+18,it.t,{a:'start',s:13,w:700,c:c})+lines.map((l,j)=>T(tx,y+35+j*15,l.replace(/([pFvm])_([A-Za-zäöüß→]+)/g,'$1<tspan baseline-shift="sub" font-size="8.5">$2</tspan>'),{a:'start',s:11.8,c:'#3a4356'})).join('')+`</g>`;
     nodes[it.id]={x:24,y:y+h/2};
     y+=h;
     if(i<items.length-1){ s+=AR(sw/2,y+2,sw/2,y+gap-2,'#9aa3b2',1.6)+(it.arr?T(sw/2+8,y+gap/2+4,it.arr,{a:'start',s:10.5,c:COL.muted}):''); y+=gap; }
@@ -1208,13 +1319,23 @@ function loop(now){ for(const L of LABS){ try{ L.frame(now); }catch(e){ console.
     {t:space?'Triebwerk aus':'Ballon ist leer',mark:{A:'nach',B:'nach'},run:S=>{S.coast=true;return null;},x:space?'Ohne weiteren Ausstoß fließt kein Impuls mehr. Im Weltraum gibt es keine Reibung – die Rakete fliegt mit konstanter Geschwindigkeit weiter (1. Axiom).':'Kein Ausstoß mehr, kein Impulsfluss mehr. Ohne Reibung würde das Auto gleichförmig weiterrollen; in Wirklichkeit fließt sein Impuls langsam über die Räder in den Boden ab.'},
     {t:'Bilanz',mark:{A:'bil',B:'bil'},hl:['bil'],x:S=>`p<sub>Objekt</sub> + p<sub>Ausstoß</sub> = ${fmt(S.pA,2)} Hy + (−${fmt(S.pA,2)} Hy) = 0 = Σp vorher. ${space?'Die Rakete braucht keine Luft, gegen die sie sich abstößt – sie „stößt sich“ an ihrem eigenen Abgas ab.':'Der Antrieb durch Rückstoß ist eine direkte Folge der Impulserhaltung.'}`}
   ];
+  function gunSteps(pr){ return [
+    {t:'Schuss: Impuls fließt in die Kugel',mark:{A:'pump',B:'pump'},hl:['pump'],run:S=>({dur:700,up:(S,k)=>{S.bx=k;S.pK=4*Math.min(1,k*3);S.pG=-S.pK;}}),x:'Die Pulvergase pumpen Impuls aus dem Gewehr in die Kugel: p<sub>Kugel</sub> = 0,01 kg · 400 m/s = +4 Hy. Das Gewehr bekommt genauso viel Impuls in Gegenrichtung: p<sub>Gewehr</sub> = −4 Hy.'},
+    pr?{t:'Gewehr und Schütze bilden einen Körper',mark:{A:'nach',B:'nach'},hl:['nach'],run:S=>({dur:1100,up:(S,k)=>{S.sx=-6*k;}}),x:'Weil das Gewehr fest an der Schulter liegt, müssen Gewehr und Schütze gemeinsam zurückweichen: v = −4 Hy / (10 kg + 70 kg) = −0,05 m/s – achtmal langsamer als das freie Gewehr.'}
+      :{t:'Das Gewehr fliegt zurück',mark:{A:'nach',B:'nach'},hl:['nach'],run:S=>({dur:1100,up:(S,k)=>{S.gx=180-28*k;}}),x:'Frei gehalten hätte das Gewehr die Geschwindigkeit v = −4 Hy / 10 kg = −0,4 m/s (Aufgabe 6a). Es nimmt „Anlauf“ auf die Schulter.'},
+    pr?{t:'Impuls fließt über den Körper in die Erde',mark:{A:'bil',B:'nach'},run:S=>{S.flowS=true;return {dur:1400,up:(S,k)=>{S.sx=-6;}};},x:'Der Impuls des Gewehrs fließt von Anfang an gleichmäßig über Schulter und Körper und über die Füße in die Erde ab. Die Impulsstromstärke – also die Kraft auf die Schulter – bleibt klein, es gibt keinen Schlag.'}
+      :{t:'Schlag gegen die Schulter',mark:{A:'nach',B:'nach'},cls:'err',run:S=>{S.hit=true;return null;},x:'Das Gewehr prallt mit 0,4 m/s auf die Schulter, und seine 4 Hy müssen jetzt schnell abfließen. Fängt der Schütze den Rückstoß in 0,1 s ab, wirkt im Mittel F = 4 Hy / 0,1 s = 40 N (Aufgabe 6b). Trifft das Gewehr hart auf, ist Δt viel kürzer – die Kraft entsprechend größer.'},
+    {t:pr?'Fazit: anpressen schützt':'Bilanz',mark:{A:'bil',B:'bil'},hl:['bil'],x:pr?'Durch das Anpressen wird die träge Masse, die den Rückstoß aufnimmt, viel größer (Gewehr + Schütze). Der Impuls verteilt sich über eine längere Zeit, die Kraft auf die Schulter bleibt klein. Deshalb presst man das Gewehr gegen die Schulter (Aufgabe 6c).':'Σp = +4 Hy (Kugel) + (−4 Hy) (Gewehr) = 0 = Σp vorher. Der Rückstoß ist eine Folge der Impulserhaltung.'}
+  ]; }
   new Lab('lab-f',{
-    title:'Rückstoß-Labor: Ballonauto',w:640,h:300,note:'Impuls je Luftportion: 0,01 Hy',
+    title:'Rückstoß-Labor: Ballonauto, Rakete, Gewehr',w:640,h:300,note:'Impuls je Luftportion: 0,01 Hy',
     schema:sch.svg,nodes:sch.nodes,sh:sch.sh,schemaTitle:'Rückstoßprinzip',parts:[{k:'A',c:COL.A,n:'Objekt'},{k:'B',c:COL.B,n:'Ausstoß'}],
     tick,
     scen:[
       {k:'n',label:'Ballonauto',init:initCar(false),mark0:{A:'vor',B:'vor'},hl0:['vor'],intro:'Ein Spielzeugauto trägt einen aufgeblasenen Luftballon, dessen Öffnung nach hinten zeigt. Auto und Luft ruhen: Σp = 0.',steps:stepsCar(false)},
       {k:'s',label:'Rakete im Weltraum',init:initCar(true),mark0:{A:'vor',B:'vor'},hl0:['vor'],intro:'Eine Rakete ruht im Weltraum – weit weg von allem, ohne Luft. Kann sie sich trotzdem antreiben?',steps:stepsCar(true)},
+      {k:'s',neu:true,label:'Gewehr frei gehalten',init:()=>({mode:'gun',pressed:false,gx:180,bx:-1,pK:0,pG:0,hit:false,sx:0,flowS:false}),mark0:{A:'vor',B:'vor'},hl0:['vor'],intro:'Ein Gewehr (10 kg) feuert eine Kugel (10 g) mit 400 m/s ab (Übungsblatt, Aufgabe 6). Der Schütze hält das Gewehr locker, mit etwas Abstand zur Schulter.',steps:gunSteps(false)},
+      {k:'s',neu:true,label:'Gewehr an die Schulter gepresst',init:()=>({mode:'gun',pressed:true,gx:152,bx:-1,pK:0,pG:0,hit:false,sx:0,flowS:false}),mark0:{A:'vor',B:'vor'},hl0:['vor'],intro:'Gleicher Schuss – aber jetzt presst der Schütze (angenommen 70 kg) das Gewehr fest gegen die Schulter.',steps:gunSteps(true)},
       {k:'e',label:'Sprung aus dem Boot',init:()=>({mode:'boat',bx:250,jx:0,jy:0,pJ:0,pB:0,state:0}),mark0:{A:'vor',B:'vor'},hl0:['vor'],intro:'Ein Junge (50 kg) will aus einem kleinen, nicht festgebundenen Boot (100 kg) ans Ufer springen. Der Steg ist 1 m entfernt.',steps:[
         {t:'Absprung',mark:{A:'pump',B:'pump'},hl:['pump'],run:S=>({dur:900,up:(S,k)=>{S.pJ=150*k;S.pB=-150*k;S.state=1;}}),x:'Beim Absprung pumpen die Beinmuskeln Impuls aus dem Boot in den Jungen. Er bekommt +150 Hy (3 m/s nach rechts), das Boot −150 Hy.'},
         {t:'Das Boot weicht zurück',mark:{A:'nach',B:'nach'},hl:['nach'],cls:'err',run:S=>({dur:1500,up:(S,k)=>{S.bx=250-k*60;S.jx=k*130;S.jy=Math.sin(Math.PI*k)*50;}}),x:'Das Boot fährt mit v = −150 Hy / 100 kg = −1,5 m/s nach links. Der Abstand zum Steg wächst, während der Junge noch in der Luft ist.'},
@@ -1223,6 +1344,19 @@ function loop(now){ for(const L of LABS){ try{ L.frame(now); }catch(e){ console.
     ],
     render:(S)=>{
       let s='';
+      if(S.mode==='gun'){
+        s+=GROUND(244,640,'',{h:56}); const ox=S.sx;
+        s+=PERSON(130+ox,244,COL.text,{sc:1.35,armX:22,armY:-46,arm2:[34,-42]});
+        const gy=180, gx=S.gx+ox;
+        s+=`<path d="M${gx},${gy-8} h26 l8,4 h96 v7 h-96 l-16,10 h-18 z" fill="#78350f"/><rect x="${gx+34}" y="${gy-8}" width="96" height="5" fill="#475569"/>`;
+        if(S.bx>=0&&S.bx<1){ const x=lerp(gx+132,660,S.bx); s+=`<ellipse cx="${x}" cy="${gy-6}" rx="7" ry="3" fill="${COL.B}"/>`; if(S.bx<0.25) s+=`<circle cx="${gx+136}" cy="${gy-6}" r="${10-S.bx*30}" fill="#fbbf24" opacity=".8"/>`; }
+        if(S.hit) s+=T(gx-6,gy-22,'💥',{s:22})+T(gx+20,gy-38,'Schlag!',{s:13,w:700,c:COL.warn});
+        if(S.flowS) s+=DOTSP([[gx+4,gy],[132+ox,196],[130+ox,214],[124+ox,244],[124+ox,290]],S.phase,COL.A,7,3.5);
+        if(Math.abs(S.pG)>0.01){ s+=AR(gx+60,112,gx+60+S.pG*22,112,COL.A,4)+T(gx+40,102,`p Gewehr${S.pressed&&S.sx<0?' + Schütze':''} = ${fmt(S.pG,0)} Hy`,{s:12,w:700,c:COL.A,a:'start'});
+          s+=AR(470,96,470+S.pK*22,96,COL.B,4)+T(470,86,`p Kugel = +${fmt(S.pK,0)} Hy`,{s:12,w:700,c:COL.B,a:'start'}); }
+        s+=T(624,268,S.pressed?'angepresst':'frei gehalten',{a:'end',s:12,c:COL.muted});
+        return s;
+      }
       if(S.mode==='boat'){
         s+=`<rect x="0" y="0" width="640" height="300" fill="#eef6fb"/><rect x="0" y="210" width="640" height="90" fill="#bfdbfe"/>`;
         s+=`<rect x="470" y="180" width="170" height="30" fill="#a16207"/><rect x="480" y="210" width="10" height="90" fill="#78350f"/><rect x="600" y="210" width="10" height="90" fill="#78350f"/>`+T(555,172,'Steg',{s:12,c:COL.muted});
@@ -1611,6 +1745,108 @@ function loop(now){ for(const L of LABS){ try{ L.frame(now); }catch(e){ console.
 })();
 </script>
 <script>
+/* ======================= g3: Fall-Labor (NEU) ======================= */
+(function(){
+  const sch=SCHEMA([
+    {id:'fg',t:'Gewichtskraft',sub:'F_G = m_schwer · g – beim Findling viel größer'},
+    {id:'mt',t:'Trägheit',sub:'a = F / m_träge – der Findling ist auch viel träger',c:COL.C},
+    {id:'eq',t:'Äquivalenzprinzip',sub:'m_schwer = m_träge – beide Effekte heben sich genau auf',c:COL.hint},
+    {id:'a',t:'Ergebnis',sub:'a = m·g / m = g ≈ 9,81 m/s² für alle Körper'}
+  ],{chars:27,gap:20});
+  const MF=800, MK=0.05, G=9.81;
+  const init=o=>()=>({y1:0,y2:0,t:0,showF:false,showM:false,showA:false,wrong:!!(o&&o.wrong),air:!!(o&&o.air)});
+  const fall=(f1,f2)=>S=>({dur:1600,up:(S,k)=>{ S.t=k*0.9; S.y1=f1(S.t); S.y2=f2(S.t); }});
+  const free=t=>0.5*G*t*t;
+  new Lab('lab-g3',{
+    title:'Fall-Labor: Findling und Kieselstein',neu:true,w:640,h:300,note:'ohne Luftwiderstand, Pfeile nicht maßstäblich',
+    schema:sch.svg,nodes:sch.nodes,sh:sch.sh,schemaTitle:'Warum fallen beide gleich schnell?',parts:[{k:'F',c:COL.C,n:'Findling'},{k:'K',c:COL.B,n:'Kieselstein'}],
+    scen:[
+      {k:'n',label:'Findling und Kiesel fallen',init:init(),mark0:{},intro:`Ein Findling (${MF} kg) und ein Kieselstein (50 g) werden gleichzeitig aus derselben Höhe losgelassen (Übungsblatt, Aufgabe 8).`,steps:[
+        {t:'Gewichtskraft vergleichen',mark:{F:'fg',K:'fg'},hl:['fg'],run:S=>{S.showF=true;return null;},x:`Auf den Findling wirkt F<sub>G</sub> = ${MF} kg · 9,81 N/kg ≈ ${fmt(MF*G,0)} N, auf den Kiesel nur 0,05 kg · 9,81 N/kg ≈ 0,49 N – die Gewichtskraft ist ${fmt(MF/MK,0)}-mal so groß.`},
+        {t:'Trägheit vergleichen',mark:{F:'mt',K:'mt'},hl:['mt'],run:S=>{S.showM=true;return null;},x:`Der Findling ist aber auch ${fmt(MF/MK,0)}-mal so träge: Um ihn gleich stark zu beschleunigen, braucht man ${fmt(MF/MK,0)}-mal so viel Kraft (F = m·a).`},
+        {t:'Beschleunigung berechnen',mark:{F:'a',K:'a'},hl:['eq','a'],run:S=>{S.showA=true;return null;},x:`Findling: a = ${fmt(MF*G,0)} N / ${MF} kg = 9,81 m/s². Kiesel: a = 0,49 N / 0,05 kg = 9,81 m/s². Weil schwere und träge Masse gleich sind (Äquivalenzprinzip), kürzt sich die Masse heraus.`},
+        {t:'Beide fallen gleich schnell',mark:{F:'a',K:'a'},run:fall(free,free),x:'Beide erreichen zur selben Zeit dieselbe Geschwindigkeit und kommen gleichzeitig unten an. Im Impulsmodell: In den Findling fließt pro Sekunde viel mehr Impuls, er braucht aber auch viel mehr Impuls für dieselbe Geschwindigkeit.'}]},
+      {k:'s',label:'mit Luft: Feder und Kiesel',init:init({air:true}),mark0:{},intro:'Eine Feder und ein Kieselstein fallen in Luft. Hier bremst der Luftwiderstand die Feder stark.',steps:[
+        {t:'Fallen in Luft',mark:{F:'a',K:'a'},run:fall(t=>Math.min(free(t),0.6*t),free),x:'Bei der Feder fließt über den Luftwiderstand schnell viel Impuls ab – sie erreicht bald ein Fließgleichgewicht und sinkt langsam. Beim Kiesel ist der Luftwiderstand im Vergleich zur Gewichtskraft winzig.'},
+        {t:'Im Vakuum',mark:{F:'a',K:'a'},hl:['a'],run:S=>{S.air=false;S.y1=0;S.y2=0;return fall(free,free)(S);},x:'Im luftleeren Fallrohr (oder auf dem Mond) fallen Feder und Kiesel gleich schnell. Der Unterschied in Luft liegt also am Luftwiderstand, nicht an der Masse.'}]},
+      {k:'e',label:'„Schweres fällt schneller“',init:init({wrong:true}),mark0:{},intro:'Eine alte Vorstellung (schon bei Aristoteles): Der Findling ist schwerer, also fällt er schneller. Wir spielen sie durch.',steps:[
+        {t:'Die Vorhersage',mark:{F:'fg',K:'fg'},hl:['fg'],cls:'err',run:S=>{S.showF=true;return fall(t=>Math.min(free(0.9),free(t)*3),t=>free(t)*0.3)(S);},x:'Wenn nur die Gewichtskraft zählen würde, müsste der Findling ein Vielfaches schneller fallen als der Kiesel (rote Darstellung).'},
+        {t:'Was dabei vergessen wurde',mark:{F:'mt',K:'mt'},hl:['mt'],cls:'err',run:S=>{S.showM=true;return null;},x:'Vergessen wurde die Trägheit: Die größere Gewichtskraft muss auch eine entsprechend größere Masse beschleunigen.'},
+        {t:'Was wirklich passiert',mark:{F:'a',K:'a'},hl:['eq','a'],cls:'fin',run:S=>{S.wrong=false;S.showA=true;S.y1=0;S.y2=0;return fall(free,free)(S);},x:'Ohne Luftwiderstand fallen beide gleich schnell: a = g. Das hat schon Galilei erkannt.'}]}
+    ],
+    render:(S)=>{
+      let s=`<rect width="640" height="300" fill="#f3f1ea"/>`+GROUND(270,640,'',{h:30});
+      s+=`<rect x="150" y="40" width="340" height="14" rx="4" fill="#9aa3b2"/>`;
+      const H=180, ys1=96+Math.min(1,S.y1/(0.5*G*0.81))*H*0.95, ys2=96+Math.min(1,S.y2/(0.5*G*0.81))*H*0.95;
+      const c1=S.wrong?COL.warn:COL.C;
+      if(S.air) s+=`<path d="M230,${ys1-6} q14,-10 28,0 q-14,8 -28,0 z" fill="#e2e8f0" stroke="${COL.muted}"/><line x1="230" y1="${ys1-6}" x2="262" y2="${ys1-6}" stroke="${COL.muted}"/>`+T(246,ys1-20,'Feder',{s:12,w:700,c:COL.muted});
+      else s+=`<path d="M206,${ys1} q-4,-30 26,-36 q34,-4 44,24 q6,26 -26,30 q-38,4 -44,-18 z" fill="${c1}" opacity=".85"/>`+T(240,ys1-46,`Findling ${MF} kg`,{s:12,w:700,c:c1});
+      s+=`<ellipse cx="400" cy="${ys2-5}" rx="8" ry="6" fill="${COL.B}"/>`+T(400,ys2-18,'Kiesel 50 g',{s:12,w:700,c:COL.B});
+      if(S.showF&&!S.air){ s+=AR(240,ys1+12,240,ys1+72,c1,7)+T(280,ys1+56,'F_G groß'.replace('F_G','F<tspan baseline-shift="sub" font-size="9">G</tspan>'),{s:12,w:700,c:c1,a:'start'}); s+=AR(400,ys2+6,400,ys2+20,COL.B,2)+T(412,ys2+20,'F<tspan baseline-shift="sub" font-size="9">G</tspan> klein',{s:12,w:700,c:COL.B,a:'start'}); }
+      if(S.showM){ s+=`<rect x="20" y="70" width="112" height="56" rx="8" fill="#fffdf8" stroke="${COL.line}"/>`+T(76,92,'Trägheit',{s:12,w:700})+T(76,112,`${fmt(MF/MK,0)} : 1`,{s:13,w:700,c:COL.C,f:'var(--mono)'}); }
+      if(S.showA) s+=`<rect x="500" y="70" width="128" height="56" rx="8" fill="#fffdf8" stroke="${COL.ok}"/>`+T(564,92,'a beide',{s:12,w:700,c:COL.ok})+T(564,112,'9,81 m/s²',{s:13,w:700,c:COL.ok,f:'var(--mono)'});
+      if(S.t>0) s+=T(20,24,`t = ${fmt(S.t,2)} s`,{a:'start',s:13,w:700,f:'var(--mono)'});
+      return s;
+    }
+  });
+})();
+
+/* ======================= j3: Bremsweg-Labor (NEU, live) ======================= */
+(function(){
+  const lm=v=>Math.pow(10,v);
+  const P=[{label:'Golfball am Kopf (Aufgabe 5)',m:0.04593,v:50,s:0.03},{label:'Fahrerin, Knautschzone ≈ 35 cm',m:60,v:13.9,s:0.35},{label:'Sprung auf Matte (≈ 20 cm)',m:60,v:5,s:0.2},{label:'Sprung auf harten Boden (≈ 2 cm)',m:60,v:5,s:0.02}];
+  new Live('lab-j3',{
+    title:'Bremsweg-Labor: Kraft aus dem Bremsweg',neu:true,w:640,h:300,note:'gleichmäßige Verzögerung angenommen, Werte teils geschätzt',
+    presets:P,
+    params:`<label>m <input type="range" data-p="m" min="-2" max="3.5" step="0.0001"><output data-o="m"></output></label>
+      <label>v <input type="range" data-p="v" min="1" max="60" step="0.1"><output data-o="v"></output></label>
+      <label>Bremsweg s <input type="range" data-p="s" min="-2.5" max="0" step="0.01"><output data-o="s"></output></label>`,
+    fmtP:{m:v=>{const m=lm(v);return m<1?fmt(m*1000,m<0.1?2:0)+' g':fmt(m,m<10?1:0)+' kg';},v:v=>fmt(v,1)+' m/s',s:v=>{const s=lm(v);return s<0.1?fmt(s*100,1)+' cm':fmt(s*100,0)+' cm';}},
+    init:()=>({}),
+    preset:(S,i,L)=>{ const p=P[i]; L.setP('m',Math.log10(p.m)); L.setP('v',p.v); L.setP('s',Math.log10(p.s)); },
+    render:(S,L)=>{
+      const m=lm(L.pv('m')),v=L.pv('v'),sw=lm(L.pv('s')), dt=2*sw/v, F=m*v/dt;
+      let s='';
+      const gx=60,gy=260,gw=300,gh=180;
+      s+=`<line x1="${gx}" y1="${gy}" x2="${gx+gw+10}" y2="${gy}" stroke="${COL.text}"/><line x1="${gx}" y1="${gy}" x2="${gx}" y2="${gy-gh-10}" stroke="${COL.text}"/>`+T(gx-34,gy-gh+4,'v',{a:'end',s:13,w:700,x:'font-style="italic"'})+T(gx+gw+10,gy+18,'t',{a:'end',s:13,w:700,x:'font-style="italic"'})+T(gx+gw/2,32,'v-t-Diagramm beim Abbremsen',{s:12,w:700,c:COL.muted});
+      s+=`<polygon points="${gx},${gy-gh} ${gx+gw*0.85},${gy} ${gx},${gy}" fill="${COL.D}" opacity=".25"/><line x1="${gx}" y1="${gy-gh}" x2="${gx+gw*0.85}" y2="${gy}" stroke="${COL.D}" stroke-width="3"/>`;
+      s+=T(gx+gw*0.22,gy-gh*0.3,'Fläche = s',{s:12,w:700,c:COL.D})+T(gx-6,gy-gh+4,fmt(v,1),{a:'end',s:10.5,c:COL.muted})+T(gx+gw*0.85,gy+16,'Δt',{s:12,w:700});
+      s+=T(gx+gw*0.45,gy-gh*0.62,'v̄ = v/2',{s:12,c:COL.muted});
+      const rows=[[`Δt = 2s / v = ${dt<0.01?fmt(dt*1000,2)+' ms':fmt(dt,3)+' s'}`,COL.text],[`Δp = m·v = ${fmt(m*v,m*v<10?2:0)} Hy`,COL.B],[`F = Δp/Δt ≈ ${F>=10000?fmt(F/1000,1)+' kN':fmt(F,0)+' N'}`,COL.warn],[`a = v²/(2s) ≈ ${fmt(v*v/(2*sw),0)} m/s²`,COL.muted],[`≈ ${fmt(F/(m*9.81),0)}-fache Gewichtskraft`,COL.text]];
+      s+=`<rect x="400" y="40" width="226" height="${rows.length*30+20}" rx="10" fill="#fffdf8" stroke="${COL.line}"/>`;
+      rows.forEach(([t,c],i)=>{ s+=T(412,66+i*30,t,{a:'start',s:13,w:600,c,f:'var(--mono)'}); });
+      return s;
+    },
+    explain:(S,L)=>{ const v=L.pv('v'),sw=lm(L.pv('s')); return ['Vom Bremsweg zur Bremszeit',`Für F = Δp/Δt braucht man die Bremszeit. Ist nur der Bremsweg bekannt, hilft eine Annahme: Bei <b>gleichmäßiger Verzögerung</b> ist die mittlere Geschwindigkeit v/2, also gilt s = (v/2)·Δt und damit Δt = 2s/v. Hier: Δt = 2 · ${fmt(sw,3)} m / ${fmt(v,1)} m/s. Im v-t-Diagramm ist der Bremsweg die Dreiecksfläche. <i>Ergänzung aus der Kinematik; reale Bremsvorgänge sind nicht genau gleichmäßig.</i>`]; }
+  });
+})();
+
+/* ======================= k4: Bus fährt an (Mini-Labor, live) ======================= */
+(function(){
+  new Live('lab-k4',{
+    title:'Mini-Labor: Bus fährt an',neu:true,w:640,h:220,note:'Reibung vernachlässigt',
+    params:`<label>Impulsstrom F <input type="range" data-p="F" min="4" max="20" step="1" value="14"><output data-o="F"></output></label>
+      <label>Dauer Δt <input type="range" data-p="t" min="1" max="6" step="0.5" value="3"><output data-o="t"></output></label>
+      <label>Masse <input type="range" data-p="m" min="2" max="12" step="1" value="3"><output data-o="m"></output></label>`,
+    fmtP:{F:v=>v+' kN',t:v=>fmt(v,1)+' s',m:v=>v+' t'},
+    init:()=>({x:0}),
+    tick:(S,dt,L)=>{ const v=L.pv('F')*1000*L.pv('t')/(L.pv('m')*1000); S.x=(S.x+dt*v*6)%720; return true; },
+    render:(S,L)=>{
+      const F=L.pv('F')*1000,t=L.pv('t'),m=L.pv('m')*1000,dp=F*t,v=dp/m;
+      let s=`<rect width="640" height="220" fill="#f3f1ea"/>`+GROUND(150,640,'',{h:70});
+      for(let i=0;i<10;i++){ const x=((i*80-S.x)%800+800)%800-80; s+=`<rect x="${x}" y="176" width="40" height="5" fill="#fff"/>`; }
+      s+=`<g transform="translate(60,62)"><rect width="200" height="74" rx="14" fill="${COL.D}"/>${[0,1,2,3].map(i=>`<rect x="${16+i*44}" y="12" width="34" height="26" rx="4" fill="#ccfbf1"/>`).join('')}<circle cx="40" cy="80" r="13" fill="${COL.text}"/><circle cx="160" cy="80" r="13" fill="${COL.text}"/></g>`;
+      s+=AR(280,100,280+Math.min(110,v*6),100,COL.B,5)+T(286,88,'v',{s:13,w:700,c:COL.B,a:'start',x:'font-style="italic"'});
+      const ok=Math.abs(v*3.6-50)<3;
+      const rows=[[`Δp = F·Δt = ${fmt(dp,0)} Hy`,COL.text],[`v = Δp/m = ${fmt(v,1)} m/s`,COL.B],[`  = ${fmt(v*3.6,1)} km/h`,ok?COL.ok:COL.B],[`a = F/m = ${fmt(F/m,2)} m/s²`,COL.muted]];
+      s+=`<rect x="400" y="14" width="226" height="134" rx="10" fill="#fffdf8" stroke="${COL.line}"/>`; rows.forEach(([r,c],i)=>{ s+=T(412,42+i*30,r,{a:'start',s:13,w:600,c,f:'var(--mono)'}); });
+      return s;
+    },
+    explain:(S,L)=>{ const v=L.pv('F')*L.pv('t')/L.pv('m'); return ['Impulsstrom · Zeit = Impuls',`Ein Impulsstrom von ${L.pv('F')} kN (= ${L.pv('F')*1000} Hy/s) pumpt in ${fmt(L.pv('t'),1)} s insgesamt ${fmt(L.pv('F')*1000*L.pv('t'),0)} Hy in den Bus. Bei ${L.pv('m')} t Masse ergibt das ${fmt(v,1)} m/s ≈ ${fmt(v*3.6,0)} km/h – ohne Reibung. Mit Reibung fließt ein Teil gleich wieder ab, der Bus wird etwas langsamer.`]; }
+  });
+})();
+</script>
+<script>
 /* ======================= Lernlandkarte, Navigation, Fortschritt ======================= */
 const SECS=[
   {l:'a',r:'A',t:'Was ist Impuls?',q:'Wovon hängt die „Wucht“ eines bewegten Körpers ab?',x:40,y:165,ill:'a'},
@@ -1618,13 +1854,15 @@ const SECS=[
   {l:'c',r:'B',t:'Stöße & Erhaltung',q:'Was passiert mit dem Impuls, wenn Körper zusammenstoßen?',x:345,y:165,ill:'c'},
   {l:'d',r:'B',t:'Leiter & Pumpen',q:'Auf welchen Wegen kann Impuls fließen – und was hält ihn auf?',x:645,y:165,ill:'d'},
   {l:'e',r:'B',t:'Fließgleichgewicht',q:'Warum braucht ein Auto bei konstantem Tempo trotzdem den Motor?',x:645,y:345,ill:'e'},
-  {l:'f',r:'B',t:'Rückstoß',q:'Wie kann sich ein Körper selbst antreiben?',x:345,y:345,ill:'f'},
-  {l:'g',r:'C',t:'Trägheit (1. Axiom)',q:'Warum fliegt man im bremsenden Bus nach vorne?',x:935,y:165,ill:'g'},
+  {l:'f',r:'B',t:'Rückstoß',q:'Wie kann sich ein Körper selbst antreiben?',x:345,y:345,ill:'f',neu:1},
+  {l:'g',r:'C',t:'Trägheit (1. Axiom)',q:'Warum fliegt man im bremsenden Bus nach vorne?',x:935,y:165,ill:'g',neu:1},
   {l:'h',r:'C',t:'Wechselwirkung (3.)',q:'Wer zieht stärker, wenn zwei sich an einem Seil zusammenziehen?',x:935,y:345,ill:'h'},
   {l:'i',r:'D',t:'Kraft',q:'Was hat Kraft mit Impulsströmen zu tun?',x:345,y:595,ill:'i'},
-  {l:'j',r:'D',t:'Grundgleichung (2.)',q:'Wie hängen Kraft, Zeit und Impulsänderung zusammen?',x:645,y:595,ill:'j'}
+  {l:'j',r:'D',t:'Grundgleichung (2.)',q:'Wie hängen Kraft, Zeit und Impulsänderung zusammen?',x:645,y:595,ill:'j',neu:1},
+  {l:'k',r:'E',t:'Anwenden: Übungsblatt',q:'Kann ich mit Impuls und Kraft echte Aufgaben lösen?',x:932,y:595,ill:'k',neu:1}
 ];
-const REG={A:{n:'① Impuls – eine Größe',x:15,y:118,w:290,h:388},B:{n:'② Impuls fließt',x:320,y:118,w:590,h:388},C:{n:'③ Axiome im Impulsmodell',x:920,y:118,w:265,h:388},D:{n:'④ Vom Impuls zur Kraft',x:320,y:548,w:590,h:200}};
+const REG={A:{n:'① Impuls – eine Größe',x:15,y:118,w:290,h:388},B:{n:'② Impuls fließt',x:320,y:118,w:590,h:388},C:{n:'③ Axiome im Impulsmodell',x:920,y:118,w:265,h:388},D:{n:'④ Vom Impuls zur Kraft',x:320,y:548,w:590,h:200},E:{n:'⑤ Anwenden und üben',x:920,y:548,w:265,h:200}};
+COL.E=COL.hint;
 const CW=240,CH=132;
 const ILL={
  a:`<line x1="0" y1="40" x2="64" y2="40" stroke="#d8cfbb"/><g class="an-slideR"><circle cx="12" cy="30" r="9" fill="${COL.A}"/></g><g class="an-grow"><line x1="4" y1="10" x2="40" y2="10" stroke="${COL.B}" stroke-width="3"/><polygon points="46,10 38,5 38,15" fill="${COL.B}"/></g>`,
@@ -1636,6 +1874,7 @@ const ILL={
  g:`<rect x="2" y="12" width="60" height="28" rx="5" fill="none" stroke="${COL.C}" stroke-width="2"/><g class="an-lean"><circle cx="30" cy="18" r="4" fill="${COL.C}"/><line x1="30" y1="22" x2="30" y2="38" stroke="${COL.C}" stroke-width="3"/></g><circle cx="14" cy="42" r="4" fill="${COL.text}"/><circle cx="50" cy="42" r="4" fill="${COL.text}"/>`,
  h:`<g class="an-slideR" style="animation-duration:3s"><circle cx="8" cy="16" r="5" fill="${COL.A}"/><line x1="8" y1="21" x2="8" y2="38" stroke="${COL.A}" stroke-width="3"/></g><g class="an-slideL" style="animation-duration:3s"><circle cx="58" cy="16" r="5" fill="${COL.B}"/><line x1="58" y1="21" x2="58" y2="38" stroke="${COL.B}" stroke-width="3"/></g><line x1="12" y1="26" x2="54" y2="26" stroke="${COL.muted}" stroke-width="1.5"/>`,
  i:`<line x1="32" y1="0" x2="32" y2="6" stroke="${COL.text}" stroke-width="2"/><g class="an-bob"><path d="M32,6 l6,3 l-12,4 l12,4 l-12,4 l6,3" fill="none" stroke="${COL.muted}" stroke-width="1.6"/><rect x="24" y="24" width="16" height="16" rx="2" fill="${COL.D}"/></g><line x1="50" y1="14" x2="50" y2="40" stroke="${COL.warn}" stroke-width="2.4"/><polygon points="50,44 46,36 54,36" fill="${COL.warn}"/>`,
+ k:`<rect x="14" y="4" width="40" height="44" rx="4" fill="#fff" stroke="${COL.hint}" stroke-width="2"/><line x1="20" y1="16" x2="46" y2="16" stroke="${COL.muted}" stroke-width="2"/><line x1="20" y1="26" x2="46" y2="26" stroke="${COL.muted}" stroke-width="2"/><line x1="20" y1="36" x2="38" y2="36" stroke="${COL.muted}" stroke-width="2"/><g class="an-bob"><path d="M44,40 l14,-22 l5,3 l-14,22 l-6,3 z" fill="${COL.hint}"/></g>`,
  j:`<line x1="4" y1="44" x2="64" y2="44" stroke="${COL.text}"/><line x1="4" y1="44" x2="4" y2="4" stroke="${COL.text}"/><rect x="12" y="16" width="34" height="28" fill="${COL.D}" opacity=".35" class="an-po"/><text x="29" y="35" font-size="10" text-anchor="middle" fill="${COL.text}">Δp</text><text x="60" y="40" font-size="9" fill="${COL.muted}">t</text><text x="8" y="10" font-size="9" fill="${COL.muted}">F</text>`
 };
 function buildMap(){
@@ -1643,9 +1882,9 @@ function buildMap(){
   // Kernfrage
   s+=`<rect x="290" y="12" width="620" height="78" rx="16" fill="${COL.text}"/>`+T(600,38,'KERNFRAGE',{s:11.5,c:'#9fb3c8',w:700,x:'letter-spacing="2"'})+T(600,68,'Wie und warum ändert ein Körper seinen Bewegungszustand?',{s:20,c:'#fff',w:700});
   // Regionen
-  for(const k in REG){ const r=REG[k]; s+=`<rect x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" rx="22" fill="${COL[k]}" fill-opacity=".07" stroke="${COL[k]}" stroke-opacity=".45" stroke-width="1.5" stroke-dasharray="6 5"/>`+T(r.x+18,r.y+26,r.n,{a:'start',s:14,w:700,c:COL[k]}); }
+  for(const k in REG){  const r=REG[k]; s+=`<rect x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" rx="22" fill="${COL[k]}" fill-opacity=".07" stroke="${COL[k]}" stroke-opacity=".45" stroke-width="1.5" stroke-dasharray="6 5"/>`+T(r.x+18,r.y+26,r.n,{a:'start',s:14,w:700,c:COL[k]}); }
   // Lernpfad (gestrichelt, unter den Karten)
-  const cen=SECS.map(o=>[o.x+CW/2,o.y+CH/2]); cen.push([1062,672]);
+  const cen=SECS.map(o=>[o.x+CW/2,o.y+CH/2]); cen.push([1079,840]);
   s+=`<polyline points="${cen.map(p=>p.join(',')).join(' ')}" fill="none" stroke="${COL.hint}" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round" opacity=".55"/>`;
   // Beziehungspfeile
   const rel=[
@@ -1658,7 +1897,8 @@ function buildMap(){
     [1055,297,1055,343,'zwei Körper',[1108,323]],
     [765,477,505,593,'Stromstärke = Kraft',[640,528]],
     [585,661,643,661,'F·Δt = Δp',[614,645]],
-    [885,661,985,661,'Ziel',[935,651]]
+    [885,661,930,661,'üben',[908,645]],
+    [1052,729,1052,768,'Ziel',[1100,752]]
   ];
   s+=`<path d="M290,51 H165 V114" fill="none" stroke="#5b6475" stroke-width="1.8" marker-end="url(#mh)"/>`+TB(228,55,'beschreiben mit p',{s:11.5,c:'#3a4356',w:600,bg:'#fffdf8',bc:'#e5dfd2',op:1});
   s+=TB(910,214,'kein',{s:11.5,c:'#3a4356',w:600,bg:'#fffdf8',bc:'#e5dfd2',op:1})+TB(910,231,'Fluss',{s:11.5,c:'#3a4356',w:600,bg:'#fffdf8',bc:'#e5dfd2',op:1});
@@ -1671,25 +1911,26 @@ function buildMap(){
       lines.map((l,j)=>T(12,54+j*15.5,l,{a:'start',s:11.8,c:'#3a4356'})).join('')+
       `<g transform="translate(${CW-76},${CH-56})">${ILL[o.ill]}</g>`+
       `<circle cx="16" cy="${CH-15}" r="9" fill="${COL.hint}" opacity=".9"/>`+T(16,CH-11,String(i+1),{s:10.5,w:700,c:'#fff'})+
+      (o.neu?`<g><rect x="${CW-62}" y="-9" width="40" height="17" rx="8.5" fill="${COL.hint}"/>${T(CW-42,3.5,'NEU',{s:10,w:700,c:'#fff'})}</g>`:'')+
       `<g class="chk"><circle cx="${CW-4}" cy="4" r="12" fill="${COL.ok}" stroke="#fff" stroke-width="2"/><path d="M${CW-10},4 l4,4 l8,-8" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round"/></g></g>`; });
   // Zielflagge
-  s+=`<g class="mcard" data-go="s-quiz" data-l="quiz" tabindex="0" role="link" aria-label="Abschlussquiz" transform="translate(990,600)">`+
+  s+=`<g class="mcard" data-go="s-quiz" data-l="quiz" tabindex="0" role="link" aria-label="Abschlussquiz" transform="translate(1000,775)">`+
      `<rect class="mc-bg" x="-6" y="-8" width="170" height="140" rx="16" fill="#fffdf8" stroke="${COL.ok}" stroke-width="1.6"/>`+
      `<line x1="56" y1="2" x2="56" y2="58" stroke="${COL.text}" stroke-width="3" stroke-linecap="round"/><g class="an-flag"><path d="M58,4 h50 l-9,12 l9,12 h-50 z" fill="${COL.ok}"/><path d="M64,7 h8 v7 h-8 z M80,7 h8 v7 h-8 z M72,14 h8 v7 h-8 z M88,14 h8 v7 h-8 z" fill="#fff" opacity=".85"/></g>`+
-     T(79,78,'Abschlussquiz',{s:15,w:700,c:COL.ok})+T(79,98,'20 Fragen mit Erklärung',{s:11.5,c:COL.muted})+
-     `<circle cx="16" cy="118" r="9" fill="${COL.hint}"/>`+T(16,122,'11',{s:10,w:700,c:'#fff'})+
+     T(79,78,'Abschlussquiz',{s:15,w:700,c:COL.ok})+T(79,98,'25 Fragen mit Erklärung',{s:11.5,c:COL.muted})+
+     `<circle cx="16" cy="118" r="9" fill="${COL.hint}"/>`+T(16,122,'12',{s:10,w:700,c:'#fff'})+
      `<g class="chk"><circle cx="160" cy="-4" r="12" fill="${COL.ok}" stroke="#fff" stroke-width="2"/><path d="M154,-4 l4,4 l8,-8" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round"/></g></g>`;
   // Legende
-  s+=`<g transform="translate(22,560)"><rect width="282" height="186" rx="14" fill="#fffdf8" stroke="${COL.line}"/>`+T(16,26,'Legende',{a:'start',s:13,w:700})+
+  s+=`<g transform="translate(22,560)"><rect width="282" height="196" rx="14" fill="#fffdf8" stroke="${COL.line}"/>`+T(16,26,'Legende',{a:'start',s:13,w:700})+
      `<line x1="16" y1="50" x2="56" y2="50" stroke="#5b6475" stroke-width="1.8" marker-end="url(#mh)"/>`+T(66,54,'Beziehung zwischen Leitfragen',{a:'start',s:12})+
      `<line x1="16" y1="78" x2="56" y2="78" stroke="${COL.hint}" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/>`+T(66,82,'empfohlener Lernpfad',{a:'start',s:12})+
      `<circle cx="26" cy="106" r="9" fill="${COL.hint}"/>`+T(26,110,'1',{s:10.5,w:700,c:'#fff'})+T(66,110,'Reihenfolge im Lernpfad',{a:'start',s:12})+
      `<circle cx="26" cy="134" r="10" fill="${COL.ok}"/><path d="M20,134 l4,4 l8,-8" stroke="#fff" stroke-width="2.4" fill="none"/>`+T(66,138,'schon angeschaut',{a:'start',s:12})+
-     T(16,168,'Karte anklicken → zum Abschnitt',{a:'start',s:12,c:COL.muted})+`</g>`;
+     `<rect x="10" y="150" width="40" height="17" rx="8.5" fill="${COL.hint}"/>`+T(30,162,'NEU',{s:10,w:700,c:'#fff'})+T(66,163,'neue Inhalte (18.11.)',{a:'start',s:12})+T(16,184,'Karte anklicken → zum Abschnitt',{a:'start',s:11.5,c:COL.muted})+`</g>`;
   svg.innerHTML=s;
   // Liste für schmale Bildschirme
-  let h=''; ['A','B','C','D'].forEach(k=>{ h+=`<li class="reg">${REG[k].n}</li>`; SECS.filter(o=>o.r===k).forEach(o=>{ h+=`<li data-go="s-${o.l}" data-l="${o.l}" style="border-left-color:${COL[k]}"><div class="t">${o.l}) ${o.t}</div><div class="mq">${o.q}</div></li>`; }); });
-  h+=`<li class="reg">Ziel</li><li data-go="s-quiz" data-l="quiz" style="border-left-color:${COL.ok}"><div class="t">🏁 Abschlussquiz</div><div class="mq">20 Fragen mit Erklärung</div></li>`;
+  let h=''; ['A','B','C','D','E'].forEach(k=>{ h+=`<li class="reg">${REG[k].n}</li>`; SECS.filter(o=>o.r===k).forEach(o=>{ h+=`<li data-go="s-${o.l}" data-l="${o.l}" style="border-left-color:${COL[k]}"><div class="t">${o.l}) ${o.t}${o.neu?' <span class="neu">NEU</span>':''}</div><div class="mq">${o.q}</div></li>`; }); });
+  h+=`<li class="reg">Ziel</li><li data-go="s-quiz" data-l="quiz" style="border-left-color:${COL.ok}"><div class="t">🏁 Abschlussquiz</div><div class="mq">25 Fragen mit Erklärung</div></li>`;
   $('#maplist').innerHTML=h;
 }
 function go(id){ const el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); }
@@ -1753,9 +1994,10 @@ const QBASE=[
  {q:'Im p-t-Diagramm eines Körpers fällt der Impuls gleichmäßig von 0 auf −3 Hy. Was lässt sich sicher sagen?',o:['Der Körper wird langsamer und bleibt am Ende stehen.','Der Körper bewegt sich in negative Richtung und wird dabei schneller; währenddessen findet eine Wechselwirkung statt.','Der Körper ist im Fließgleichgewicht.','Der Körper bewegt sich in positive Richtung mit konstanter Geschwindigkeit.'],a:1,e:'p < 0 heißt Bewegung in negative Richtung; |p| wächst, also wird er schneller (vgl. Übungsblatt, Aufgabe 1). Da sich p ändert, fließt Impuls – es findet eine Wechselwirkung statt. Die konstante Steigung bedeutet eine konstante Kraft.'},
  {q:'Zwei Eisläufer stehen ruhig voreinander: A (60 kg) und B (40 kg). Sie stoßen sich voneinander ab; A gleitet danach mit 2 m/s nach links. Wie bewegt sich B?',o:['mit 2 m/s nach rechts','mit 3 m/s nach rechts','mit 1,33 m/s nach rechts','B bleibt stehen, weil A gestoßen hat.'],a:1,e:'Σp = 0: p_A = 60 kg · (−2 m/s) = −120 Hy ⇒ p_B = +120 Hy ⇒ v_B = 120 Hy / 40 kg = 3 m/s nach rechts. Gleicher Impulsbetrag, aber der Leichtere ist schneller.'},
  {q:'Eine Kiste (10 kg) steht auf einer reibungsfreien Fläche auf dem Mond (g ≈ 1,6 N/kg). Man schiebt sie waagerecht mit 20 N. Wie groß ist ihre Beschleunigung?',o:['2 m/s² – genauso groß wie auf der Erde','12,5 m/s², weil sie auf dem Mond leichter ist','0,2 m/s²','Sie lässt sich gar nicht beschleunigen.'],a:0,e:'Für die Beschleunigung zählt die träge Masse, und die ist ortsunabhängig: a = F/m = 20 N / 10 kg = 2 m/s². Nur die Gewichtskraft (schwere Masse · g) ist auf dem Mond kleiner.'},
- {q:'Ein Auto (1200 kg) fährt konstant mit 72 km/h. Durch Luft- und Rollreibung fließen 600 Hy/s ab. Welche Aussage ist richtig?',o:['Der Motor pumpt 600 Hy/s hinein; die resultierende Kraft auf das Auto ist 0 N.','Der Motor pumpt 600 Hy/s hinein; die resultierende Kraft ist 600 N nach vorne.','Der Motor pumpt 24 000 Hy/s hinein, weil p = 24 000 Hy ist.','Der Motor pumpt keinen Impuls hinein, weil v konstant ist.'],a:0,e:'Fließgleichgewicht: Zufluss = Abfluss = 600 Hy/s, also Antriebskraft 600 N und Reibungskraft 600 N. Sie heben sich auf: resultierende Kraft 0 N, keine Beschleunigung (1. Axiom). Der Impuls des Autos (24 000 Hy) hat mit der Stromstärke nichts zu tun.'}
+ {q:'Ein Auto (1200 kg) fährt konstant mit 72 km/h. Durch Luft- und Rollreibung fließen 600 Hy/s ab. Welche Aussage ist richtig?',o:['Der Motor pumpt 600 Hy/s hinein; die resultierende Kraft auf das Auto ist 0 N.','Der Motor pumpt 600 Hy/s hinein; die resultierende Kraft ist 600 N nach vorne.','Der Motor pumpt 24 000 Hy/s hinein, weil p = 24 000 Hy ist.','Der Motor pumpt keinen Impuls hinein, weil v konstant ist.'],a:0,e:'Fließgleichgewicht: Zufluss = Abfluss = 600 Hy/s, also Antriebskraft 600 N und Reibungskraft 600 N. Sie heben sich auf: resultierende Kraft 0 N, keine Beschleunigung (1. Axiom). Der Impuls des Autos (24 000 Hy) hat mit der Stromstärke nichts zu tun.'},
+ {},{},{},{},{}
 ];
-const SUB=t=>t.replace(/([pvmF])_([A-Za-z→]+)/g,'$1<sub>$2</sub>');
+const SUB=t=>t.replace(/([pvmF])_([A-Za-zäöüß→]+)/g,'$1<sub>$2</sub>');
 /* ---- Zufallsaufgaben: Generator je Frage (Index wie in QBASE) ---- */
 function rng(seed){ let a=seed>>>0; return ()=>{ a=(a+0x6D2B79F5)>>>0; let t=a; t=Math.imul(t^(t>>>15),t|1); t^=t+Math.imul(t^(t>>>7),t|61); return ((t^(t>>>14))>>>0)/4294967296; }; }
 const pick=(R,arr)=>arr[Math.floor(R()*arr.length)];
@@ -1800,7 +2042,22 @@ const GEN={
      e:`Für die Beschleunigung zählt die träge Masse, und die ist ortsunabhängig: a = F/m = ${F} N / ${m} kg = ${sig(a)} m/s². Nur die Gewichtskraft (schwere Masse · g) ist auf dem Mond kleiner (etwa ein Sechstel).`}; },
  19:R=>{ const m=rr(R,1000,1500,100), v=pick(R,[54,72,90,108]), out=rr(R,400,900,50), p=m*v/3.6;
    return {q:`Ein Auto (${m} kg) fährt konstant mit ${v} km/h. Durch Luft- und Rollreibung fließen ${out} Hy/s ab. Welche Aussage ist richtig?`,o:[`Der Motor pumpt ${out} Hy/s hinein; die resultierende Kraft auf das Auto ist 0 N.`,`Der Motor pumpt ${out} Hy/s hinein; die resultierende Kraft ist ${out} N nach vorne.`,`Der Motor pumpt ${fmt(p,0)} Hy/s hinein, weil p = ${fmt(p,0)} Hy ist.`,'Der Motor pumpt keinen Impuls hinein, weil v konstant ist.'],a:0,
-     e:`Fließgleichgewicht: Zufluss = Abfluss = ${out} Hy/s, also Antriebskraft ${out} N und Reibungskraft ${out} N. Sie heben sich auf: resultierende Kraft 0 N, keine Beschleunigung (1. Axiom). Der Impuls des Autos (${fmt(p,0)} Hy) hat mit der Stromstärke nichts zu tun.`}; }
+     e:`Fließgleichgewicht: Zufluss = Abfluss = ${out} Hy/s, also Antriebskraft ${out} N und Reibungskraft ${out} N. Sie heben sich auf: resultierende Kraft 0 N, keine Beschleunigung (1. Axiom). Der Impuls des Autos (${fmt(p,0)} Hy) hat mit der Stromstärke nichts zu tun.`}; },
+ 20:R=>{ const m=rr(R,2,5,0.5), F=rr(R,8,18,1), t=rr(R,2,5,0.5), v=F*1000*t/(m*1000);
+   return {q:`Ein Bus (${f(m,1)} t) steht an einer Haltestelle. Beim Anfahren fließt ${f(t,1)} s lang ein Impulsstrom von ${F} kN in den Bus. Welche Geschwindigkeit hat er danach (ohne Reibung)?`,o:[`${f(v*3.6,0)} km/h`,`${f(v,1)} km/h`,`${f(v*3.6*3.6,0)} km/h`,`${f(F/m*3.6,0)} km/h`],a:0,
+     e:`Δp = F·Δt = ${F*1000} N · ${f(t,1)} s = ${fmt(F*1000*t,0)} Hy. v = Δp/m = ${fmt(F*1000*t,0)} Hy / ${fmt(m*1000,0)} kg ≈ ${f(v,1)} m/s ≈ ${f(v*3.6,0)} km/h. (${f(v,1)} ist der Wert in m/s; ${f(F/m*3.6,0)} entstünde, wenn man die Beschleunigung a = F/m für eine Geschwindigkeit hält.) Vgl. Übungsblatt, Aufgabe 4.`}; },
+ 21:R=>{ const m=0.04593, v=rr(R,30,70,5), sc=rr(R,2,5,0.5), sm=sc/100, F=m*v*v/(2*sm);
+   return {q:`Ein Golfball (45,93 g) fliegt mit ${v} m/s und wird auf einer Strecke von ${f(sc,1)} cm gleichmäßig bis zum Stillstand abgebremst. Wie groß ist die mittlere Bremskraft?`,o:[`etwa ${sig(F)} N`,`etwa ${sig(2*F)} N`,`etwa ${sig(F/100)} N`,`etwa ${sig(m*v)} N`],a:0,
+     e:`Bremszeit bei gleichmäßiger Verzögerung: Δt = 2s/v = 2 · ${f(sm,3)} m / ${v} m/s ≈ ${f(2*sm/v*1000,2)} ms. Δp = m·v ≈ ${f(m*v,2)} Hy. F = Δp/Δt ≈ ${sig(F)} N. (Doppelt so viel erhält man, wenn man Δt = s/v rechnet und die mittlere Geschwindigkeit v/2 vergisst; ${sig(F/100)} N, wenn man s in cm einsetzt.) Vgl. Aufgabe 5.`}; },
+ 22:R=>{ const mg=rr(R,3,10,1), mk=rr(R,5,15,1), vk=rr(R,300,900,50), v=mk/1000*vk/mg;
+   return {q:`Ein Gewehr (${mg} kg) feuert eine Kugel (${mk} g) mit ${vk} m/s ab. Mit welcher Geschwindigkeit würde das Gewehr ohne Abbremsen zurückgestoßen?`,o:[`${f(v,2)} m/s`,`${fmt(v*1000,0)} m/s`,`${f(v/2,2)} m/s`,'0 m/s, weil das Gewehr viel schwerer ist'],a:0,
+     e:`Σp = 0: p_Kugel = ${f(mk/1000,3)} kg · ${vk} m/s = ${f(mk/1000*vk,2)} Hy ⇒ p_Gewehr = −${f(mk/1000*vk,2)} Hy ⇒ v = ${f(mk/1000*vk,2)} Hy / ${mg} kg ≈ ${f(v,2)} m/s entgegen der Schussrichtung. ${fmt(v*1000,0)} m/s ergibt sich, wenn man die Kugelmasse nicht in kg umrechnet. Vgl. Aufgabe 6.`}; },
+ 23:R=>{ const m=rr(R,50,90,5), vk=rr(R,30,70,10), dt=pick(R,[0.04,0.05,0.06,0.08,0.1]), v=vk/3.6, n=v/(dt*9.81);
+   return {q:`Ein Auto prallt mit ${vk} km/h gegen eine Mauer und steht nach ${f(dt,2)} s. Das Wievielfache ihrer Gewichtskraft müsste eine Fahrerin (${m} kg) aufbringen, um sich nur mit den Händen abzustützen?`,o:[`etwa das ${fmt(n,0)}-Fache`,`etwa das ${fmt(n*3.6,0)}-Fache`,`etwa das ${fmt(n*9.81,0)}-Fache`,`etwa das ${fmt(n/2,0)}-Fache`],a:0,
+     e:`v = ${vk} : 3,6 ≈ ${f(v,1)} m/s. F = m·v/Δt = ${m} kg · ${f(v,1)} m/s / ${f(dt,2)} s ≈ ${fmt(m*v/dt,0)} N. F_G = ${m} kg · 9,81 N/kg ≈ ${fmt(m*9.81,0)} N. Verhältnis ≈ ${fmt(n,0)} – unabhängig von der Masse. (Das ${fmt(n*3.6,0)}-Fache erhält man, wenn man km/h nicht umrechnet.) Vgl. Aufgabe 7.`}; },
+ 24:R=>{ const M=rr(R,200,2000,100), k=rr(R,20,100,10), r=M/(k/1000);
+   return {q:`Ein Findling (${M} kg) und ein Kieselstein (${k} g) fallen ohne Luftwiderstand. Welche Aussage ist richtig?`,o:[`Auf den Findling wirkt die ${fmt(r,0)}-fache Gewichtskraft, er ist aber auch ${fmt(r,0)}-mal so träge – beide haben a = g.`,`Der Findling fällt ${fmt(r,0)}-mal so schnell, weil seine Gewichtskraft ${fmt(r,0)}-mal so groß ist.`,'Der Kiesel fällt schneller, weil er weniger träge ist.',`Auf beide wirkt dieselbe Gewichtskraft, deshalb fallen sie gleich schnell.`],a:0,
+     e:`F_G = m·g ist ${fmt(r,0)}-mal so groß, die träge Masse aber auch. a = F_G/m = g für beide (Äquivalenzprinzip: schwere = träge Masse). Die Gewichtskräfte sind also verschieden, die Beschleunigungen gleich. Vgl. Aufgabe 8.`}; }
 };
 function shuffleQ(q,R){ const idx=q.o.map((_,k)=>k); for(let k=idx.length-1;k>0;k--){ const j=Math.floor(R()*(k+1)); [idx[k],idx[j]]=[idx[j],idx[k]]; } return {...q,o:idx.map(k=>q.o[k]),a:idx.indexOf(q.a)}; }
 let QUIZ=[], QST={seed:0,ans:{}};
@@ -1809,7 +2066,7 @@ function buildQuiz(fresh){
   QST=load('impuls-lk11-quiz2',null);
   if(fresh||!QST||!QST.ans||!Object.keys(QST.ans).length){ QST={seed:(Math.random()*4294967296)>>>0,ans:{}}; store('impuls-lk11-quiz2',QST); }
   makeQuiz(QST.seed);
-  $('#quiz').innerHTML=QUIZ.map((q,i)=>(i===0?'<h3 class="qhead">Teil 1: Grundlagen</h3>':i===10?'<h3 class="qhead">Teil 2: Vertiefung – etwas anspruchsvoller</h3>':'')+`<div class="q" data-i="${i}"><div class="qt"><span class="n">${i+1}.</span>${SUB(q.q)}</div><div class="opts">${q.o.map((o,j)=>`<button data-j="${j}">${String.fromCharCode(65+j)})&nbsp; ${SUB(o)}</button>`).join('')}</div><div class="ex"></div></div>`).join('');
+  $('#quiz').innerHTML=QUIZ.map((q,i)=>(i===0?'<h3 class="qhead">Teil 1: Grundlagen</h3>':i===10?'<h3 class="qhead">Teil 2: Vertiefung – etwas anspruchsvoller</h3>':i===20?'<h3 class="qhead">Teil 3: Aufgaben wie auf dem Übungsblatt <span class="neu">NEU</span></h3>':'')+`<div class="q" data-i="${i}"><div class="qt"><span class="n">${i+1}.</span>${SUB(q.q)}</div><div class="opts">${q.o.map((o,j)=>`<button data-j="${j}">${String.fromCharCode(65+j)})&nbsp; ${SUB(o)}</button>`).join('')}</div><div class="ex"></div></div>`).join('');
   $$('#quiz .q').forEach(d=>{ const i=+d.dataset.i; $$('button',d).forEach(b=>b.onclick=()=>answer(d,i,+b.dataset.j,true)); if(QST.ans[i]!=null) answer(d,i,QST.ans[i],false); });
   score();
 }
@@ -1833,17 +2090,30 @@ function initCollapse(){
     lab.classList.add('coll'); head.setAttribute('role','button'); head.tabIndex=0;
     head.addEventListener('click',()=>setLab(lab,lab.classList.contains('closed')));
     head.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); setLab(lab,lab.classList.contains('closed')); } });
-    setLab(lab,false); });
+    setLab(lab,!!lab.parentElement.closest('.lab')); });
   $$('section.unit').forEach(sec=>{
     const cols=$('.cols',sec); if(cols){ const txt=cols.firstElementChild; const d=document.createElement('details'); d.className='erkl'; d.open=false; d.innerHTML='<summary>Erklärung</summary>'; while(txt.firstChild) d.appendChild(txt.firstChild); txt.appendChild(d); }
-    const n=$$('.lab',sec).length; if(!n) return;
+    const top=$$('.lab',sec).filter(l=>!l.parentElement.closest('.lab')), n=top.length; if(!n) return; const isA=top.every(l=>l.classList.contains('aufg'));
     const bar=document.createElement('div'); bar.className='secbar';
-    bar.innerHTML=`<button data-a="1">▾ Alles aufklappen</button><button data-a="0">▸ Alles zuklappen</button><span style="font-size:12.5px;color:var(--muted);align-self:center">${n} ${n>1?'Labore':'Labor'} in diesem Abschnitt</span>`;
+    bar.innerHTML=`<button data-a="1">▾ Alles aufklappen</button><button data-a="0">▸ Alles zuklappen</button><span style="font-size:12.5px;color:var(--muted);align-self:center">${n} ${isA?'Aufgaben':n>1?'Labore':'Labor'} in diesem Abschnitt</span>`;
     bar.addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; const o=b.dataset.a==='1';
-      $$('.lab',sec).forEach(l=>setLab(l,o)); $$('details.erkl,details.muster',sec).forEach(d=>d.open=o); });
+      $$('.lab',sec).forEach(l=>setLab(l,o||!!l.parentElement.closest('.lab'))); $$('details.erkl,details.muster',sec).forEach(d=>d.open=o); });
     $('.sechead',sec).insertAdjacentElement('afterend',bar); });
 }
-buildMap(); initNav(); initCollapse(); buildSorter(); buildQuiz(); updProg();
+/* ---- Gestufte Hilfen und Labor-Links ---- */
+function initHints(){
+  $$('.hints[data-h]').forEach(h=>{ const boxes=[]; let el=h.nextElementSibling; while(el&&el.classList.contains('hintbox')){ boxes.push(el); el=el.nextElementSibling; }
+    const names=boxes.map((b,i)=>b.classList.contains('sol')?'✓ Lösungsweg':`💡 Tipp ${i+1}`);
+    h.innerHTML=names.map((n,i)=>`<button class="btn" data-i="${i}" ${i?'disabled':''}>${n}</button>`).join('')+`<button class="btn" data-r="1" style="margin-left:auto">↺ verbergen</button>`;
+    h.addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return;
+      if(b.dataset.r){ boxes.forEach(x=>x.classList.remove('show')); $$('button[data-i]',h).forEach((x,i)=>x.disabled=i>0); return; }
+      const i=+b.dataset.i; boxes[i].classList.add('show'); b.disabled=true; const nb=$(`button[data-i="${i+1}"]`,h); if(nb) nb.disabled=false; }); });
+}
+function openLab(id,sc,pre){ const el=document.getElementById(id); if(!el) return; setLab(el,true); const par=el.parentElement.closest('.lab'); if(par) setLab(par,true);
+  const L=LABS.find(l=>l.el===el); if(L){ if(sc!=null&&L.select) L.select(+sc); if(pre!=null){ const b=$$('.scen button',el)[+pre]; if(b) b.click(); } }
+  setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),30); }
+document.addEventListener('click',e=>{ const t=e.target.closest('[data-golab]'); if(t){ e.preventDefault(); openLab(t.dataset.golab,t.dataset.sc,t.dataset.pre); } });
+buildMap(); initNav(); initCollapse(); initHints(); buildSorter(); buildQuiz(); updProg();
 requestAnimationFrame(loop);
 </script>
 </body>
